@@ -1,0 +1,36 @@
+uuid: 24afe212-5747-42e8-b916-8e39aa7f0eb9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.episode.body
+    - field.field.node.episode.field_date
+    - field.field.node.episode.field_song
+    - field.field.node.episode.field_subtitle
+    - node.type.episode
+  module:
+    - text
+    - user
+id: node.episode.teaser
+targetEntityType: node
+bundle: episode
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_date: true
+  field_song: true
+  field_subtitle: true

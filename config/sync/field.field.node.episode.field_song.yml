@@ -1,0 +1,29 @@
+uuid: a5f7f446-efb3-4530-b817-455d06f3f054
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_song
+    - node.type.episode
+    - node.type.song
+id: node.episode.field_song
+field_name: field_song
+entity_type: node
+bundle: episode
+label: Song
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      song: song
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

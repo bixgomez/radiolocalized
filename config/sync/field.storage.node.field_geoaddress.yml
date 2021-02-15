@@ -1,0 +1,21 @@
+uuid: 55d5b9cb-8ebf-466d-afc5-13e2772a1033
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_geoaddress
+field_name: field_geoaddress
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

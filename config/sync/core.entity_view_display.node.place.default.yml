@@ -1,0 +1,294 @@
+uuid: e40993e6-4c6d-4298-b06e-36a6e6a494da
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.place.body
+    - field.field.node.place.field_geoaddress
+    - field.field.node.place.field_location
+    - node.type.place
+  module:
+    - geofield_map
+    - layout_builder
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Page Header'
+        components:
+          5310c720-1334-45cc-b923-47b81a409be3:
+            uuid: 5310c720-1334-45cc-b923-47b81a409be3
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:place:links'
+            additional: {  }
+            weight: 1
+          cdca3136-80cf-41d9-a077-146a6ce1d1f4:
+            uuid: cdca3136-80cf-41d9-a077-146a6ce1d1f4
+            region: content
+            configuration:
+              id: 'field_block:node:place:title'
+              label: Title
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: string
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 0
+        third_party_settings: {  }
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: 'Place page layout'
+          column_widths: 33-67
+        components:
+          43ee6e6c-7de4-450b-a6b3-04816303071e:
+            uuid: 43ee6e6c-7de4-450b-a6b3-04816303071e
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:place:body'
+              formatter:
+                label: above
+                type: text_default
+                settings: {  }
+                third_party_settings: {  }
+            additional: {  }
+            weight: 0
+          356085dc-c2ff-4a39-9a0b-795e95158b1c:
+            uuid: 356085dc-c2ff-4a39-9a0b-795e95158b1c
+            region: second
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:place:field_geoaddress'
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+            additional: {  }
+            weight: 1
+          71305577-596a-403a-8c02-8d7b01ce1cc1:
+            uuid: 71305577-596a-403a-8c02-8d7b01ce1cc1
+            region: second
+            configuration:
+              id: 'field_block:node:place:field_location'
+              label: Location
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: above
+                type: geofield_google_map
+                settings:
+                  map_dimensions:
+                    width: 100%
+                    height: 450px
+                  map_empty:
+                    empty_behaviour: '0'
+                    empty_message: 'No Geofield Value entered for this field'
+                  map_center:
+                    lat: '42'
+                    lon: '12.5'
+                    center_force: 0
+                    geocode: 'Find my location'
+                  map_zoom_and_pan:
+                    zoom:
+                      initial: '10'
+                      force: 0
+                      min: '6'
+                      max: '19'
+                      finer: '0'
+                    gestureHandling: auto
+                    scrollwheel: '1'
+                    draggable: '1'
+                    map_reset: 0
+                    map_reset_position: TOP_RIGHT
+                  map_controls:
+                    disable_default_ui: 0
+                    zoom_control: 1
+                    map_type_id: roadmap
+                    map_type_control: 1
+                    map_type_control_options_type_ids:
+                      roadmap: 0
+                      satellite: 0
+                      hybrid: 0
+                      terrain: 0
+                    scale_control: 1
+                    street_view_control: 1
+                    fullscreen_control: 0
+                  map_marker_and_infowindow:
+                    icon_image_path: ''
+                    infowindow_field: title
+                    multivalue_split: 0
+                    view_mode: full
+                    tooltip_field: title
+                    force_open: 0
+                    icon_image_mode: icon_file
+                    icon_file_wrapper:
+                      icon_file:
+                        fids: {  }
+                        upload_button: Upload
+                        remove_button: Remove
+                        upload: ''
+                        is_svg: false
+                      image_style: geofield_map_default_icon_style
+                  map_additional_options: ''
+                  map_additional_libraries:
+                    places: 0
+                    drawing: 0
+                    geometry: 0
+                    visualization: 0
+                  map_geometries_options: '{"strokeColor":"black","strokeOpacity":"0.8","strokeWeight":2,"fillColor":"blue","fillOpacity":"0.1","clickable":false}'
+                  map_oms:
+                    map_oms_control: 1
+                    map_oms_options: '{"markersWontMove":"true","markersWontHide":"true","basicFormatEvents":"true","nearbyDistance":3}'
+                  custom_style_map:
+                    custom_style_control: 0
+                    custom_style_name: ''
+                    custom_style_options: ''
+                    custom_style_default: 0
+                  map_markercluster:
+                    markercluster_control: 0
+                    markercluster_additional_options: '{"maxZoom":12,"gridSize":50}'
+                  map_lazy_load:
+                    lazy_load: 0
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 0
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components: {  }
+        third_party_settings: {  }
+id: node.place.default
+targetEntityType: node
+bundle: place
+mode: default
+content:
+  body:
+    label: above
+    type: text_default
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_geoaddress:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_location:
+    weight: 1
+    label: above
+    settings:
+      gmap_api_key: ''
+      map_dimensions:
+        width: 100%
+        height: 450px
+      map_empty:
+        empty_behaviour: '0'
+        empty_message: 'No Geofield Value entered for this field'
+      map_center:
+        lat: '42'
+        lon: '12.5'
+        center_force: 0
+      map_zoom_and_pan:
+        zoom:
+          initial: 6
+          force: 0
+          min: 1
+          max: 22
+          finer: 0
+        scrollwheel: 1
+        draggable: 1
+        map_reset: 0
+        map_reset_position: TOP_RIGHT
+      map_controls:
+        disable_default_ui: 0
+        zoom_control: 1
+        map_type_id: roadmap
+        map_type_control: 1
+        map_type_control_options_type_ids:
+          roadmap: roadmap
+          satellite: satellite
+          hybrid: hybrid
+          terrain: terrain
+        scale_control: 1
+        street_view_control: 1
+        fullscreen_control: 1
+      map_marker_and_infowindow:
+        icon_image_mode: icon_file
+        icon_image_path: ''
+        icon_file_wrapper:
+          icon_file: ''
+        infowindow_field: title
+        view_mode: full
+        multivalue_split: 0
+        force_open: 0
+        tooltip_field: title
+      map_oms:
+        map_oms_control: 1
+        map_oms_options: '{"markersWontMove": "true", "markersWontHide": "true", "basicFormatEvents": "true", "nearbyDistance": 3}'
+      map_additional_options: ''
+      map_additional_libraries: {  }
+      map_geometries_options: '{"strokeColor":"black","strokeOpacity":"0.8","strokeWeight":2,"fillColor":"blue","fillOpacity":"0.1", "clickable": false}'
+      custom_style_map:
+        custom_style_control: 0
+        custom_style_name: ''
+        custom_style_options: ''
+        custom_style_default: 0
+      map_markercluster:
+        markercluster_control: 0
+        markercluster_additional_options: '{"maxZoom":12, "gridSize":50}'
+      map_geocoder:
+        control: 0
+        settings:
+          position: topright
+          input_size: 25
+          providers: {  }
+          min_terms: 4
+          delay: 800
+          zoom: 16
+          infowindow: 0
+          options: ''
+      map_lazy_load:
+        lazy_load: 0
+    third_party_settings: {  }
+    type: geofield_google_map
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

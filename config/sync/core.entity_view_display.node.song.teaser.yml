@@ -1,0 +1,38 @@
+uuid: 295144bb-4c94-460e-b3be-d94952e3bd8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.song.body
+    - field.field.node.song.field_album
+    - field.field.node.song.field_artist
+    - field.field.node.song.field_place
+    - field.field.node.song.field_year
+    - node.type.song
+  module:
+    - text
+    - user
+id: node.song.teaser
+targetEntityType: node
+bundle: song
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_album: true
+  field_artist: true
+  field_place: true
+  field_year: true
