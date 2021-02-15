@@ -1,0 +1,67 @@
+uuid: 7fafe426-56c5-4e1c-9ccf-d69b022cfde4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.episode.body
+    - field.field.node.episode.field_date
+    - field.field.node.episode.field_song
+    - field.field.node.episode.field_subtitle
+    - node.type.episode
+  module:
+    - datetime
+    - text
+id: node.episode.default
+targetEntityType: node
+bundle: episode
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 3
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+    region: content
+  field_date:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_song:
+    weight: 4
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_subtitle:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

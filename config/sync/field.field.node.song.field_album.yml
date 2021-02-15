@@ -1,0 +1,19 @@
+uuid: d325b545-5fd7-4cf6-a32f-8d0f28ed61b8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_album
+    - node.type.song
+id: node.song.field_album
+field_name: field_album
+entity_type: node
+bundle: song
+label: Album
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

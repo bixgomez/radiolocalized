@@ -1,0 +1,103 @@
+uuid: a32971b9-4b77-402a-934d-4bbe59b53c8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.place.body
+    - field.field.node.place.field_geoaddress
+    - field.field.node.place.field_location
+    - node.type.place
+  module:
+    - geofield_map
+    - path
+    - text
+id: node.place.default
+targetEntityType: node
+bundle: place
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 3
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+    region: content
+  field_geoaddress:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_location:
+    weight: 1
+    settings:
+      map_google_places:
+        places_additional_options: ''
+        places_control: false
+      map_library: gmap
+      map_type_google: roadmap
+      map_type_leaflet: OpenStreetMap_Mapnik
+      map_type_selector: true
+      map_dimensions:
+        width: 100%
+        height: 55vh
+      zoom:
+        start: 13
+        focus: 12
+        min: 3
+        max: 19
+      geoaddress_field:
+        field: field_geoaddress
+        disabled: true
+        hidden: false
+      html5_geolocation: true
+      default_value:
+        lat: !!float 0
+        lon: !!float 0
+      click_to_find_marker: false
+      click_to_place_marker: false
+      hide_coordinates: false
+      map_google_api_key: ''
+      map_geocoder:
+        control: 0
+        settings:
+          providers: {  }
+          min_terms: 4
+          delay: 800
+          options: ''
+      zoom_level: 5
+    third_party_settings: {  }
+    type: geofield_map
+    region: content
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  promote: true
+  sticky: true
+  uid: true
