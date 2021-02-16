@@ -1,0 +1,117 @@
+html {
+  font-size: $html-font-size;
+}
+
+body {
+  font-family: $base-font-family;
+  font-size: $body-font-size;
+  font-weight: 500;
+  line-height: $base-line-height;
+  color: $font-color--base;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  padding: 0;
+}
+
+.paragraph {
+  margin: 0 0 $paragraph-padding;
+}
+
+p {
+  margin:  0 0 $gutter--narrow;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+h1, h2, h3, h4, h5 {
+  margin-bottom: $gutter--narrower;
+  color: mix($font-color--heading, transparent, 80%);
+}
+
+h2, h3, h4, h5 {
+  color: mix($font-color--heading, transparent, 75%);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: $heading-font-family;
+  line-height: $heading-line-height;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: $font-size-h1;
+
+  &.page-title {
+    // margin: 0 0 ($paragraph-padding * .25);
+  }
+}
+
+h2 {
+  font-size: $font-size-h2;
+}
+
+h3 {
+  font-size: $font-size-h3;
+}
+
+h4 {
+  font-size: $font-size-h4;
+}
+
+$a-color: saturate($color__secondary, 100%);
+$a-color-hover: mix($a-color, transparent, 70%);
+a {
+  color: $a-color;
+  text-decoration: none;
+  &:hover {
+    color: $a-color-hover;
+    text-decoration: underline;
+  }
+}
+
+.site-name {
+  @extend h1;
+
+  line-height: 1;
+  margin: 0;
+
+  a {
+    display: block;
+    text-decoration: none;
+    color: $color__primary--dark;
+    margin-left: -.05em;
+    margin-top: -.07em;
+  }
+}
+
+.site-slogan {
+  @extend h2;
+  color: $color__primary;
+  font-size: 1.625em;
+  line-height: 1.0;
+  margin: 0;
+  font-weight: 100;
+}
+
+//.section--content {
+//  font-size: calc( #{$down-size} - #{$vw-rate-down} );
+//
+//  @include breakpoint($switch-point) {
+//    font-size: calc( #{$up-size} + #{$vw-rate-up} );
+//  }
+//
+//  @include breakpoint($xl) {
+//    font-size: calc( #{$up-size} + #{$xl/100 * strip-unit($vw-rate-up)} );
+//  }
+//}
+//
+//.region-header {
+//  font-size: calc( #{.5em} + #{.65vw} );
+//
+//  @include breakpoint($xl) {
+//    font-size: calc( #{.5em} + #{$xl/100 * strip-unit(.65vw)} );
+//  }
+//}
