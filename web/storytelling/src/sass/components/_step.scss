@@ -1,0 +1,29 @@
+.step {
+
+  > div {
+    padding: 1em 1.325vw;
+    border: 4px solid #777;
+
+    h3 {
+      font-size: 1.5em;
+      margin: 0 0 .25em;
+      line-height: 1.2;
+    }
+
+    h4 {
+      font-size: 1.125em;
+      margin: 0 0 .5em;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 1em;
+      margin: .75em 0 .25em;
+      line-height: 1.5;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
