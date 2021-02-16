@@ -1,0 +1,11 @@
+global-styling:
+  css:
+    component:
+      css/styles.css: {}
+
+show-pages:
+  version: 1.x
+  js:
+    js/show-pages.js: {}
+  dependencies:
+    - core/jquery

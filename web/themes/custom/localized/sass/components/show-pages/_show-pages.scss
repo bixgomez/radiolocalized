@@ -1,0 +1,59 @@
+.page-node-type-show {
+
+  .page-container {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "content map";
+  }
+
+  .section-outer {
+    border-radius: 0;
+    margin: 0;
+
+    &--header {
+      flex: none;
+      background-color: rgba(black, .1);
+      grid-area: header;
+      height: 13vh;
+    }
+
+    &--navigation {
+      display: none;
+    }
+
+    &--content {
+      grid-area: content;
+      height: 87vh;
+      width: 60vw;
+      overflow-y: scroll;
+    }
+  }
+
+  #map {
+    grid-area: map;
+    width: 40vw;
+    height: 87vh;
+  }
+}
+
+.map-wrapper {
+  //display: block;
+  //background-color: rgba(black, .125);
+  //height: 100vh;
+  //width: 50vw;
+  //z-index: 8500; // Keep it just behind the admin tools
+}
+
+#map {
+  //width: inherit;
+  //height: inherit;
+}
+
+.place-link {
+  cursor: pointer;
+}
+
