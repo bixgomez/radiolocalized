@@ -8,10 +8,119 @@ dependencies:
     - field.field.node.episode.field_song
     - field.field.node.episode.field_subtitle
     - node.type.episode
+    - views.view.episodes
   module:
     - datetime
+    - layout_builder
+    - layout_discovery
     - text
     - user
+    - views
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: true
+    sections:
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: 'Episode Layout'
+          column_widths: 33-67
+        components:
+          a284f455-f7d3-42fa-bf49-d943f5ebdc09:
+            uuid: a284f455-f7d3-42fa-bf49-d943f5ebdc09
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:episode:body'
+              formatter:
+                label: hidden
+                type: text_default
+                settings: {  }
+                third_party_settings: {  }
+            additional: {  }
+            weight: 4
+          02b83d29-af51-4c42-adee-70829257c413:
+            uuid: 02b83d29-af51-4c42-adee-70829257c413
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:episode:field_subtitle'
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+            additional: {  }
+            weight: 2
+          a98e3855-8a72-4442-8e91-6648edfc7d13:
+            uuid: a98e3855-8a72-4442-8e91-6648edfc7d13
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:episode:field_song'
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+            additional: {  }
+            weight: 5
+          25e7a822-e258-4488-a7ef-9492cd445d0d:
+            uuid: 25e7a822-e258-4488-a7ef-9492cd445d0d
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:episode:field_date'
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+            additional: {  }
+            weight: 3
+          421a1275-9bbd-4ce6-adad-ef8fd15d21fd:
+            uuid: 421a1275-9bbd-4ce6-adad-ef8fd15d21fd
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:episode:links'
+            additional: {  }
+            weight: 1
+          f2d68b70-7454-45ef-9a57-a1c195dcd699:
+            uuid: f2d68b70-7454-45ef-9a57-a1c195dcd699
+            region: second
+            configuration:
+              id: 'views_block:episodes-block__places_in_episode'
+              label: ''
+              provider: views
+              label_display: visible
+              views_label: ''
+              items_per_page: none
+              context_mapping: {  }
+            additional: {  }
+            weight: 1
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components: {  }
+        third_party_settings: {  }
 id: node.episode.default
 targetEntityType: node
 bundle: episode

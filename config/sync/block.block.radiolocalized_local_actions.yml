@@ -1,15 +1,15 @@
-uuid: aae2bd36-3e9c-427b-ace1-73aedef10142
+uuid: 1790af0b-2583-4de2-be77-95d007be7f0f
 langcode: en
 status: true
 dependencies:
   theme:
-    - olivero
+    - radiolocalized
 _core:
-  default_config_hash: sBMSSrWtP58IZaz1i3-MJ9yq_y32w1nc7N5DZJmt-4M
-id: primary_admin_actions
-theme: olivero
-region: highlighted
-weight: -5
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: radiolocalized_local_actions
+theme: radiolocalized
+region: info
+weight: -3
 provider: null
 plugin: local_actions_block
 settings:

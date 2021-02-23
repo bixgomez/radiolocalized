@@ -1,11 +1,11 @@
 uuid: 6573cafa-e01c-4cb2-8c49-555a29afc900
-name: 'Bix''s Drupal 9 Sandbox'
+name: 'Radio Localized'
 mail: gilbert67@gmail.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node
+  front: /node/54
 admin_compact_mode: false
 weight_select_max: 100
 langcode: en
