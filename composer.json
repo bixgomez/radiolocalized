@@ -25,6 +25,7 @@
         "drupal/geocoder": "^3.14",
         "drupal/geofield": "^1.20",
         "drupal/geofield_map": "^2.67",
+        "drupal/pathauto": "^1.8",
         "drupal/twig_vardumper": "^3.0",
         "drush/drush": "^10.3"
     },
