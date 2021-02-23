@@ -10,7 +10,7 @@ id: node.episode.field_song
 field_name: field_song
 entity_type: node
 bundle: episode
-label: Song
+label: Songs
 description: ''
 required: false
 translatable: false

@@ -1,14 +1,14 @@
-uuid: 0bbc12ca-0933-4a00-b05e-78ba48b7ea09
+uuid: 86907eff-7624-423c-8a06-e9aa2a757308
 langcode: en
 status: true
 dependencies:
   theme:
-    - olivero
+    - radiolocalized
 _core:
-  default_config_hash: WImvmaBdDpwIqobqbDWebBnyxssRvrNEnZSQbOsvOe4
-id: olivero_page_title
-theme: olivero
-region: content_above
+  default_config_hash: 7rR9chwXvdM2H8OYMAYx9Zj3GGlPMrZp_M3ZA4thYTk
+id: radiolocalized_page_title
+theme: radiolocalized
+region: content
 weight: -5
 provider: null
 plugin: page_title_block

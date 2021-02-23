@@ -1,0 +1,22 @@
+uuid: 69263ce0-5bbe-4843-bc85-0eb4f77dc902
+langcode: en
+status: true
+dependencies:
+  theme:
+    - radiolocalized
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: radiolocalized_local_tasks
+theme: radiolocalized
+region: info
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

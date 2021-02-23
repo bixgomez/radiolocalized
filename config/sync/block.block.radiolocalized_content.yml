@@ -1,17 +1,17 @@
-uuid: 1cbe4a95-3013-43dc-a200-310c1861be6d
+uuid: f657f0ba-4357-49af-92bb-c0f5b2290e7d
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - olivero
+    - radiolocalized
 _core:
-  default_config_hash: BL6Gcw5Us0zai1ADadlNYLxlEblMedc_3C3lF0PjtCE
-id: olivero_content
-theme: olivero
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: radiolocalized_content
+theme: radiolocalized
 region: content
-weight: 0
+weight: -4
 provider: null
 plugin: system_main_block
 settings:
