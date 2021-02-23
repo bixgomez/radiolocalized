@@ -1,0 +1,70 @@
+$header-breakpoint: 650px;
+
+.region-header {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+  grid-template-areas:
+      "title"
+      "subtitle"
+      "social";
+  @include breakpoint($header-breakpoint) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "title title social"
+        "subtitle subtitle subtitle";
+  }
+}
+
+.site-name {
+  grid-area: title;
+}
+
+.site-slogan {
+  grid-area: subtitle;
+  .inner {
+    margin-top: .25em;
+    margin-bottom: -.15em;
+    line-height:1.2;
+  }
+}
+
+#block-socialmedia {
+  grid-area: social;
+  display: flex;
+  @include breakpoint($header-breakpoint) {
+    justify-content: flex-end;
+  }
+  ul.menu {
+    display: flex;
+    padding: 0;
+    margin: 1em 0 0;
+    @include breakpoint($header-breakpoint) {
+      margin: .3em -.2em;
+    }
+    li {
+      display: block;
+      align-self: top;
+      padding: 0;
+      margin: 0 1.25em 0 0;
+      @include breakpoint($header-breakpoint) {
+        margin: 0 .5em;
+      }
+      list-style-type: none;
+      a {
+        display: block;
+        font-size: 3em;
+        @include breakpoint($header-breakpoint) {
+          font-size: 2em;
+        }
+        padding: 0;
+        margin: 0;
+        line-height: 1;
+        color: $color__primary;
+        &:hover {
+          color: $color__primary--light;
+        }
+      }
+    }
+  }
+}
