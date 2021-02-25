@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Gulp dependencies for localized theme",
   "scripts": {},
-  "dependencies": {},
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.10.2",
     "breakpoint-sass": "^2.7.1",
