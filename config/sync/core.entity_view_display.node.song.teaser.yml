@@ -11,8 +11,126 @@ dependencies:
     - field.field.node.song.field_year
     - node.type.song
   module:
+    - layout_builder
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Song Title Area'
+        components:
+          e22e341a-1fc1-4205-a864-e3364e7e7a95:
+            uuid: e22e341a-1fc1-4205-a864-e3364e7e7a95
+            region: content
+            configuration:
+              id: 'field_block:node:song:title'
+              label: Title
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: string
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 0
+          354e1f11-7b95-4223-9674-7c7e5b72a41d:
+            uuid: 354e1f11-7b95-4223-9674-7c7e5b72a41d
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:song:links'
+            additional: {  }
+            weight: 1
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Song Details'
+        components:
+          96cd2081-091f-481e-b6a0-21cd240348a9:
+            uuid: 96cd2081-091f-481e-b6a0-21cd240348a9
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:song:field_album'
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            additional: {  }
+            weight: 5
+          13d6f6f2-1d1c-4f1b-a30e-3758f4297a0b:
+            uuid: 13d6f6f2-1d1c-4f1b-a30e-3758f4297a0b
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:song:field_artist'
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            additional: {  }
+            weight: 3
+          b85ef03e-7592-405c-ae13-4186e4add9e2:
+            uuid: b85ef03e-7592-405c-ae13-4186e4add9e2
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:song:field_year'
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            additional: {  }
+            weight: 2
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Song Description'
+        components:
+          ad84b386-06a2-4dbc-b5e2-b5c835b23f96:
+            uuid: ad84b386-06a2-4dbc-b5e2-b5c835b23f96
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:song:body'
+              formatter:
+                label: hidden
+                type: text_summary_or_trimmed
+                settings:
+                  trim_length: 600
+                third_party_settings: {  }
+            additional: {  }
+            weight: 0
+        third_party_settings: {  }
 id: node.song.teaser
 targetEntityType: node
 bundle: song
@@ -21,18 +139,39 @@ content:
   body:
     label: hidden
     type: text_summary_or_trimmed
-    weight: 101
+    weight: 4
     settings:
       trim_length: 600
     third_party_settings: {  }
     region: content
+  field_album:
+    type: string
+    weight: 3
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_artist:
+    type: entity_reference_label
+    weight: 2
+    region: content
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_year:
+    type: string
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
-  field_album: true
-  field_artist: true
   field_place: true
-  field_year: true
