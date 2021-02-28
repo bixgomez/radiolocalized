@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.episode.body
     - field.field.node.episode.field_date
+    - field.field.node.episode.field_episode_number
     - field.field.node.episode.field_song
     - field.field.node.episode.field_subtitle
     - node.type.episode
@@ -32,5 +33,6 @@ content:
     region: content
 hidden:
   field_date: true
+  field_episode_number: true
   field_song: true
   field_subtitle: true

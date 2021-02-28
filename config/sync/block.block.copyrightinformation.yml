@@ -1,0 +1,25 @@
+uuid: a46f7100-03f3-4da8-b9e4-ee5c16456143
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:e7bad868-3121-45da-b971-a916616ad169'
+  module:
+    - block_content
+  theme:
+    - radiolocalized
+id: copyrightinformation
+theme: radiolocalized
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:e7bad868-3121-45da-b971-a916616ad169'
+settings:
+  id: 'block_content:e7bad868-3121-45da-b971-a916616ad169'
+  label: 'Copyright Information'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

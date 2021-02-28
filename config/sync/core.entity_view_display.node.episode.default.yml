@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.episode.body
     - field.field.node.episode.field_date
+    - field.field.node.episode.field_episode_number
     - field.field.node.episode.field_song
     - field.field.node.episode.field_subtitle
     - node.type.episode
@@ -65,16 +66,19 @@ third_party_settings:
             uuid: a98e3855-8a72-4442-8e91-6648edfc7d13
             region: first
             configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
               id: 'field_block:node:episode:field_song'
+              label: Songs
+              provider: layout_builder
+              label_display: '0'
               formatter:
                 label: above
+                type: entity_reference_entity_view
                 settings:
-                  link: true
+                  view_mode: teaser
                 third_party_settings: {  }
-                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
             additional: {  }
             weight: 7
           25e7a822-e258-4488-a7ef-9492cd445d0d:
@@ -139,6 +143,23 @@ third_party_settings:
               id: 'extra_field_block:node:episode:links'
             additional: {  }
             weight: 4
+          7c2d6108-f3e3-42b5-9c72-44669ec14f00:
+            uuid: 7c2d6108-f3e3-42b5-9c72-44669ec14f00
+            region: first
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:episode:field_episode_number'
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+            additional: {  }
+            weight: 8
         third_party_settings: {  }
       -
         layout_id: layout_onecol
@@ -167,6 +188,15 @@ content:
     third_party_settings: {  }
     type: datetime_default
     region: content
+  field_episode_number:
+    weight: 5
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: first
   field_song:
     weight: 4
     label: above
