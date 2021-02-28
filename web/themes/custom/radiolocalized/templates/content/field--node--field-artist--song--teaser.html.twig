@@ -53,12 +53,11 @@
 ]
 %}
 
-<h1>???</h1>
-
-{{ dump(items) }}
+<h1>
+  7
+</h1>
 
 {% for item in items %}
-  FOO 1
-  {{ dump(item) }}
-  <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
+  {{ dump(item['content']) }}
+  {{ item['content'] }}
 {% endfor %}
