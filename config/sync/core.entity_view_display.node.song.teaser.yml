@@ -10,13 +10,11 @@ dependencies:
     - field.field.node.song.field_place
     - field.field.node.song.field_year
     - node.type.song
-    - views.view.songs
   module:
     - layout_builder
     - layout_discovery
     - text
     - user
-    - views
 third_party_settings:
   layout_builder:
     allow_custom: false
@@ -50,7 +48,7 @@ third_party_settings:
       -
         layout_id: layout_onecol
         layout_settings:
-          label: 'Song Details'
+          label: 'Details Section'
           layout_builder_styles_style: details
         components:
           96cd2081-091f-481e-b6a0-21cd240348a9:
@@ -107,41 +105,6 @@ third_party_settings:
                 view_mode: view_mode
             additional: {  }
             weight: 2
-        third_party_settings: {  }
-      -
-        layout_id: layout_onecol
-        layout_settings:
-          label: 'Song Description'
-        components:
-          ad84b386-06a2-4dbc-b5e2-b5c835b23f96:
-            uuid: ad84b386-06a2-4dbc-b5e2-b5c835b23f96
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:song:body'
-              formatter:
-                label: hidden
-                type: text_summary_or_trimmed
-                settings:
-                  trim_length: 600
-                third_party_settings: {  }
-            additional: {  }
-            weight: 0
-          3b8c1da7-77c0-457b-b3d9-6f53f2444b50:
-            uuid: 3b8c1da7-77c0-457b-b3d9-6f53f2444b50
-            region: content
-            configuration:
-              id: 'views_block:songs-block_1'
-              label: ''
-              provider: views
-              label_display: visible
-              views_label: ''
-              items_per_page: none
-              context_mapping: {  }
-            additional: {  }
-            weight: 1
         third_party_settings: {  }
 id: node.song.teaser
 targetEntityType: node

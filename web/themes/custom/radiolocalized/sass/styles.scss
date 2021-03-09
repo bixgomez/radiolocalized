@@ -8,7 +8,7 @@
 @import 'base/base';
 
 // Drupal-specific partials.
-@import 'drupal/**/*.scss';
+@import 'drupal/drupal';
 
 // Layout-specific partials.
 @import 'layout/layout';
