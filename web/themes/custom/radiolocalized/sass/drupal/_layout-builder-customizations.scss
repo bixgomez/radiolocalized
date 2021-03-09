@@ -1,0 +1,48 @@
+.layout-builder {
+  padding: 1em 1em 0;
+  border: 2px solid #2f91da;
+  background-color: #fff;
+}
+
+.layout-builder-block,
+.layout-builder__add-block,
+.layout-builder__add-section {
+  padding: .625em;
+}
+
+.layout-builder__add-section {
+  margin-bottom: 1.125em;
+}
+
+.layout-builder-block__content-preview-placeholder-label {
+  font-size: 1.125em;
+  font-weight: 600;
+}
+
+.layout-builder .layout-builder__layout {
+  margin-top: .5em;
+}
+
+.layout-builder__region {
+  outline: .2em dashed darken(#2f91da, 10%);
+  box-shadow: 0px 0px 10px rgba(#2f91da, .75);
+}
+
+.layout-builder__link--remove {
+  margin-left: -3px;
+}
+
+#drupal-off-canvas form.layout-builder-update-block,
+#drupal-off-canvas form.layout-builder-configure-block,
+#drupal-off-canvas form.layout-builder-configure-section {
+  label {
+    font-family: "Droid sans", "Lucida Grande", sans-serif;
+    font-size: .85em;
+    font-style: italic;
+    color: rgba(white, .75) !important;
+  }
+
+  input.form-text {
+    color: rgba(black, .95) !important;
+  }
+}

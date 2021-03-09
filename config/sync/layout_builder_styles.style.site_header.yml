@@ -1,0 +1,11 @@
+uuid: 220bac63-9b37-4e7d-8444-332f2b47cfce
+langcode: en
+status: true
+dependencies: {  }
+id: site_header
+label: 'Site Header'
+classes: site-header
+type: section
+weight: 0
+block_restrictions: {  }
+layout_restrictions: {  }

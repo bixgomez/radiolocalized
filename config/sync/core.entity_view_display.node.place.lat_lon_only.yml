@@ -1,0 +1,35 @@
+uuid: 94dde03a-3271-47ac-bb10-77dd13c5e408
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.lat_lon_only
+    - field.field.node.place.body
+    - field.field.node.place.field_geoaddress
+    - field.field.node.place.field_location
+    - node.type.place
+  module:
+    - geofield
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.place.lat_lon_only
+targetEntityType: node
+bundle: place
+mode: lat_lon_only
+content:
+  field_location:
+    weight: 0
+    label: hidden
+    settings:
+      output_format: decimal
+    third_party_settings: {  }
+    type: geofield_latlon
+    region: content
+hidden:
+  body: true
+  field_geoaddress: true
+  links: true
