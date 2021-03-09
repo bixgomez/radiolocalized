@@ -12,3 +12,11 @@
     font-size: .9em;
   }
 }
+
+div.all-inline-blocks:not(.layout-builder__layout) {
+
+  div {
+    display: inline;
+  }
+}
+
