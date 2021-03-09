@@ -13,6 +13,7 @@ dependencies:
   module:
     - layout_builder
     - layout_discovery
+    - layout_library
     - text
     - user
 third_party_settings:
@@ -24,9 +25,10 @@ third_party_settings:
         layout_id: layout_onecol
         layout_settings:
           label: 'Song Title'
+          layout_builder_styles_style: ''
         components:
-          bdf73c46-4ed5-4f07-8dfe-eed910ebe917:
-            uuid: bdf73c46-4ed5-4f07-8dfe-eed910ebe917
+          6a6c92f6-3166-48a2-9b54-6fc1236c63db:
+            uuid: 6a6c92f6-3166-48a2-9b54-6fc1236c63db
             region: content
             configuration:
               id: 'field_block:node:song:title'
@@ -43,51 +45,16 @@ third_party_settings:
                 entity: layout_builder.entity
                 view_mode: view_mode
             additional: {  }
-            weight: 0
+            weight: 1
         third_party_settings: {  }
       -
         layout_id: layout_onecol
         layout_settings:
           label: 'Details Section'
-          layout_builder_styles_style: details
+          layout_builder_styles_style: all_inline_blocks_section
         components:
-          96cd2081-091f-481e-b6a0-21cd240348a9:
-            uuid: 96cd2081-091f-481e-b6a0-21cd240348a9
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:song:field_album'
-              formatter:
-                type: string
-                label: above
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-            additional: {  }
-            weight: 4
-          13d6f6f2-1d1c-4f1b-a30e-3758f4297a0b:
-            uuid: 13d6f6f2-1d1c-4f1b-a30e-3758f4297a0b
-            region: content
-            configuration:
-              id: 'field_block:node:song:field_artist'
-              label: Artist
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: above
-                type: entity_reference_label
-                settings:
-                  link: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 3
-          b85ef03e-7592-405c-ae13-4186e4add9e2:
-            uuid: b85ef03e-7592-405c-ae13-4186e4add9e2
+          6e250fd8-5dae-4ee3-9366-cceed1a453e6:
+            uuid: 6e250fd8-5dae-4ee3-9366-cceed1a453e6
             region: content
             configuration:
               id: 'field_block:node:song:field_year'
@@ -95,7 +62,7 @@ third_party_settings:
               provider: layout_builder
               label_display: '0'
               formatter:
-                label: above
+                label: hidden
                 type: string
                 settings:
                   link_to_entity: false
@@ -105,7 +72,47 @@ third_party_settings:
                 view_mode: view_mode
             additional: {  }
             weight: 2
+          ed7cf1c1-19c2-4d18-8a4d-e0698e7afde1:
+            uuid: ed7cf1c1-19c2-4d18-8a4d-e0698e7afde1
+            region: content
+            configuration:
+              id: 'field_block:node:song:field_album'
+              label: Album
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: string
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 5
+          e832d597-ff54-4a36-9471-0fd624ffe7a7:
+            uuid: e832d597-ff54-4a36-9471-0fd624ffe7a7
+            region: content
+            configuration:
+              id: 'field_block:node:song:field_artist'
+              label: Artist
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: entity_reference_label
+                settings:
+                  link: false
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 4
         third_party_settings: {  }
+  layout_library:
+    enable: false
 id: node.song.teaser
 targetEntityType: node
 bundle: song

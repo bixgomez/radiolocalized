@@ -1,6 +1,6 @@
 name: Radio Localized
-description: 'A custom Drupal 9 theme.'
 type: theme
+description: 'A custom Drupal 9 theme.'
 package: Custom
 base theme: false
 core: 8.x

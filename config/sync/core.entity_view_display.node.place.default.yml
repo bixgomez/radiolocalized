@@ -11,7 +11,6 @@ dependencies:
     - geofield_map
     - layout_builder
     - layout_discovery
-    - layout_library
     - text
     - user
 third_party_settings:
@@ -188,8 +187,6 @@ third_party_settings:
           label: ''
         components: {  }
         third_party_settings: {  }
-  layout_library:
-    enable: false
 id: node.place.default
 targetEntityType: node
 bundle: place
