@@ -9,9 +9,16 @@ core_version_requirement: ^8 || ^9
 libraries:
   - radiolocalized/global-styling
 
+stylesheets-remove:
+  - core/misc/dialog/off-canvas.reset.css
+
+#libraries-override:
+#  core/misc/dialog/off-canvas.reset.css: css/off-canvas.reset.css
+
 regions:
   header: 'Header'
   navigation: 'Navigation'
   info: 'Info'
   content: 'Content'
   footer: 'Footer'
+

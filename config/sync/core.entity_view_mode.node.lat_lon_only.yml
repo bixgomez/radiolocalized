@@ -1,0 +1,10 @@
+uuid: 69926665-14de-4823-95f9-751ccd1a8c9e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.lat_lon_only
+label: 'Lat/Lon Only'
+targetEntityType: node
+cache: true

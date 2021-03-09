@@ -1,0 +1,52 @@
+#drupal-off-canvas *:not(div),
+#drupal-off-canvas *:not(svg *),
+#drupal-off-canvas *:after,
+#drupal-off-canvas *:before {
+  /* all: initial; */
+  background-color: initial;
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-repeat: initial;
+  background-attachment: initial;
+  background-clip: initial;
+  background-origin: initial;
+  background-size: initial;
+  overflow-x: initial;
+  overflow-y: initial;
+  font-family: initial;
+  color: initial;
+  text-shadow: initial;
+  box-sizing: initial;
+  box-sizing: border-box;
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: initial;
+
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgb(68, 68, 68);
+  background-image: none;
+  background-origin: padding-box;
+  background-position: 0% 0%;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-repeat: repeat;
+  background-size: auto;
+  box-sizing: border-box;
+  color: rgb(221, 221, 221);
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "liberation sans", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 25.6px;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: disc;
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  text-shadow: none;
+
+
+
+}

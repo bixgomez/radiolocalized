@@ -1,0 +1,25 @@
+uuid: 0fdd3a18-fb47-460a-b11d-a1ffb4f1ed15
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.episode_title
+  module:
+    - views
+  theme:
+    - radiolocalized
+id: episode_title_block_instance_01
+theme: radiolocalized
+region: header
+weight: -3
+provider: null
+plugin: 'views_block:episode_title-episode_title_block'
+settings:
+  id: 'views_block:episode_title-episode_title_block'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility: {  }
