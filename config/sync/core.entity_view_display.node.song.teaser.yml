@@ -111,6 +111,32 @@ third_party_settings:
             additional: {  }
             weight: 4
         third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Hidden section'
+          layout_builder_styles_style: hidden_section
+        components:
+          5e718185-8230-45f4-9467-850d3aed69c4:
+            uuid: 5e718185-8230-45f4-9467-850d3aed69c4
+            region: content
+            configuration:
+              id: 'field_block:node:song:field_place'
+              label: Place
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: entity_reference_entity_view
+                settings:
+                  view_mode: lat_lon_only
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 0
+        third_party_settings: {  }
   layout_library:
     enable: false
 id: node.song.teaser
