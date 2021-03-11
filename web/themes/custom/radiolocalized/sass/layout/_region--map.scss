@@ -1,0 +1,22 @@
+.region--map {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  .region-inner {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 0;
+  }
+}
+
+#leaflet-map {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
