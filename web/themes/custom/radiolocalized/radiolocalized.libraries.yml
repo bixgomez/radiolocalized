@@ -5,6 +5,8 @@ global-styling:
       css/print.css: {}
   js:
    js/script.js: {}
-
   dependencies:
+    - core/drupal
+    - core/drupalSettings
     - core/jquery
+    - core/jquery.once

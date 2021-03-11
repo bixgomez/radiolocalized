@@ -50,7 +50,7 @@ $menu-item--weight: 500;
     display: block;
     line-height: 1.2;
     padding: .3em .5em .2em .475em;
-    margin: 0 .25em .25em 0;
+    margin: 0 .3em 0 0;
     border-radius: 0.1875em;
     color: $menu-item--color;
     background-color: $menu-item--bg;
@@ -69,7 +69,7 @@ nav#block-radiolocalized-main-menu {
 
     font-size: 15px;
     padding: 0;
-    margin: -.25em -.5em -.5em;
+    margin: 0;
     list-style-type: none;
 
     @include clearfix;
