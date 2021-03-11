@@ -17,7 +17,8 @@
         // $( removeThis ).remove();
         // $( placeMapHere ).append( '<div id="mapid"></div>' );
 
-        $leafletMap = L.map('leaflet-map').setView([53.47938, -2.247311], 9);
+        $leafletMap = L.map('leaflet-map');
+        // $leafletMap = L.map('leaflet-map').setView([53.47938, -2.247311], 9);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -106,7 +107,19 @@
   }
 
   function addMarker(lat,lon) {
-    console.log('adding marker at ' + lat + lon);
+    console.log('adding marker at ' + lat + ', ' + lon);
+    var targetLatLng = L.latLng(lat, lon);
+
+    // https://stackoverflow.com/questions/58681396/check-if-a-location-on-a-leaflet-map-is-a-marker-or-not
+    // $leafletMap.eachLayer(function(layer) {
+    //   console.log(layer);
+    //   if (layer instanceof L.Marker) {
+    //     if (layer.getLatLng() === targetLatLng) {
+    //       console.log('already a marker here!');
+    //     }
+    //   }
+    // });
+
     var marker = L.marker([lat, lon]).addTo($leafletMap);
   }
 
