@@ -56,13 +56,17 @@
           allLats.push(thisLatVal);
           allLons.push(thisLonVal);
 
+          // Add a marker at each location.
+          addMarker(thisLatVal,thisLonVal);
+
+          // Fly to that point when rolling onto the song title.
           $(thisLink).mouseenter(function() {
             centerMap(thisLatVal,thisLonVal,'flyTo', 13);
-            addMarker(thisLatVal,thisLonVal);
           });
 
+          // Zoom out a little when rolling off of the song title.
           $(thisLink).mouseleave(function() {
-            centerMap(thisLatVal,thisLonVal,'flyTo', 12);
+            centerMap(thisLatVal,thisLonVal,'flyTo', 11);
           });
         });
 
@@ -76,11 +80,25 @@
 
         var avgLat = (maxLat + minLat)/2;
         var avgLon = (maxLon + minLon)/2;
+
+        // Center the map to average lat/lon, at a zoom of 8.
         centerMap(avgLat,avgLon,'setView', 8);
+
+        // Center the map at a zoom level that accommodates all of the points.
+        mapFitBounds(minLat,minLon,maxLat,maxLon);
 
       }
     }
   };
+
+  function mapFitBounds(minLat,minLon,maxLat,maxLon) {
+    console.log('Fitting map within bounds.');
+
+    $leafletMap.fitBounds([
+      [minLat, minLon],
+      [maxLat, maxLon]
+    ]);
+  }
 
   function centerMap(lat,lon,method,zoom) {
     console.log('centering map at ' + lat + ', ' + lon);
