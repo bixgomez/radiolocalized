@@ -50,11 +50,11 @@ third_party_settings:
       -
         layout_id: layout_onecol
         layout_settings:
-          label: 'Details Section'
+          label: 'Song Details'
           layout_builder_styles_style: all_inline_blocks_section
         components:
-          6e250fd8-5dae-4ee3-9366-cceed1a453e6:
-            uuid: 6e250fd8-5dae-4ee3-9366-cceed1a453e6
+          b4e23fa4-2794-4c66-bd65-fc7313b0dd86:
+            uuid: b4e23fa4-2794-4c66-bd65-fc7313b0dd86
             region: content
             configuration:
               id: 'field_block:node:song:field_year'
@@ -71,28 +71,9 @@ third_party_settings:
                 entity: layout_builder.entity
                 view_mode: view_mode
             additional: {  }
-            weight: 2
-          ed7cf1c1-19c2-4d18-8a4d-e0698e7afde1:
-            uuid: ed7cf1c1-19c2-4d18-8a4d-e0698e7afde1
-            region: content
-            configuration:
-              id: 'field_block:node:song:field_album'
-              label: Album
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 5
-          e832d597-ff54-4a36-9471-0fd624ffe7a7:
-            uuid: e832d597-ff54-4a36-9471-0fd624ffe7a7
+            weight: 0
+          de1f113d-d4de-4ad7-8ad6-25025df4d446:
+            uuid: de1f113d-d4de-4ad7-8ad6-25025df4d446
             region: content
             configuration:
               id: 'field_block:node:song:field_artist'
@@ -109,7 +90,26 @@ third_party_settings:
                 entity: layout_builder.entity
                 view_mode: view_mode
             additional: {  }
-            weight: 4
+            weight: 1
+          cf51172a-5e94-4139-ba7d-cbdb9bdf5b8c:
+            uuid: cf51172a-5e94-4139-ba7d-cbdb9bdf5b8c
+            region: content
+            configuration:
+              id: 'field_block:node:song:field_album'
+              label: Album
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: string
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+            additional: {  }
+            weight: 2
         third_party_settings: {  }
       -
         layout_id: layout_onecol
