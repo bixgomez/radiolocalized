@@ -98,6 +98,13 @@
       [minLat, minLon],
       [maxLat, maxLon]
     ]);
+
+    $currZoom = $leafletMap.getZoom();
+    console.log('$currZoom = ' + $currZoom);
+
+    if ( $currZoom > 11 ) {
+      $leafletMap.setZoom(11);
+    }
   }
 
   function centerMap(lat,lon,method,zoom) {
@@ -138,7 +145,7 @@
     //   }
     // });
 
-    var marker = L.marker([lat, lon]).addTo($leafletMap);
+    var marker = L.marker([lat, lon], {opacity: .5}).addTo($leafletMap);
   }
 
   function displayInfo(info) {
