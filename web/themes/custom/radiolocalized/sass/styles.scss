@@ -1,26 +1,36 @@
 // First, include all Sass functions.
-@import 'functions/**/*.scss';
+// If not being used, just comment this line out.
+// @import '00_functions/**/*.scss';
 
 // Second, all config partials -- config, mixins, etc.
-@import 'config/config';
+@import '01_config/config';
 
 // Third, all base partialss.
-@import 'base/base';
+@import '02_base/base';
 
-// Drupal-specific partials.
-@import 'drupal/drupal';
+// Drupal-specific partials, including my personal Layout Builder tweaks.
+@import '03_drupal/drupal';
 
-// Layout-specific partials.
-@import 'layout/layout';
+// High level layout-specific partials.
+@import '04_layout/**/*.scss';
 
 // Typography partials.
-@import 'typography/**/*.scss';
+@import '05_typography/**/*.scss';
 
-// Lower atomic elements, such as blocks.
-@import 'elements/**/*.scss';
+// Lower level (but still general) elements (such as blocks).
+@import '06_elements/**/*.scss';
 
 // Menu-specific partials.
-@import 'navigation/**/*.scss';
+@import '07_navigation/**/*.scss';
 
 // Sass specific to individual components.
-@import 'components/**/*.scss';
+@import '08_components/**/*.scss';
+
+// A quick test to make sure gulp & livereload are working ;)
+/*
+body {
+  * {
+    display: none;
+  }
+}
+*/
