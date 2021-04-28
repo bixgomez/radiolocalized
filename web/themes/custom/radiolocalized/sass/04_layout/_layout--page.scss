@@ -60,3 +60,7 @@
 .region-inner {
   padding: .5rem;
 }
+
+.page-node-type-page .region--content > .region-inner {
+  padding: $gutter--wide $gutter--wider;
+}
