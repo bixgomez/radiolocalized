@@ -3,10 +3,10 @@ html {
 }
 
 body {
-  font-family: $base-font-family;
-  font-size: $body-font-size;
-  font-weight: 500;
-  line-height: $base-line-height;
+  font-family: $font-family--base;
+  font-size: $font-size--body;
+  font-weight: $font-weight--base;
+  line-height: $line-height--base;
   color: $font-color--base;
 }
 
@@ -17,83 +17,67 @@ h1, h2, h3, h4, h5, p {
 
 .paragraph {
   margin: 0 0 $paragraph-padding;
+  line-height: $line-height--base;
 }
 
 p {
-  margin:  0 0 $gutter--narrow;
+  margin:  0 0 $paragraph-padding;
+  line-height: $line-height--base;
+
   &:last-of-type {
     margin-bottom: 0;
   }
 }
 
 h1, h2, h3, h4, h5 {
+  font-family: $font-family--heading;
+  font-weight: $font-weight--heading;
+  line-height: $line-height--heading;
   margin-bottom: $gutter--narrower;
-  color: mix($font-color--heading, transparent, 80%);
-}
-
-h2, h3, h4, h5 {
-  color: mix($font-color--heading, transparent, 75%);
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: $heading-font-family;
-  line-height: $heading-line-height;
-  font-weight: 600;
+  color: $font-color--heading;
 }
 
 h1 {
   font-size: $font-size-h1;
-
-  &.page-title {
-    // margin: 0 0 ($paragraph-padding * .25);
-  }
+  text-transform: uppercase;
 }
 
 h2 {
   font-size: $font-size-h2;
+  text-transform: uppercase;
 }
 
 h3 {
   font-size: $font-size-h3;
+  text-transform: uppercase;
 }
 
 h4 {
   font-size: $font-size-h4;
 }
 
-$a-color: saturate($color__secondary, 100%);
-$a-color-hover: mix($a-color, transparent, 70%);
+h5 {
+  font-size: $font-size-h5;
+}
+
 a {
-  color: $a-color;
+  color: $c--link;
   text-decoration: none;
+
   &:hover {
-    color: $a-color-hover;
+    color: $c--link--hover;
     text-decoration: underline;
   }
 }
 
-.site-name {
-  @extend h1;
+.site-name a {
+  display: block;
+  text-decoration: none;
+  color: $c--primary--dark;
 
-  line-height: 1;
-  margin: 0;
-
-  a {
-    display: block;
-    text-decoration: none;
-    color: $color__primary--dark;
-    margin-left: -.05em;
-    margin-top: -.07em;
+  &:hover {
+    color: $c--primary--darkest;
   }
-}
-
-.site-slogan {
-  @extend h2;
-  color: $color__primary;
-  font-size: 1.625em;
-  line-height: 1.0;
-  margin: 0;
-  font-weight: 100;
 }
 
 //.section--content {

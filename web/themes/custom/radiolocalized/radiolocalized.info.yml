@@ -20,5 +20,5 @@ regions:
   navigation: 'Navigation'
   info: 'Info'
   content: 'Content'
+  map: 'Map'
   footer: 'Footer'
-
