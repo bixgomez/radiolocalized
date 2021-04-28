@@ -1,20 +1,18 @@
 {
-  "name": "localized-gulp",
+  "name": "radiolocalized-gulp",
   "version": "1.0.0",
-  "description": "Gulp dependencies for localized theme",
+  "description": "Gulp dependencies for radiolocalized theme",
   "scripts": {},
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.10.2",
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "breakpoint-sass": "^2.7.1",
-    "compass-sass-mixins": "^0.12.7",
-    "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-clean-css": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.3.0",
     "gulp-livereload": "^4.0.1",
-    "gulp-sass": "^4.0.2",
-    "gulp-sass-glob": "^1.0.9",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-watch": "^5.0.1",
-    "normalize-scss": "^7.0.1"
+    "gulp-sass": "^4.1.0",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-watch": "^5.0.1"
   }
 }
