@@ -1,11 +1,17 @@
 // sass-lint:disable no-css-comments
 /**
  * Partial for adding standard breakpoint variables
+ * Has not been updated since 2016, but it still works and I still love it!
+ * http://breakpoint-sass.com/
+ * https://github.com/at-import/breakpoint
+ * https://www.npmjs.com/package/breakpoint-sass
  */
+
 // @import "breakpoint";
 // Breakpoint control variables
 // $breakpoint-to-ems: true;
 
+// Breakpoints.
 $xxs: 0;
 $xs: 320px;
 $sm: 544px;
@@ -14,7 +20,10 @@ $lg: 960px;
 $xl: 1100px;
 $max-site-width: 100%;
 
-//Breakpoint variables
+// Special breakpoint just for use in the site header.
+$site-header-breakpoint: 650px;
+
+// Breakpoint variables.
 $xxs-only: $xxs ($xs - 1);
 $xxs-up: $xxs;
 $xxs-down: 0 $xxs;
@@ -39,6 +48,9 @@ $xl-only: $xl;
 $xl-up: $xl;
 $xl-down: 0 $xl;
 
+// Used to display breakpoint info directly on the site.
+// Simply include a div or span with the 'breakpoint-info' class.
+// Sometimes useful!
 .breakpoint-info {
   &:after {
     @include breakpoint($xxs) {
