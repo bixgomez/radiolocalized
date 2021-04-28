@@ -1,5 +1,5 @@
 # Radio Localized Drupal 9 Site
-This is a work-in-progress D9 site to support my radio show, Radio Localized, broadcast weekly on KBFG-FM in Seattle.
+This is a work-in-progress D9 site I am developing to support my radio show, Radio Localized, broadcast weekly on KBFG-FM in Seattle.  The radio show itself features a different location each episode.  The purpose of this site is to function as an extension of the show, displaying the places represented by each episode on an interactive map.
 
 
 ## Repository and Demo
