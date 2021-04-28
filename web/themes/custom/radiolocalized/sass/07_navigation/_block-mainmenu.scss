@@ -1,86 +1,18 @@
-$menu-item--bg: $color__primary--darker;
-$menu-item--bg--hover: lighten($menu-item--bg, 20%);
-$menu-item--bg--active: lighten($menu-item--bg, 10%);
-
-$menu-item--sec--bg: maroon;
-$menu-item--sec--bg--hover: lighten($menu-item--sec--bg, 20%);
-$menu-item--sec--bg--active: lighten($menu-item--sec--bg, 10%);
-
-$menu-item--color: #fff;
-$menu-item--color--hover: #fff;
-
-$menu-item--padding--v: 4px;
-$menu-item--padding--h: 4px;
-$menu-item--margin--r: 2px;
-$menu-item--margin--b: 2px;
-
-$menu-item--bg: desaturate(mix($color__primary--lightest, white, 30%), 20%);
-$menu-item--bg--hover: mix($menu-item--bg, white, 80%);
-$menu-item--bg--active: transparent;
-
-$menu-item--color: $color__primary;
-$menu-item--color--hover: $color__primary--light;
-
-$menu-item--padding--v: .125em;
-$menu-item--padding--h: 0;
-$menu-item--margin--r: 1em;
-$menu-item--margin--b: 2px;
-
-$menu-item--font: $heading-font-family;
-$menu-item--fontsize: 1.25em;
-$menu-item--weight: 500;
-
-@mixin menu-item {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-@mixin menu-item--main {
-  display: block;
-  float: left;
-}
-
-@mixin menu-item--typography {
-  > span,
-  > a {
-    font-family: $menu-item--font;
-    font-size: $menu-item--fontsize;
-    font-weight: $menu-item--weight;
-    display: block;
-    line-height: 1.2;
-    padding: .3em .5em .2em .475em;
-    margin: 0 .3em 0 0;
-    border-radius: 0.1875em;
-    color: $menu-item--color;
-    background-color: $menu-item--bg;
-    text-decoration: none;
-
-    &:hover {
-      color: $menu-item--color--hover;
-      background-color: mix($menu-item--color--hover, white, 25%);
-    }
-  }
-}
-
 nav#block-radiolocalized-main-menu {
 
   ul.menu {
-
-    font-size: 15px;
+    @include clearfix;
     padding: 0;
     margin: 0;
     list-style-type: none;
-
-    @include clearfix;
 
     li.menu-item {
       @include menu-item;
       @include menu-item--typography;
 
       &.menu-item--active-trail a {
-          background-color: mix($menu-item--color--hover, white, 70%);
-          color: mix(white, transparent, 75%);
+        background-color: mix($menu-item--color--hover, white, 90%);
+        color: mix($c--white, transparent, 75%);
       }
     }
 
@@ -92,7 +24,6 @@ nav#block-radiolocalized-main-menu {
       padding: 0;
       margin: 0;
       list-style-type: none;
-      font-size: .9em;
     }
   }
 }

@@ -1,19 +1,19 @@
 @mixin font-profile--base {
-  font-family: $base-font-family;
-  font-size: $body-font-size;
+  font-family: $font-family--base;
+  font-size: $font-size--body;
   line-height: 1.5;
   font-weight: 400;
 }
 
 @mixin font-profile--heading {
-  font-family: $heading-font-family;
+  font-family: $font-family--heading;
   line-height: 1.25;
   font-weight: 700;
-  color: $color__headline;
+  color: $c--headline;
 }
 
 @mixin font-profile--subtitle {
-  font-family: $base-font-family;
+  font-family: $font-family--base;
   font-weight: 300;
 }
 
@@ -21,12 +21,12 @@
   @include font-profile--heading;
   display: inline-block;
   line-height: 1;
-  color: $white;
-  background-color: $link-color;
+  color: $c--white;
+  background-color: $c--link;
   padding: .5em .75em;
 
   &:hover {
-    background-color: $link-color--hover;
+    background-color: $c--link--hover;
   }
 }
 
@@ -45,26 +45,26 @@
 
 @mixin font-size($size) {
   @if $size == 'xs' {
-    font-size: $body-font-size * .8;
+    font-size: $font-size--body * .8;
   }
   @elseif $size == 'sm' {
-    font-size: $body-font-size * .9;
+    font-size: $font-size--body * .9;
   }
   @elseif $size == 'md' {
-    font-size: $body-font-size * 1.125;
+    font-size: $font-size--body * 1.125;
   }
   @elseif $size == 'lg' {
-    font-size: $body-font-size * 1.5;
+    font-size: $font-size--body * 1.5;
   }
   @elseif $size == 'xl' {
-    font-size: $body-font-size * 2;
+    font-size: $font-size--body * 2;
   }
   @else {
-    font-size: $body-font-size;
+    font-size: $font-size--body;
   }
 }
 
-//======================= Flex Container==================
+// Flex Container.
 @mixin flex-container(
   $justify-content: flex-start,
   $align-content: space-between,
@@ -78,16 +78,16 @@
   align-items: $align-items;
 }
 
-//  Flex item
+//  Flex item.
 @mixin flex-item($flex: 0 1 auto) {
   // Define this value by default to avoid IE10 bug
   flex: $flex;
   align-self: auto;
 }
 
-//================== Buttons ========
+// Buttons.
 @mixin outline-button($icon-url: url("../../public/images/blue-right-arrow.svg") ) {
-  border-color: lighten($medium-gray, 20%);
+  border-color: lighten($c--gray, 20%);
   border-radius: 0;
   background-image: $icon-url;
   background-size: 15px;
@@ -97,42 +97,75 @@
 
   &:hover,
   &:focus {
-    border-color: lighten($color__primary--light, 28%);
-    background-color: lighten($color__primary--light, 32%);
+    border-color: lighten($c--primary--light, 28%);
+    background-color: lighten($c--primary--light, 32%);
   }
 
   a {
     @include font-size(sm);
     text-decoration: none;
-    color: $medium-gray;
+    color: $c--gray;
     text-transform: uppercase;
     font-weight: bold;
 
     &:hover {
-      color: $link-color;
+      color: $c--link;
     }
   }
 }
 
-// Main menu (dropdown) mixins
+// Main menu mixins
 @mixin main-menu-item--level-1 {
   font-size: 1em;
   padding: $menu-item--padding;
   line-height: $menu-item--lineheight;
   display: block;
   margin: 0;
-  background-color: $color__primary;
+  background-color: $c--primary;
   color: white;
   text-decoration: none;
   &:hover {
-    background-color: $color__primary--dark;
+    background-color: $c--primary--dark;
   }
 }
 
 @mixin main-menu-item--level-2 {
   @include main-menu-item--level-1;
-  background-color: lignten($color__primary, 10%);
+  background-color: lignten($c--primary, 10%);
   &:hover {
-    background-color: lignten($color__primary--dark, 10%);
+    background-color: lignten($c--primary--dark, 10%);
+  }
+}
+
+@mixin menu-item {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+@mixin menu-item--main {
+  display: block;
+  float: left;
+}
+
+@mixin menu-item--typography {
+  > span,
+  > a {
+    font-family: $font-family--heading;
+    font-size: $menu-item--fontsize;
+    font-weight: $font-weight--heading;
+    display: block;
+    line-height: 1.2;
+    padding: .15em .5em .2em .45em;
+    margin: 0 .3em 0 0;
+    border-radius: 0.1875em;
+    color: $menu-item--color;
+    background-color: $menu-item--bg;
+    text-decoration: none;
+
+    &:hover {
+      color: $menu-item--color--hover;
+      background-color: mix($menu-item--color--hover, white, 15%);
+    }
   }
 }

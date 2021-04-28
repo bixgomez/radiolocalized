@@ -1,13 +1,21 @@
-// Google font import
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
+// Importing the Google fonts of your choice.
+// @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+// @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;500&family=Barlow:wght@300;400;500;600&display=swap');
 
-$base-font-choice: 'Open Sans';
-$heading-font-choice: 'Montserrat';
 
-$base-font-family: $base-font-choice, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-$heading-font-family: $heading-font-choice, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+// Typography.
+$font-choice--base: 'Barlow';
+$font-choice--heading: 'Barlow Condensed';
 
+$font-family--base: $font-choice--base, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+$font-family--heading: $font-choice--heading, 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
+$font-weight--base: 400;
+$font-weight--heading: 500;
+
+
+// Gutters (used for padding and margins).
 $gutter--default: 1.5em;
 $gutter--narrow: $gutter--default * .5;
 $gutter--narrower: $gutter--narrow * .5;
@@ -15,58 +23,86 @@ $gutter--narrowest: $gutter--narrower * .5;
 $gutter--wide: $gutter--default * 1.5;
 $gutter--wider: $gutter--wide * 1.5;
 $gutter--widest: $gutter--wider * 1.5;
-
 $paragraph-padding: $gutter--default;
 
-// Monochrome colors.
-$light-gray: #ddd;
-$medium-gray: #888;
-$dark-gray: #333;
-$white: #fff;
-$black: #000;
 
-$color__primary: #4b748b;
-$color__secondary: #303155;
+// Colors.
+$c--white: #fff;
+$c--black: #000;
+$c--primary: desaturate(#4b748b, 5%);
+$c--secondary: #303155;
 
-$color__primary--light: lighten($color__primary, 10%);
-$color__primary--lighter: lighten($color__primary--light, 10%);
-$color__primary--lightest: lighten($color__primary--lighter, 10%);
-$color__primary--dark: darken($color__primary, 10%);
-$color__primary--darker: darken($color__primary--dark, 10%);
-$color__primary--darkest: darken($color__primary--darker, 10%);
+$c--gray: mix($c--white, $c--black, 50%);
 
-$color__headline: desaturate($color__primary, 55%);
-$color__headline: mix($color__headline, white, 75%);
+$c--gray--light:    mix($c--white, $c--black, 65%);
+$c--gray--lighter:  mix($c--white, $c--black, 80%);
+$c--gray--lightest: mix($c--white, $c--black, 98%);
 
-$color__secondary--light: lighten($color__secondary, 10%);
-$color__secondary--lighter: lighten($color__secondary--light, 10%);
-$color__secondary--lightest: lighten($color__secondary--lighter, 10%);
-$color__secondary--dark: darken($color__secondary, 10%);
-$color__secondary--darker: darken($color__secondary--dark, 10%);
-$color__secondary--darkest: darken($color__secondary--darker, 10%);
+$c--gray--dark:     mix($c--white, $c--black, 30%);
+$c--gray--darker:   mix($c--white, $c--black, 40%);
+$c--gray--darkest:  mix($c--white, $c--black, 10%);
 
-$link-color: $color__secondary;
-$link-color--hover: $color__secondary--light;
+$c--primary--light:    lighten($c--primary, 10%);
+$c--primary--lighter:  lighten($c--primary--light, 8%);
+$c--primary--lightest: lighten($c--primary--lighter, 10%);
+$c--primary--dark:     darken($c--primary, 10%);
+$c--primary--darker:   darken($c--primary--dark, 10%);
+$c--primary--darkest:  darken($c--primary--darker, 10%);
 
-$body-bg-color: mix($white, $color__primary, 98%);
+$c--headline: desaturate($c--primary, 55%);
+$c--headline: mix($c--headline, white, 75%);
 
-$blackmix: mix($black, $color__secondary, 50%);
-$section-bg-color: mix($blackmix, transparent, 3%);
+$c--secondary--light:    lighten($c--secondary, 10%);
+$c--secondary--lighter:  lighten($c--secondary--light, 10%);
+$c--secondary--lightest: lighten($c--secondary--lighter, 10%);
+$c--secondary--dark:     darken($c--secondary, 10%);
+$c--secondary--darker:   darken($c--secondary--dark, 10%);
+$c--secondary--darkest:  darken($c--secondary--darker, 10%);
+
+$c--link: $c--primary--dark;
+$c--link--hover: $c--primary--darker;
+
 
 // Font sizing.
 $html-font-size: 16px;
-$body-font-size: 1em;
-$base-line-height: 1.6;
-$heading-line-height: 1.2;
+$font-size--body: 1em;
+$line-height--base: 1.4;
+$line-height--heading: .95;
 
-$font-size-h4: $body-font-size;
-$font-size-h3: $font-size-h4 * 1.3;
-$font-size-h2: $font-size-h3 * 1.3;
-$font-size-h1: $font-size-h2 * 1.3;
+$font-size-h1: $font-size--body * 2.5;
+$font-size-h2: $font-size--body * 2;
+$font-size-h3: $font-size--body * 1.5;
+$font-size-h4: $font-size--body;
+$font-size-h5: $font-size--body * .9;
+
 
 // Font colors.
-$font-color--base: mix($black, transparent, 80%);
-$font-color--heading: mix($color__primary--darkest, transparent, 90%);
+$font-color--base: mix($c--black, transparent, 80%);
+$font-color--heading: mix($c--primary--darkest, transparent, 90%);
+
+
+// Main menu variables.
+$menu-item--padding--v: 4px;
+$menu-item--padding--h: 4px;
+$menu-item--margin--r: 2px;
+$menu-item--margin--b: 2px;
+
+$menu-item--bg: mix($c--primary--lightest, white, 30%);
+$menu-item--bg--hover: mix($menu-item--bg, white, 80%);
+$menu-item--bg--active: transparent;
+
+$menu-item--color: $c--primary;
+$menu-item--color--hover: $c--primary--light;
+
+$menu-item--padding--v: .125em;
+$menu-item--padding--h: 0;
+$menu-item--margin--r: 1em;
+$menu-item--margin--b: 2px;
+
+$menu-item--sec--bg: $c--secondary--darker;
+$menu-item--sec--bg--hover: lighten($menu-item--sec--bg, 20%);
+$menu-item--sec--bg--active: lighten($menu-item--sec--bg, 10%);
+
 
 // Main menu (dropdown) variables.
 $menu-item--fontsize: 1.125em;
@@ -87,6 +123,7 @@ $menu-height: $menu-item--lineheight + $menu-item--pad-t + $menu-item--pad-b;
 
 $menu-system-margin-top: $menu-item--fontsize * .5;
 $menu-system-margin-left: $menu-item--fontsize * .5;
+
 
 // Viewport-based font sizing variables.
 $threshold-px: 14px;
