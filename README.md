@@ -40,6 +40,17 @@ trying to achieve.
     specific to each song featured on each episode.
   * You will find all of the JavaScript I wrote to support this functionality is in the theme.
 
+## To-Dos
+As this is a personal project, I am writing specs "on the go", experimenting with ideas and reëvaluating decisions on the fly.  Working like this, issues arise constantly.  So...
 
-
-
+* Further work on landing page, obviously.
+* Design and develop individual song page template
+* Main menu is unsustainable - this basic menu will only accommodate about 10 episodes before it becomes unmanageable
+* Embed a Mixcloud player for each episode (and a link to the Mixcloud account as a whole)
+* Clean up the site header
+  * add blocks for info that will appear on the home page only
+  * account for lack of episode information on non-episode pages.
+* Resolve mobile issues
+  * Episode pages are a bit "tight" with the 60/40 split
+  * 100vh height does not seem to work on iPhone Safari or Chrome (seems to be due to the height of the search/address bar.
+* Reconsider early decision to use Layout Builder for each individual song teaser. These should be simple cards with much cleaner markup.
