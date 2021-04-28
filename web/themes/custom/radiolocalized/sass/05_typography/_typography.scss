@@ -15,25 +15,30 @@ h1, h2, h3, h4, h5, p {
   padding: 0;
 }
 
+p,
+ul,
 .paragraph {
-  margin: 0 0 $paragraph-padding;
+  margin:  0 0 $gutter--default;
   line-height: $line-height--base;
 }
 
-p {
-  margin:  0 0 $paragraph-padding;
-  line-height: $line-height--base;
+ul {
+  padding-left: $gutter--wider;
+}
 
-  &:last-of-type {
-    margin-bottom: 0;
-  }
+ul > li {
+  margin-bottom: $gutter--narrowest;
+}
+
+li > ul {
+  margin-top: $gutter--narrowest;
 }
 
 h1, h2, h3, h4, h5 {
   font-family: $font-family--heading;
   font-weight: $font-weight--heading;
   line-height: $line-height--heading;
-  margin-bottom: $gutter--narrower;
+  margin-bottom: $gutter--narrowest;
   color: $font-color--heading;
 }
 
