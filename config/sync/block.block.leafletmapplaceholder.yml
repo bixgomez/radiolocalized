@@ -1,0 +1,25 @@
+uuid: c3466708-580f-4d4e-ac1e-354759a06206
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:7f92d3fa-76ce-45fc-b514-c64f6676ca29'
+  module:
+    - block_content
+  theme:
+    - radiolocalized
+id: leafletmapplaceholder
+theme: radiolocalized
+region: map
+weight: 0
+provider: null
+plugin: 'block_content:7f92d3fa-76ce-45fc-b514-c64f6676ca29'
+settings:
+  id: 'block_content:7f92d3fa-76ce-45fc-b514-c64f6676ca29'
+  label: 'Leaflet Map Placeholder'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }
