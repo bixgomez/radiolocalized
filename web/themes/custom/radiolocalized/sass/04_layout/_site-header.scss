@@ -9,7 +9,7 @@
   grid-template-rows: auto auto auto;
 
   @include breakpoint($md) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: max-content auto max-content;
     grid-template-areas:
       "title subtitle info";
   }
@@ -18,38 +18,45 @@
 h1.site-name {
   grid-area: title;
   padding: .5rem;
-  border-bottom: 1px solid #ccc;
+  margin: 0;
+  border-bottom: 1px solid $c--primary--lightest;
 
   @include breakpoint($md) {
     border-bottom: 0;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid $c--primary--lightest;
+    height: 100%;
   }
 }
 
 .block-views-blockepisode-title-episode-title-block {
   grid-area: subtitle;
   padding: .5rem;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $c--primary--lightest;
 
   @include breakpoint($md) {
     border-bottom: 0;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid $c--primary--lightest;
+    height: 100%;
   }
 }
 
 .block-views-blockepisode-title-episode-air-date-block {
   grid-area: info;
   padding: .5rem;
+
+  @include breakpoint($md) {
+    height: 100%;
+  }
 }
 
-h1.site-name {
-  margin: 0;
+h1.site-name a {
+  margin: -.065em 0 0 0;
 }
 
 h2.page-title {
-  margin: 0;
+  margin: -.065em 0 0 0;
 }
 
 h3.episode-date {
-  margin: 0;
+  margin: -.065em 0 0 0;
 }

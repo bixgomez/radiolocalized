@@ -3,34 +3,46 @@
   margin: 0;
   display: grid;
   grid-template-areas:
+    "header"
+    "nav"
+    "content"
+    "footer";
+  grid-template-rows: max-content max-content 1fr max-content;
+  grid-template-columns: 1fr;
+  grid-gap: .25rem;
+  background-color: $c--primary--lightest;
+  height: 100vh;
+
+  &__episode {
+    grid-template-areas:
     "header header"
     "nav nav"
     "content map"
     "footer footer";
-  grid-template-rows: max-content max-content 1fr max-content;
-  grid-template-columns: 1fr 2fr;
-  grid-gap: .25rem;
-  background-color: rgba(black, .125);
-  height: 100vh;
+    grid-template-columns: 1fr 2fr;
+  }
 }
 
 .region {
   padding: 0;
   margin: 0;
-  border: 1px solid rgba(black, .2);
+  border: 1px solid $c--primary--lighter;
   border-radius: 0;
-  background-color: rgba(white, 1);
+  background-color: $c--gray--lightest;
 
   &--header {
     grid-area: header;
+    background-color: mix($c--primary, $c--white, 10%);
   }
 
   &--navigation {
     grid-area: nav;
+    background-color: mix($c--primary, $c--white, 25%);
   }
 
   &--info {
     display: none;
+    background-color: mix($c--primary, $c--white, 10%);
   }
 
   &--content {
@@ -39,12 +51,9 @@
     overflow-y: scroll;
   }
 
-  &--map {
-    grid-area: map;
-  }
-
   &--footer {
     grid-area: footer;
+    background-color: mix($c--primary, $c--white, 15%);
   }
 }
 

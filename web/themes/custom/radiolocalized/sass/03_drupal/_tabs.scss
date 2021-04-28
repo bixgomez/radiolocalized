@@ -31,17 +31,17 @@ ul.tabs {
   display: block;
   padding: 0.2em 1em;
   text-decoration: none;
-  background-color: $color__primary--light;
+  background-color: $c--primary--light;
   color: white;
 }
 
 .tabs a.is-active {
-  background-color: $color__primary--lighter;
+  background-color: $c--primary--lighter;
   color: white;
 }
 
 .tabs a:focus,
 .tabs a:hover {
-  background-color: $color__primary--lightest;
-  color: $color__primary--darkest;
+  background-color: $c--primary--lightest;
+  color: $c--primary--darkest;
 }
