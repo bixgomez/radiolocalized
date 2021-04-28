@@ -13,6 +13,10 @@ node_modules
 /web/sites/*/services*.yml
 /web/sites/*/settings*.php
 
+# Ignore defaults.
+/web/sites/default/default.services.yml
+/web/sites/default/default.settings.php
+
 # Ignore paths that may contain user-generated content.
 /web/sites/*/files
 /web/sites/*/private
