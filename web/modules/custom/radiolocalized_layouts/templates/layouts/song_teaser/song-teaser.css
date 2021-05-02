@@ -1,0 +1,11 @@
+.layout-builder__layout.song-teaser {
+  border: 10px double orange;
+}
+
+.layout-builder__layout.song-teaser > div {
+  margin-bottom: 10px;
+}
+
+.layout-builder__layout.song-teaser > div:last-child {
+  margin-bottom: 0;
+}

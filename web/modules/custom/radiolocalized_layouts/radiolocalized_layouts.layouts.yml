@@ -1,0 +1,34 @@
+custom_layouts_threecol_25_50_25:
+  label: 'Three column 25/50/25'
+  path: templates/layouts
+  template: custom-layouts--threecol-25-50-25
+  category: 'Columns: 3'
+  default_region: second
+  icon_map:
+    - [first, second, third]
+  regions:
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third
+
+song_teaser:
+  label: 'Song Teaser'
+  category: 'Custom Layouts'
+  path: templates/layouts/song_teaser
+  template: song-teaser
+  library: radiolocalized_layouts/song_teaser
+  default_region: title
+  icon_map:
+    - [ title ]
+    - [ details ]
+    - [ description ]
+  regions:
+    title:
+      label: Title
+    details:
+      label: Details
+    description:
+      label: Description

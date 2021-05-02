@@ -65,4 +65,6 @@ node_modules
 
 # Ignore that pesky vendor directory.
 /vendor
-/web/modules
+
+# Ignore just the contrib modules, so that custom modules will be versioned.
+/web/modules/contrib
