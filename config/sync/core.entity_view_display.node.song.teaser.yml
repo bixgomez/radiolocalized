@@ -12,131 +12,13 @@ dependencies:
     - node.type.song
   module:
     - layout_builder
-    - layout_discovery
     - layout_library
     - text
     - user
 third_party_settings:
   layout_builder:
     allow_custom: false
-    enabled: true
-    sections:
-      -
-        layout_id: layout_onecol
-        layout_settings:
-          label: 'Song Title'
-          layout_builder_styles_style: ''
-        components:
-          6a6c92f6-3166-48a2-9b54-6fc1236c63db:
-            uuid: 6a6c92f6-3166-48a2-9b54-6fc1236c63db
-            region: content
-            configuration:
-              id: 'field_block:node:song:title'
-              label: Title
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: true
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 1
-        third_party_settings: {  }
-      -
-        layout_id: layout_onecol
-        layout_settings:
-          label: 'Song Details'
-          layout_builder_styles_style: all_inline_blocks_section
-        components:
-          b4e23fa4-2794-4c66-bd65-fc7313b0dd86:
-            uuid: b4e23fa4-2794-4c66-bd65-fc7313b0dd86
-            region: content
-            configuration:
-              id: 'field_block:node:song:field_year'
-              label: Year
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 0
-          de1f113d-d4de-4ad7-8ad6-25025df4d446:
-            uuid: de1f113d-d4de-4ad7-8ad6-25025df4d446
-            region: content
-            configuration:
-              id: 'field_block:node:song:field_artist'
-              label: Artist
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: entity_reference_label
-                settings:
-                  link: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 1
-          cf51172a-5e94-4139-ba7d-cbdb9bdf5b8c:
-            uuid: cf51172a-5e94-4139-ba7d-cbdb9bdf5b8c
-            region: content
-            configuration:
-              id: 'field_block:node:song:field_album'
-              label: Album
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 2
-        third_party_settings: {  }
-      -
-        layout_id: layout_onecol
-        layout_settings:
-          label: 'Hidden section'
-          layout_builder_styles_style: hidden_section
-        components:
-          5e718185-8230-45f4-9467-850d3aed69c4:
-            uuid: 5e718185-8230-45f4-9467-850d3aed69c4
-            region: content
-            configuration:
-              id: 'field_block:node:song:field_place'
-              label: Place
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: entity_reference_entity_view
-                settings:
-                  view_mode: lat_lon_only
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 0
-        third_party_settings: {  }
+    enabled: false
   layout_library:
     enable: false
 id: node.song.teaser
@@ -147,39 +29,43 @@ content:
   body:
     label: hidden
     type: text_summary_or_trimmed
-    weight: 4
+    weight: 3
     settings:
       trim_length: 600
     third_party_settings: {  }
     region: content
   field_album:
     type: string
-    weight: 3
+    weight: 2
     region: content
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
   field_artist:
     type: entity_reference_label
-    weight: 2
+    weight: 1
     region: content
-    label: above
+    label: hidden
     settings:
-      link: true
+      link: false
+    third_party_settings: {  }
+  field_place:
+    type: entity_reference_entity_view
+    weight: 4
+    region: content
+    label: hidden
+    settings:
+      view_mode: lat_lon_only
+      link: false
     third_party_settings: {  }
   field_year:
     type: string
-    weight: 1
+    weight: 0
     region: content
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-  links:
-    weight: 0
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
-  field_place: true
+  links: true
