@@ -48,7 +48,7 @@
         $.each($song_teasers, function(index, value) {
 
           // Get the lat & lon for this song, and push to the array.
-          var thisLink = $(this).find('a');
+          var thisItem = $(this);
           var thisLat = $(this).find('li.lat');
           var thisLon = $(this).find('li.lon');
           var thisLatVal = $(thisLat).text();
@@ -60,18 +60,18 @@
           addMarker(thisLatVal,thisLonVal);
 
           // Fly to that point when rolling onto the song title.
-          $(thisLink).mouseenter(function() {
+          $(thisItem).mouseenter(function() {
             centerMap(thisLatVal,thisLonVal,'flyTo', 13);
           });
 
           // Zoom out a little when rolling off of the song title.
-          $(thisLink).mouseleave(function() {
+          $(thisItem).mouseleave(function() {
             centerMap(thisLatVal,thisLonVal,'flyTo', 11);
           });
         });
 
-        console.log(allLats);
-        console.log(allLons);
+        // console.log(allLats);
+        // console.log(allLons);
 
         var maxLat = Math.max.apply(Math,allLats);
         var minLat = Math.min.apply(Math,allLats);
