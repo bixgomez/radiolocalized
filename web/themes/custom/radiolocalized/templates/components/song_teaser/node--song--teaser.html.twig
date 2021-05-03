@@ -72,17 +72,9 @@
 #}
 
 <div class="song-teaser">
-
-  <h3><a href="{{ url }}">{{ label }}</a></h3>
-
-
-
-{#  {{ link(label, url) }}#}
-
+  <h4><a href="{{ url }}">{{ label }}</a></h4>
   {{ content.field_year }} {{ content.field_artist }} {{ content.field_album }}
-
-  <div class="hidden-section">
+  <div class="hidden">
     {{ content.field_place }}
   </div>
-
 </div>
