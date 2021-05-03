@@ -1,6 +1,6 @@
 @mixin font-profile--base {
   font-family: $font-family--base;
-  font-size: $font-size--body;
+  font-size: $font-size--md;
   line-height: 1.5;
   font-weight: 400;
 }
@@ -43,26 +43,29 @@
   }
 }
 
+// TODO: Revisit this mixin for future use.
+/*
 @mixin font-size($size) {
   @if $size == 'xs' {
-    font-size: $font-size--body * .8;
+    font-size: $font-size--md * .8;
   }
   @elseif $size == 'sm' {
-    font-size: $font-size--body * .9;
+    font-size: $font-size--md * .9;
   }
   @elseif $size == 'md' {
-    font-size: $font-size--body * 1.125;
+    font-size: $font-size--md * 1.125;
   }
   @elseif $size == 'lg' {
-    font-size: $font-size--body * 1.5;
+    font-size: $font-size--md * 1.5;
   }
   @elseif $size == 'xl' {
-    font-size: $font-size--body * 2;
+    font-size: $font-size--md * 2;
   }
   @else {
-    font-size: $font-size--body;
+    font-size: $font-size--md;
   }
 }
+*/
 
 // Flex Container.
 @mixin flex-container(
