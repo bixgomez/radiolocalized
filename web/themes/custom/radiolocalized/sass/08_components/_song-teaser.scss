@@ -3,14 +3,16 @@
   border: 1px solid $c--gray--light;
   padding: .5em;
   background-color: rgba($c--white, .75);
+  line-height: $line-height--small;
 
   &:hover {
     background-color: $c--white;
+    cursor: pointer;
   }
 
   .song-title {
-    font-size: 1em;
-    margin-bottom: .125em;
+    font-size: $font-size--md;
+    margin-bottom: $gutter--xxs;
   }
 
   .section--details {

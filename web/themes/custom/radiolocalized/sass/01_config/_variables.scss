@@ -15,6 +15,7 @@ $font-weight--base: 400;
 $font-weight--heading: 500;
 
 
+// TODO: Decide on a gutter sizing method!
 // Gutters (used for padding and margins).
 $gutter--default: 1em;
 $gutter--narrow: $gutter--default * .5;
@@ -23,6 +24,16 @@ $gutter--narrowest: $gutter--narrower * .5;
 $gutter--wide: $gutter--default * 1.25;
 $gutter--wider: $gutter--wide * 1.25;
 $gutter--widest: $gutter--wider * 1.25;
+
+// More gutter settings (not sure which method I prefer for this site)
+$gutter--md: $gutter--default;
+$gutter--xxs: .125em;
+$gutter--xs: .25em;
+$gutter--sm: .5em;
+$gutter--md: 1em;
+$gutter--lg: 1.25em;
+$gutter--xl: 1.5em;
+$gutter--xxl: 1.75em;
 
 
 // Colors.
@@ -64,15 +75,19 @@ $c--link--hover: $c--primary--darker;
 
 // Font sizing.
 $html-font-size: 16px;
-$font-size--body: 1em;
-$line-height--base: 1.5;
-$line-height--heading: .95;
+$font-size--md: 1em;
 
-$font-size-h1: $font-size--body * 2.5;
-$font-size-h2: $font-size--body * 2;
-$font-size-h3: $font-size--body * 1.5;
-$font-size-h4: $font-size--body * 1.125;
-$font-size-h5: $font-size--body * .9;
+$font-size--xxs: $font-size--md * .75;
+$font-size--xs:  $font-size--md * .85;
+$font-size--sm:  $font-size--md * .9;
+$font-size--lg:  $font-size--md * 1.125;
+$font-size--xl:  $font-size--md * 1.5;
+$font-size--xxl: $font-size--md * 2;
+$font-size--3xl: $font-size--md * 2.5;
+
+$line-height--base: 1.5;
+$line-height--small: 1.2;
+$line-height--heading: .95;
 
 
 // Font colors.
