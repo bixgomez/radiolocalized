@@ -2,6 +2,11 @@
   margin-bottom: .5em;
   border: 1px solid $c--gray--light;
   padding: .5em;
+  background-color: rgba($c--white, .75);
+
+  &:hover {
+    background-color: $c--white;
+  }
 
   .song-title {
     font-size: 1em;

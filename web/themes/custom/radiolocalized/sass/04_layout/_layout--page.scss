@@ -15,10 +15,10 @@
 
   &__episode {
     grid-template-areas:
-    "header header"
-    "nav nav"
-    "content map"
-    "footer footer";
+      "header header"
+      "nav nav"
+      "content map"
+      "footer footer";
     grid-template-columns: 1fr 2fr;
   }
 }

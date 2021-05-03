@@ -17,9 +17,9 @@ $font-weight--heading: 500;
 
 // Gutters (used for padding and margins).
 $gutter--default: 1em;
-$gutter--narrow: $gutter--default * .625;
-$gutter--narrower: $gutter--narrow * .625;
-$gutter--narrowest: $gutter--narrower * .625;
+$gutter--narrow: $gutter--default * .5;
+$gutter--narrower: $gutter--narrow * .5;
+$gutter--narrowest: $gutter--narrower * .5;
 $gutter--wide: $gutter--default * 1.25;
 $gutter--wider: $gutter--wide * 1.25;
 $gutter--widest: $gutter--wider * 1.25;
@@ -34,8 +34,8 @@ $c--secondary: #303155;
 $c--gray: mix($c--white, $c--black, 50%);
 
 $c--gray--light:    mix($c--white, $c--black, 65%);
-$c--gray--lighter:  mix($c--white, $c--black, 80%);
-$c--gray--lightest: mix($c--white, $c--black, 98%);
+$c--gray--lighter:  mix($c--white, $c--black, 85%);
+$c--gray--lightest: mix($c--white, $c--black, 95%);
 
 $c--gray--dark:     mix($c--white, $c--black, 30%);
 $c--gray--darker:   mix($c--white, $c--black, 40%);
@@ -71,7 +71,7 @@ $line-height--heading: .95;
 $font-size-h1: $font-size--body * 2.5;
 $font-size-h2: $font-size--body * 2;
 $font-size-h3: $font-size--body * 1.5;
-$font-size-h4: $font-size--body;
+$font-size-h4: $font-size--body * 1.125;
 $font-size-h5: $font-size--body * .9;
 
 

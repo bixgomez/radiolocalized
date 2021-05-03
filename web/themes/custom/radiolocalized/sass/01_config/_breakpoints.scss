@@ -1,4 +1,5 @@
 // sass-lint:disable no-css-comments
+
 /**
  * Partial for adding standard breakpoint variables
  * Has not been updated since 2016, but it still works and I still love it!
@@ -54,22 +55,22 @@ $xl-down: 0 $xl;
 .breakpoint-info {
   &:after {
     @include breakpoint($xxs) {
-      content: ' ($xxs)';
+      content: 'breakpoint $xxs';
     }
     @include breakpoint($xs) {
-      content: ' ($xs)';
+      content: 'breakpoint $xs';
     }
     @include breakpoint($sm) {
-      content: ' ($sm)';
+      content: 'breakpoint $sm';
     }
     @include breakpoint($md) {
-      content: ' ($md)';
+      content: 'breakpoint $md';
     }
     @include breakpoint($lg) {
-      content: ' ($lg)';
+      content: 'breakpoint $lg';
     }
     @include breakpoint($xl) {
-      content: ' ($xl)';
+      content: 'breakpoint $xl';
     }
   }
 }
