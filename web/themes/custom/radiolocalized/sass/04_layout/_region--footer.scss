@@ -1,0 +1,10 @@
+.region--footer > .region-inner {
+  display: flex;
+}
+
+.breakpoint-info {
+  min-width: max-content;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}

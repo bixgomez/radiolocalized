@@ -6,10 +6,10 @@
 @import '01_config/config';
 
 // Third, all base partialss.
-@import '02_base/base';
+@import '02_base/**/*.scss';
 
 // Drupal-specific partials, including my personal Layout Builder tweaks.
-@import '03_drupal/drupal';
+@import '03_drupal/**/*.scss';
 
 // High level layout-specific partials.
 @import '04_layout/**/*.scss';
@@ -26,7 +26,7 @@
 // Sass specific to individual components.
 @import '08_components/**/*.scss';
 
-// A quick test to make sure gulp & livereload are working ;)
+// A quick test to confirm gulp & livereload are working ;)
 /*
 body {
   * {

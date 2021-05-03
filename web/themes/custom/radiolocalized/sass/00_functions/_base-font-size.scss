@@ -1,3 +1,9 @@
+/*
+ * Base font size function
+ * For use when using viewport breakpoint font sizing
+ * https://github.com/bixgomez/viewport-breakpoint-font-sizer
+ */
+
 @function baseFontSize($thresholdPx, $switchPoint, $vwRate, $operation) {
 
   $fontsize: strip-unit($thresholdPx);

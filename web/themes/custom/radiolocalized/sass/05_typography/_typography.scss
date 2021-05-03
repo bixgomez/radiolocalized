@@ -10,15 +10,11 @@ body {
   color: $font-color--base;
 }
 
-h1, h2, h3, h4, h5, p {
-  margin: 0;
-  padding: 0;
-}
-
 p,
 ul,
 .paragraph {
   margin:  0 0 $gutter--default;
+  padding: 0;
   line-height: $line-height--base;
 }
 
@@ -38,7 +34,8 @@ h1, h2, h3, h4, h5 {
   font-family: $font-family--heading;
   font-weight: $font-weight--heading;
   line-height: $line-height--heading;
-  margin-bottom: $gutter--narrowest;
+  margin: 0 0 $gutter--narrowest;
+  padding: 0;
   color: $font-color--heading;
 }
 
@@ -85,6 +82,11 @@ a {
   }
 }
 
+/*
+ * Uncomment this section if you would like to use
+ * viewport-based font sizing.
+ */
+
 //.section--content {
 //  font-size: calc( #{$down-size} - #{$vw-rate-down} );
 //
@@ -94,13 +96,5 @@ a {
 //
 //  @include breakpoint($xl) {
 //    font-size: calc( #{$up-size} + #{$xl/100 * strip-unit($vw-rate-up)} );
-//  }
-//}
-//
-//.region-header {
-//  font-size: calc( #{.5em} + #{.65vw} );
-//
-//  @include breakpoint($xl) {
-//    font-size: calc( #{.5em} + #{$xl/100 * strip-unit(.65vw)} );
 //  }
 //}
