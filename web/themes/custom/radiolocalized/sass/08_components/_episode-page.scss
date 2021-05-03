@@ -2,5 +2,10 @@
 
   .region--content {
     background-color: mix($c--primary, $c--white, 20%);
+    direction: rtl;
+
+    > .region-inner {
+      direction: ltr;
+    }
   }
 }
