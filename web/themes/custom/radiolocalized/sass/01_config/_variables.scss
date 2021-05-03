@@ -72,6 +72,14 @@ $c--secondary--darkest:  darken($c--secondary--darker, 10%);
 $c--link: $c--primary--dark;
 $c--link--hover: $c--primary--darker;
 
+$c--scrollbar-base: desaturate($c--primary, 8%);
+$c--scrollbar-track-background: lighten($c--scrollbar-base, 53%);
+$c--scrollbar-track-shadow: lighten($c--scrollbar-base, 40%);
+$c--scrollbar-thumb-background: lighten($c--scrollbar-base, 20%);
+$c--scrollbar-thumb-shadow: lighten($c--scrollbar-base, 15%);
+$c--scrollbar-thumb-background--hover: lighten($c--scrollbar-base, 15%);
+$c--scrollbar-thumb-shadow--hover: lighten($c--scrollbar-base, 10%);
+
 
 // Font sizing.
 $html-font-size: 16px;
