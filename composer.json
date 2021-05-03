@@ -32,6 +32,7 @@
         "drupal/layout_library": "^1.0@beta",
         "drupal/pathauto": "^1.8",
         "drupal/twig_vardumper": "^3.0",
+        "drupal/twigsuggest": "^1.0@beta",
         "drush/drush": "^10.3"
     },
     "conflict": {
