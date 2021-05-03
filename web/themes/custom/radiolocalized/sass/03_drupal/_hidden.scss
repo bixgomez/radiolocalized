@@ -11,7 +11,8 @@
  * from a user. The effect of this class can be toggled with the jQuery show()
  * and hide() functions.
  */
-.hidden {
+.hidden,
+.hidden-section {
   display: none;
 }
 
@@ -23,12 +24,16 @@
  * manner should be kept concise, to avoid unnecessary burden on the user.
  * "!important" is used to prevent unintentional overrides.
  */
-.visually-hidden {
+
+.visually-hidden,
+.is-vishidden {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
   overflow: hidden;
   height: 1px;
   width: 1px;
+  padding: 0;
+  border: 0;
   word-wrap: normal;
 }
 
