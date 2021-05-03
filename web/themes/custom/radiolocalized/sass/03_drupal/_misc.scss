@@ -25,10 +25,9 @@
     display: inline-block;
 
     label {
-      @include font-size(lg);
+      font-size: $font-size--lg;
       font-family: $font-family--heading;
       font-weight: 700;
-      font-size: 1.5em;
     }
   }
 
