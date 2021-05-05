@@ -16,6 +16,7 @@
     ],
     "require": {
         "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
         "drupal/address": "^1.9",
         "drupal/admin_toolbar": "^3.0",
         "drupal/core-composer-scaffold": "^9.1",
@@ -104,6 +105,12 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "enable-patching": true,
+        "patches": {
+            "drupal/key": {
+                "Issue 3212374 comment 4": "https://www.drupal.org/files/issues/2021-05-05/3212374-4.patch"
+            }
         }
     }
 }
