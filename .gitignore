@@ -68,3 +68,4 @@ node_modules
 
 # Ignore just the contrib modules, so that custom modules will be versioned.
 /web/modules/contrib
+/files_private
