@@ -1,0 +1,14 @@
+uuid: 737e6b6e-674c-4894-a5ab-de1716e6f4bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - geofield_map.settings
+    - key.key.google_maps_api
+id: google_maps_api_override
+label: 'Google Maps API Override'
+config_type: system.simple
+config_prefix: ''
+config_name: geofield_map.settings
+config_item: gmap_api_key
+key_id: google_maps_api
