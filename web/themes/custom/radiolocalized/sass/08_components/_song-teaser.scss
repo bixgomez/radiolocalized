@@ -4,10 +4,28 @@
   padding: .5em;
   background-color: rgba($c--white, .75);
   line-height: $line-height--small;
+  position: relative;
 
-  &:hover {
+  .button--info {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    position: absolute;
+    right: 11px;
+    top: 11px;
+    border: 1px solid red;
+    padding: 0;
+    opacity: .25;
+  }
+
+  &.hovering {
     background-color: $c--white;
-    cursor: pointer;
+
+    .button--info {
+      opacity: 1;
+      cursor: pointer;
+    }
   }
 
   .song-title {
@@ -26,4 +44,3 @@ div.all-inline-blocks:not(.layout-builder__layout) {
     display: inline;
   }
 }
-

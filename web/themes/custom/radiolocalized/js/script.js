@@ -61,11 +61,13 @@
 
           // Fly to that point when rolling onto the song title.
           $(thisItem).mouseenter(function() {
+            thisItem.addClass("hovering");
             centerMap(thisLatVal,thisLonVal,'flyTo', 13);
           });
 
           // Zoom out a little when rolling off of the song title.
           $(thisItem).mouseleave(function() {
+            thisItem.removeClass("hovering");
             centerMap(thisLatVal,thisLonVal,'flyTo', 11);
           });
         });

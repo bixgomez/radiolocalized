@@ -72,9 +72,14 @@
 #}
 
 <div class="song-teaser">
+
+{#  {{ dump(label) }}#}
+{#  {{ dump(content) }}#}
+
   {#  <h4><a href="{{ url }}">{{ label }}</a></h4>#}
-  <h4>{{ label }}</h4>
+  {{ label }}
   {{ content.field_year }} {{ content.field_artist }} {{ content.field_album }}
+  <button class="button--info"></button>
   <div class="hidden">
     {{ content.field_place }}
   </div>
