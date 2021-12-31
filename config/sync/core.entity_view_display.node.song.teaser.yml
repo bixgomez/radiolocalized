@@ -11,16 +11,8 @@ dependencies:
     - field.field.node.song.field_year
     - node.type.song
   module:
-    - layout_builder
-    - layout_library
     - text
     - user
-third_party_settings:
-  layout_builder:
-    enabled: false
-    allow_custom: false
-  layout_library:
-    enable: false
 id: node.song.teaser
 targetEntityType: node
 bundle: song

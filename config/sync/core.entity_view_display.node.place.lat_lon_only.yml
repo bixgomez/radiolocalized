@@ -10,12 +10,7 @@ dependencies:
     - node.type.place
   module:
     - geofield
-    - layout_builder
     - user
-third_party_settings:
-  layout_builder:
-    enabled: false
-    allow_custom: false
 id: node.place.lat_lon_only
 targetEntityType: node
 bundle: place

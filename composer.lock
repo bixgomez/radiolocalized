@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "211bdadabfd1ace0c1922aef6ab5175a",
+    "content-hash": "28aafbcee2324bd858de7320da21938e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -688,22 +688,22 @@
         },
         {
             "name": "consolidation/log",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/log.git",
-                "reference": "82339860317d46eacf63e74d9c3b9b08b0adcfba"
+                "reference": "fc9ec5476ba13a31778695bd2d4f2fa0b0684356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/log/zipball/82339860317d46eacf63e74d9c3b9b08b0adcfba",
-                "reference": "82339860317d46eacf63e74d9c3b9b08b0adcfba",
+                "url": "https://api.github.com/repos/consolidation/log/zipball/fc9ec5476ba13a31778695bd2d4f2fa0b0684356",
+                "reference": "fc9ec5476ba13a31778695bd2d4f2fa0b0684356",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.3",
                 "psr/log": "^1.0",
-                "symfony/console": "^4|^5"
+                "symfony/console": "^4 || ^5 || ^6"
             },
             "require-dev": {
                 "phpunit/phpunit": ">=7.5.20",
@@ -734,9 +734,9 @@
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
             "support": {
                 "issues": "https://github.com/consolidation/log/issues",
-                "source": "https://github.com/consolidation/log/tree/2.0.3"
+                "source": "https://github.com/consolidation/log/tree/2.0.4"
             },
-            "time": "2021-12-30T03:51:52+00:00"
+            "time": "2021-12-30T19:05:18+00:00"
         },
         {
             "name": "consolidation/output-formatters",
@@ -799,32 +799,32 @@
         },
         {
             "name": "consolidation/robo",
-            "version": "3.0.6",
+            "version": "3.0.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/consolidation/Robo.git",
-                "reference": "36dce2965a67abe5cf91f2bc36d2582a64a11258"
+                "url": "https://github.com/consolidation/robo.git",
+                "reference": "57012db2a93c904ed0a7b9d8676c0325c0366bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/36dce2965a67abe5cf91f2bc36d2582a64a11258",
-                "reference": "36dce2965a67abe5cf91f2bc36d2582a64a11258",
+                "url": "https://api.github.com/repos/consolidation/robo/zipball/57012db2a93c904ed0a7b9d8676c0325c0366bc8",
+                "reference": "57012db2a93c904ed0a7b9d8676c0325c0366bc8",
                 "shasum": ""
             },
             "require": {
                 "consolidation/annotated-command": "^4.3",
-                "consolidation/config": "^1.2.1|^2.0.1",
-                "consolidation/log": "^1.1.1|^2.0.2",
+                "consolidation/config": "^1.2.1 || ^2.0.1",
+                "consolidation/log": "^1.1.1 || ^2.0.2",
                 "consolidation/output-formatters": "^4.1.2",
                 "consolidation/self-update": "^2.0",
                 "league/container": "^3.3.1",
                 "php": ">=7.1.3",
-                "symfony/console": "^4.4.19 || ^5",
-                "symfony/event-dispatcher": "^4.4.19 || ^5",
-                "symfony/filesystem": "^4.4.9 || ^5",
-                "symfony/finder": "^4.4.9 || ^5",
+                "symfony/console": "^4.4.19 || ^5 || ^6",
+                "symfony/event-dispatcher": "^4.4.19 || ^5 || ^6",
+                "symfony/filesystem": "^4.4.9 || ^5 || ^6",
+                "symfony/finder": "^4.4.9 || ^5 || ^6",
                 "symfony/process": "^4.4.9 || ^5",
-                "symfony/yaml": "^4.4 || ^5"
+                "symfony/yaml": "^4.4 || ^5 || ^6"
             },
             "conflict": {
                 "codegyre/robo": "*"
@@ -833,7 +833,7 @@
                 "natxet/cssmin": "3.0.4",
                 "patchwork/jsqueeze": "^2",
                 "pear/archive_tar": "^1.4.4",
-                "phpunit/phpunit": "^7.5.20 | ^8",
+                "phpunit/phpunit": "^7.5.20 || ^8",
                 "squizlabs/php_codesniffer": "^3.6",
                 "yoast/phpunit-polyfills": "^0.2.0"
             },
@@ -891,30 +891,30 @@
             ],
             "description": "Modern task runner",
             "support": {
-                "issues": "https://github.com/consolidation/Robo/issues",
-                "source": "https://github.com/consolidation/Robo/tree/3.0.6"
+                "issues": "https://github.com/consolidation/robo/issues",
+                "source": "https://github.com/consolidation/robo/tree/3.0.7"
             },
-            "time": "2021-10-05T23:56:45+00:00"
+            "time": "2021-12-31T01:01:31+00:00"
         },
         {
             "name": "consolidation/self-update",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/self-update.git",
-                "reference": "74289cf9b37d5cf84321ebea47deeea21678b940"
+                "reference": "117dcc9494dc970a6ae307103c41d654e6253bc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/self-update/zipball/74289cf9b37d5cf84321ebea47deeea21678b940",
-                "reference": "74289cf9b37d5cf84321ebea47deeea21678b940",
+                "url": "https://api.github.com/repos/consolidation/self-update/zipball/117dcc9494dc970a6ae307103c41d654e6253bc4",
+                "reference": "117dcc9494dc970a6ae307103c41d654e6253bc4",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.2",
                 "php": ">=5.5.0",
-                "symfony/console": "^2.8|^3|^4|^5",
-                "symfony/filesystem": "^2.5|^3|^4|^5"
+                "symfony/console": "^2.8 || ^3 || ^4 || ^5 || ^6",
+                "symfony/filesystem": "^2.5 || ^3 || ^4 || ^5 || ^6"
             },
             "bin": [
                 "scripts/release"
@@ -947,9 +947,9 @@
             "description": "Provides a self:update command for Symfony Console applications.",
             "support": {
                 "issues": "https://github.com/consolidation/self-update/issues",
-                "source": "https://github.com/consolidation/self-update/tree/2.0.2"
+                "source": "https://github.com/consolidation/self-update/tree/2.0.3"
             },
-            "time": "2021-12-17T16:45:58+00:00"
+            "time": "2021-12-30T19:08:32+00:00"
         },
         {
             "name": "consolidation/site-alias",
@@ -3162,333 +3162,6 @@
             }
         },
         {
-            "name": "drupal/key",
-            "version": "1.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/key.git",
-                "reference": "8.x-1.15"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/key-8.x-1.15.zip",
-                "reference": "8.x-1.15",
-                "shasum": "ebef48e042968862b6767af4b1bf49835eca487e"
-            },
-            "require": {
-                "drupal/core": "^8.7.7 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.15",
-                    "datestamp": "1634075859",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": "^9"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Cellar Door",
-                    "homepage": "https://www.drupal.org/user/658076"
-                },
-                {
-                    "name": "crashtest_",
-                    "homepage": "https://www.drupal.org/user/261457"
-                },
-                {
-                    "name": "nerdstein",
-                    "homepage": "https://www.drupal.org/user/1557710"
-                },
-                {
-                    "name": "rlhawk",
-                    "homepage": "https://www.drupal.org/user/352283"
-                }
-            ],
-            "description": "Provides the ability to manage site-wide keys",
-            "homepage": "http://drupal.org/project/key",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "https://git.drupalcode.org/project/key",
-                "issues": "http://drupal.org/project/key"
-            }
-        },
-        {
-            "name": "drupal/layout_builder_component_attributes",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/layout_builder_component_attributes.git",
-                "reference": "1.2.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_builder_component_attributes-1.2.1.zip",
-                "reference": "1.2.1",
-                "shasum": "b069d3d4d07defc8fe608e47d94e55af4214e4cc"
-            },
-            "require": {
-                "drupal/core": "^8.8|^9.0",
-                "neilime/php-css-lint": "^2.0|^3.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.2.1",
-                    "datestamp": "1623082136",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Burge",
-                    "homepage": "https://www.drupal.org/user/1826152"
-                }
-            ],
-            "description": "Allows editors to add HTML attributes to Layout Builder components (blocks)",
-            "homepage": "https://drupal.org/project/layout_builder_component_attributes",
-            "support": {
-                "source": "https://cgit.drupalcode.org/layout_builder_component_attributes",
-                "issues": "https://drupal.org/project/issues/layout_builder_component_attributes"
-            }
-        },
-        {
-            "name": "drupal/layout_builder_extra_templates",
-            "version": "1.0.0-rc2",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/layout_builder_extra_templates.git",
-                "reference": "8.x-1.0-rc2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_builder_extra_templates-8.x-1.0-rc2.zip",
-                "reference": "8.x-1.0-rc2",
-                "shasum": "b3fa5b05b3717ab40871f2fbf80ee58f80e787f2"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-rc2",
-                    "datestamp": "1591962286",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "opdavies",
-                    "homepage": "https://www.drupal.org/user/381388"
-                }
-            ],
-            "description": "Adds additional template suggestions for custom and layout builder blocks.",
-            "homepage": "https://www.drupal.org/project/layout_builder_extra_templates",
-            "support": {
-                "source": "https://git.drupalcode.org/project/layout_builder_extra_templates"
-            }
-        },
-        {
-            "name": "drupal/layout_builder_styles",
-            "version": "1.0.0-beta4",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/layout_builder_styles.git",
-                "reference": "8.x-1.0-beta4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_builder_styles-8.x-1.0-beta4.zip",
-                "reference": "8.x-1.0-beta4",
-                "shasum": "f915f13eb98ffcb28d843ddf882bb8997414f0db"
-            },
-            "require": {
-                "drupal/core": "^8.7.7 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-beta4",
-                    "datestamp": "1607616102",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "bkosborne",
-                    "homepage": "https://www.drupal.org/user/788032"
-                },
-                {
-                    "name": "mark_fullmer",
-                    "homepage": "https://www.drupal.org/user/2612816"
-                },
-                {
-                    "name": "phenaproxima",
-                    "homepage": "https://www.drupal.org/user/205645"
-                },
-                {
-                    "name": "twfahey",
-                    "homepage": "https://www.drupal.org/user/3403722"
-                }
-            ],
-            "description": "Apply styles to blocks in Layout Builder.",
-            "homepage": "https://www.drupal.org/project/layout_builder_styles",
-            "support": {
-                "source": "https://git.drupalcode.org/project/layout_builder_styles"
-            }
-        },
-        {
-            "name": "drupal/layout_library",
-            "version": "1.0.0-beta3",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/layout_library.git",
-                "reference": "8.x-1.0-beta3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/layout_library-8.x-1.0-beta3.zip",
-                "reference": "8.x-1.0-beta3",
-                "shasum": "d057acbe8a9df36f5901748f04602dacbca27bee"
-            },
-            "require": {
-                "drupal/core": "^8.8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-beta3",
-                    "datestamp": "1635453135",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "EclipseGc",
-                    "homepage": "https://www.drupal.org/user/61203"
-                },
-                {
-                    "name": "larowlan",
-                    "homepage": "https://www.drupal.org/user/395439"
-                },
-                {
-                    "name": "samuel.mortenson",
-                    "homepage": "https://www.drupal.org/user/2582268"
-                },
-                {
-                    "name": "tim.plunkett",
-                    "homepage": "https://www.drupal.org/user/241634"
-                },
-                {
-                    "name": "xjm",
-                    "homepage": "https://www.drupal.org/user/65776"
-                }
-            ],
-            "description": "Provides a library of layouts for content-editors to select from",
-            "homepage": "https://www.drupal.org/project/layout_library",
-            "support": {
-                "source": "https://git.drupalcode.org/project/layout_library"
-            }
-        },
-        {
-            "name": "drupal/lockr",
-            "version": "4.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/lockr.git",
-                "reference": "4.0.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/lockr-4.0.1.zip",
-                "reference": "4.0.1",
-                "shasum": "6c165330ca433fbd62a5fb648ef775c3f74e1165"
-            },
-            "require": {
-                "drupal/core": "^8.5.0 || ^9",
-                "drupal/key": "*",
-                "lockr/lockr": "^1.0.10"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
-                "drupal/coder": "^8.3.1",
-                "squizlabs/php_codesniffer": "^3.5.5"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "4.0.1",
-                    "datestamp": "1621618625",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Tynor Fujimoto",
-                    "homepage": "https://www.drupal.org/user/658076",
-                    "email": "tynor@lockr.io"
-                },
-                {
-                    "name": "tynor",
-                    "homepage": "https://www.drupal.org/user/2477108"
-                }
-            ],
-            "description": "Plugin for the Key module to integrate with Lockr, a hosted offsite key management platform.",
-            "homepage": "https://www.drupal.org/project/lockr",
-            "support": {
-                "source": "https://git.drupalcode.org/project/lockr"
-            }
-        },
-        {
             "name": "drupal/pathauto",
             "version": "1.8.0",
             "source": {
@@ -4431,62 +4104,6 @@
             "time": "2021-10-05T13:56:00+00:00"
         },
         {
-            "name": "indigophp/hash-compat",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/indigophp/hash-compat.git",
-                "reference": "43a19f42093a0cd2d11874dff9d891027fc42214"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/indigophp/hash-compat/zipball/43a19f42093a0cd2d11874dff9d891027fc42214",
-                "reference": "43a19f42093a0cd2d11874dff9d891027fc42214",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/hash_equals.php",
-                    "src/hash_pbkdf2.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Márk Sági-Kazár",
-                    "email": "mark.sagikazar@gmail.com"
-                }
-            ],
-            "description": "Backports hash_* functionality to older PHP versions",
-            "homepage": "https://indigophp.com",
-            "keywords": [
-                "hash",
-                "hash_equals",
-                "hash_pbkdf2"
-            ],
-            "support": {
-                "issues": "https://github.com/indigophp/hash-compat/issues",
-                "source": "https://github.com/indigophp/hash-compat/tree/master"
-            },
-            "abandoned": true,
-            "time": "2015-08-22T07:03:35+00:00"
-        },
-        {
             "name": "justinrainbow/json-schema",
             "version": "5.2.11",
             "source": {
@@ -4933,56 +4550,6 @@
             "time": "2021-07-09T08:23:52+00:00"
         },
         {
-            "name": "lockr/lockr",
-            "version": "v1.0.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lockr/lockr-php.git",
-                "reference": "8f5077580950b10bec290bd57eae352275332c72"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lockr/lockr-php/zipball/8f5077580950b10bec290bd57eae352275332c72",
-                "reference": "8f5077580950b10bec290bd57eae352275332c72",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.3.0",
-                "guzzlehttp/psr7": "^1.4.2",
-                "indigophp/hash-compat": "^1.1.0",
-                "paragonie/random_compat": ">=2",
-                "psr/http-message": "^1.0.1",
-                "psr/log": "^1.0.2",
-                "symfony/yaml": "~3.4.5 || ^4.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.3.5",
-                "squizlabs/php_codesniffer": "^3.3.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Lockr\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tynor Fujimoto",
-                    "email": "tynor@lockr.io"
-                }
-            ],
-            "description": "Client for use with Lockr off-site key management service.",
-            "support": {
-                "issues": "https://github.com/lockr/lockr-php/issues",
-                "source": "https://github.com/lockr/lockr-php/tree/v1.0.11"
-            },
-            "time": "2020-06-25T19:21:18+00:00"
-        },
-        {
             "name": "masterminds/html5",
             "version": "2.7.5",
             "source": {
@@ -5052,79 +4619,6 @@
             "time": "2021-07-01T14:25:37+00:00"
         },
         {
-            "name": "neilime/php-css-lint",
-            "version": "v3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/neilime/php-css-lint.git",
-                "reference": "5dc9dd1d3238d29a9ff210cd7d934cfee00e5e96"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/neilime/php-css-lint/zipball/5dc9dd1d3238d29a9ff210cd7d934cfee00e5e96",
-                "reference": "5dc9dd1d3238d29a9ff210cd7d934cfee00e5e96",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.3 || ^8"
-            },
-            "require-dev": {
-                "pcov/clobber": "^2.0",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpunit/phpunit": "^9.2.5",
-                "slam/phpstan-laminas-framework": "^0.12",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "bin": [
-                "scripts/php-css-lint"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "CssLint\\": "src/CssLint"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Neilime",
-                    "homepage": "https://github.com/neilime",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Powerful & memory efficient CSS linter for PHP",
-            "homepage": "https://neilime.github.io/php-css-lint/",
-            "keywords": [
-                "css",
-                "lint",
-                "linter",
-                "syntax",
-                "validation"
-            ],
-            "support": {
-                "issues": "https://github.com/neilime/php-css-lint/issues",
-                "source": "https://github.com/neilime/php-css-lint/tree/v3.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/neilime",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-03-04T16:36:50+00:00"
-        },
-        {
             "name": "nikic/php-parser",
             "version": "v4.13.2",
             "source": {
@@ -5179,56 +4673,6 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.2"
             },
             "time": "2021-11-30T19:35:32+00:00"
-        },
-        {
-            "name": "paragonie/random_compat",
-            "version": "v9.99.100",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
-                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*|5.*",
-                "vimeo/psalm": "^1"
-            },
-            "suggest": {
-                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paragon Initiative Enterprises",
-                    "email": "security@paragonie.com",
-                    "homepage": "https://paragonie.com"
-                }
-            ],
-            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
-            "keywords": [
-                "csprng",
-                "polyfill",
-                "pseudorandom",
-                "random"
-            ],
-            "support": {
-                "email": "info@paragonie.com",
-                "issues": "https://github.com/paragonie/random_compat/issues",
-                "source": "https://github.com/paragonie/random_compat"
-            },
-            "time": "2020-10-15T08:29:30+00:00"
         },
         {
             "name": "pear/archive_tar",
@@ -9218,9 +8662,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/gatsby": 5,
-        "drupal/layout_builder_extra_templates": 5,
-        "drupal/layout_builder_styles": 10,
-        "drupal/layout_library": 10,
         "drupal/twigsuggest": 10
     },
     "prefer-stable": true,

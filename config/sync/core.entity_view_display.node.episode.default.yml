@@ -10,12 +10,7 @@ dependencies:
     - field.field.node.episode.field_subtitle
     - node.type.episode
   module:
-    - layout_builder
     - user
-third_party_settings:
-  layout_builder:
-    enabled: false
-    allow_custom: false
 id: node.episode.default
 targetEntityType: node
 bundle: episode
