@@ -6,6 +6,6 @@ id: hidden_section
 label: 'Hidden Section'
 classes: hidden-section
 type: section
-weight: 0
 block_restrictions: {  }
 layout_restrictions: {  }
+weight: 0

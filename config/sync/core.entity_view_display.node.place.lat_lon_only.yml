@@ -14,20 +14,20 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 id: node.place.lat_lon_only
 targetEntityType: node
 bundle: place
 mode: lat_lon_only
 content:
   field_location:
-    weight: 0
+    type: geofield_latlon
     label: hidden
     settings:
       output_format: decimal
     third_party_settings: {  }
-    type: geofield_latlon
+    weight: 0
     region: content
 hidden:
   body: true

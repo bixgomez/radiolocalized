@@ -17,8 +17,8 @@ plugin: 'block_content:7f92d3fa-76ce-45fc-b514-c64f6676ca29'
 settings:
   id: 'block_content:7f92d3fa-76ce-45fc-b514-c64f6676ca29'
   label: 'Leaflet Map Placeholder'
-  provider: block_content
   label_display: '0'
+  provider: block_content
   status: true
   info: ''
   view_mode: full

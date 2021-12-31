@@ -19,13 +19,13 @@ content:
   body:
     type: text_textarea_with_summary
     weight: 3
+    region: content
     settings:
       rows: 9
       summary_rows: 3
       placeholder: ''
       show_summary: false
     third_party_settings: {  }
-    region: content
   field_geoaddress:
     type: string_textfield
     weight: 2
@@ -35,35 +35,38 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_location:
+    type: geofield_map
     weight: 1
+    region: content
     settings:
-      map_google_places:
-        places_additional_options: ''
-        places_control: false
+      html5_geolocation: true
+      default_value:
+        lat: !!float 0
+        lon: !!float 0
       map_library: gmap
-      map_type_google: roadmap
-      map_type_leaflet: OpenStreetMap_Mapnik
-      map_type_selector: true
+      map_google_api_key: ''
+      map_google_places:
+        places_control: false
+        places_additional_options: ''
       map_dimensions:
         width: 100%
         height: 55vh
+      map_type_google: roadmap
+      map_type_leaflet: OpenStreetMap_Mapnik
+      map_type_selector: true
+      zoom_level: 5
       zoom:
         start: 13
         focus: 12
         min: 3
         max: 19
-      geoaddress_field:
-        field: field_geoaddress
-        disabled: true
-        hidden: false
-      html5_geolocation: true
-      default_value:
-        lat: !!float 0
-        lon: !!float 0
       click_to_find_marker: false
       click_to_place_marker: false
       hide_coordinates: false
-      map_google_api_key: ''
+      geoaddress_field:
+        field: field_geoaddress
+        hidden: false
+        disabled: true
       map_geocoder:
         control: 0
         settings:
@@ -71,10 +74,7 @@ content:
           min_terms: 4
           delay: 800
           options: ''
-      zoom_level: 5
     third_party_settings: {  }
-    type: geofield_map
-    region: content
   path:
     type: path
     weight: 4

@@ -15,92 +15,97 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: true
+    allow_custom: false
     sections:
       -
         layout_id: layout_onecol
         layout_settings:
           label: 'Page Header'
+          context_mapping: {  }
         components:
           5310c720-1334-45cc-b923-47b81a409be3:
             uuid: 5310c720-1334-45cc-b923-47b81a409be3
             region: content
             configuration:
+              id: 'extra_field_block:node:place:links'
               label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-              id: 'extra_field_block:node:place:links'
-            additional: {  }
             weight: 1
+            additional: {  }
           cdca3136-80cf-41d9-a077-146a6ce1d1f4:
             uuid: cdca3136-80cf-41d9-a077-146a6ce1d1f4
             region: content
             configuration:
               id: 'field_block:node:place:title'
               label: Title
-              provider: layout_builder
               label_display: '0'
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
-            additional: {  }
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
             weight: 0
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
         layout_settings:
           label: 'Place page layout'
+          context_mapping: {  }
           column_widths: 33-67
         components:
           43ee6e6c-7de4-450b-a6b3-04816303071e:
             uuid: 43ee6e6c-7de4-450b-a6b3-04816303071e
             region: first
             configuration:
+              id: 'field_block:node:place:body'
               label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-              id: 'field_block:node:place:body'
               formatter:
-                label: above
                 type: text_default
+                label: above
                 settings: {  }
                 third_party_settings: {  }
-            additional: {  }
             weight: 0
+            additional: {  }
           356085dc-c2ff-4a39-9a0b-795e95158b1c:
             uuid: 356085dc-c2ff-4a39-9a0b-795e95158b1c
             region: second
             configuration:
+              id: 'field_block:node:place:field_geoaddress'
               label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-              id: 'field_block:node:place:field_geoaddress'
               formatter:
+                type: string
                 label: above
                 settings:
                   link_to_entity: false
                 third_party_settings: {  }
-                type: string
-            additional: {  }
             weight: 1
+            additional: {  }
           71305577-596a-403a-8c02-8d7b01ce1cc1:
             uuid: 71305577-596a-403a-8c02-8d7b01ce1cc1
             region: second
             configuration:
               id: 'field_block:node:place:field_location'
               label: Location
-              provider: layout_builder
               label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
-                label: above
                 type: geofield_google_map
+                label: above
                 settings:
                   map_dimensions:
                     width: 100%
@@ -175,16 +180,14 @@ third_party_settings:
                   map_lazy_load:
                     lazy_load: 0
                 third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
             weight: 0
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_onecol
         layout_settings:
           label: ''
+          context_mapping: {  }
         components: {  }
         third_party_settings: {  }
 id: node.place.default
@@ -193,22 +196,22 @@ bundle: place
 mode: default
 content:
   body:
-    label: above
     type: text_default
-    weight: 3
+    label: above
     settings: {  }
     third_party_settings: {  }
+    weight: 3
     region: content
   field_geoaddress:
-    weight: 2
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 2
     region: content
   field_location:
-    weight: 1
+    type: geofield_google_map
     label: above
     settings:
       gmap_api_key: ''
@@ -284,11 +287,11 @@ content:
       map_lazy_load:
         lazy_load: 0
     third_party_settings: {  }
-    type: geofield_google_map
+    weight: 1
     region: content
   links:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden: {  }
