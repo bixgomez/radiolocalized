@@ -1,3 +1,0 @@
-region: us
-custom: true
-cert_path: 'private://lockr/dev/pair.pem'
