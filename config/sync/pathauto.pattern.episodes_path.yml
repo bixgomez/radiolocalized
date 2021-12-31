@@ -11,12 +11,12 @@ pattern: 'episodes/episode-[node:field_episode_number]--[node:title]'
 selection_criteria:
   0b5e4a7a-76dc-46e5-874d-99cad31f2f1f:
     id: node_type
-    bundles:
-      episode: episode
     negate: false
+    uuid: 0b5e4a7a-76dc-46e5-874d-99cad31f2f1f
     context_mapping:
       node: node
-    uuid: 0b5e4a7a-76dc-46e5-874d-99cad31f2f1f
+    bundles:
+      episode: episode
 selection_logic: and
 weight: -5
 relationships: {  }
