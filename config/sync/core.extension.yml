@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
@@ -21,22 +23,12 @@ module:
   field_ui: 0
   file: 0
   filter: 0
-  gatsby_extras: 0
   geofield: 0
   geofield_map: 0
   help: 0
   history: 0
   image: 0
-  jsonapi: 0
-  key: 0
-  layout_builder: 0
-  layout_builder_component_attributes: 0
-  layout_builder_extra_templates: 0
-  layout_builder_styles: 0
-  layout_discovery: 0
-  layout_library: 0
   link: 0
-  lockr: 0
   menu_link_content: 0
   menu_ui: 0
   node: 0
@@ -45,10 +37,8 @@ module:
   path: 0
   path_alias: 0
   quickedit: 0
-  radiolocalized_layouts: 0
   rdf: 0
   search: 0
-  serialization: 0
   shortcut: 0
   system: 0
   taxonomy: 0
@@ -62,7 +52,6 @@ module:
   views_ui: 0
   pathauto: 1
   views: 10
-  gatsby: 100
   twigsuggest: 100
   standard: 1000
 theme:
@@ -71,5 +60,3 @@ theme:
   stable: 0
   radiolocalized: 0
 profile: standard
-_core:
-  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
