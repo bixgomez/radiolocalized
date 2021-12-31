@@ -17,8 +17,8 @@ plugin: 'block_content:e7bad868-3121-45da-b971-a916616ad169'
 settings:
   id: 'block_content:e7bad868-3121-45da-b971-a916616ad169'
   label: 'Copyright Information'
-  provider: block_content
   label_display: '0'
+  provider: block_content
   status: true
   info: ''
   view_mode: full

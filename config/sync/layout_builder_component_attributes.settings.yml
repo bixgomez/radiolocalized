@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: FeaKKw0yr9F16G9il1GU3RTg8oPfQ9DN4Ulgi3vmkoA
 allowed_block_attributes:
   id: true
   class: true
@@ -13,5 +15,3 @@ allowed_block_content_attributes:
   class: true
   style: true
   data: true
-_core:
-  default_config_hash: FeaKKw0yr9F16G9il1GU3RTg8oPfQ9DN4Ulgi3vmkoA

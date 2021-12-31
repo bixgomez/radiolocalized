@@ -6,6 +6,6 @@ id: all_inline_blocks_section
 label: 'All inline blocks section'
 classes: all-inline-blocks
 type: section
-weight: 0
 block_restrictions: {  }
 layout_restrictions: {  }
+weight: 0

@@ -10,116 +10,29 @@ dependencies:
     - field.field.node.episode.field_subtitle
     - node.type.episode
   module:
-    - datetime
     - layout_builder
-    - layout_discovery
-    - text
     - user
 third_party_settings:
   layout_builder:
+    enabled: false
     allow_custom: false
-    enabled: true
-    sections:
-      -
-        layout_id: layout_onecol
-        layout_settings:
-          label: 'Body Content'
-          layout_builder_styles_style: ''
-        components:
-          a98e3855-8a72-4442-8e91-6648edfc7d13:
-            uuid: a98e3855-8a72-4442-8e91-6648edfc7d13
-            region: content
-            configuration:
-              id: 'field_block:node:episode:field_song'
-              label: Songs
-              provider: layout_builder
-              label_display: '0'
-              formatter:
-                label: hidden
-                type: entity_reference_entity_view
-                settings:
-                  view_mode: teaser
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 2
-          421a1275-9bbd-4ce6-adad-ef8fd15d21fd:
-            uuid: 421a1275-9bbd-4ce6-adad-ef8fd15d21fd
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'extra_field_block:node:episode:links'
-            additional: {  }
-            weight: 0
-          a284f455-f7d3-42fa-bf49-d943f5ebdc09:
-            uuid: a284f455-f7d3-42fa-bf49-d943f5ebdc09
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:episode:body'
-              formatter:
-                label: hidden
-                type: text_default
-                settings: {  }
-                third_party_settings: {  }
-            additional: {  }
-            weight: 1
-        third_party_settings: {  }
 id: node.episode.default
 targetEntityType: node
 bundle: episode
 mode: default
 content:
-  body:
-    label: hidden
-    type: text_default
-    weight: 3
-    settings: {  }
-    third_party_settings: {  }
-    region: content
-  field_date:
-    weight: 2
-    label: above
-    settings:
-      format_type: medium
-      timezone_override: ''
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_episode_number:
-    weight: 5
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: number_integer
-    region: first
   field_song:
-    weight: 4
-    label: above
+    type: entity_reference_entity_view
+    label: hidden
     settings:
-      link: true
+      view_mode: teaser
+      link: false
     third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_subtitle:
-    weight: 1
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
-  links:
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  body: true
+  field_date: true
+  field_episode_number: true
+  field_subtitle: true
+  links: true
