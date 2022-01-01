@@ -5,9 +5,10 @@
   grid-template-areas:
     "header"
     "nav"
+    "info"
     "content"
     "footer";
-  grid-template-rows: max-content max-content 1fr max-content;
+  grid-template-rows: max-content max-content max-content 1fr max-content;
   grid-template-columns: 1fr;
   grid-gap: .25rem;
   background-color: $c--primary--lightest;
@@ -17,6 +18,7 @@
     grid-template-areas:
       "header header"
       "nav nav"
+      "info info"
       "content map"
       "footer footer";
     grid-template-columns: 1fr 2fr;
@@ -42,7 +44,12 @@
 
   &--info {
     display: none;
+    grid-area: info;
     background-color: mix($c--primary, $c--white, 10%);
+
+    .user-logged-in & {
+      display: block;
+    }
   }
 
   &--content {
