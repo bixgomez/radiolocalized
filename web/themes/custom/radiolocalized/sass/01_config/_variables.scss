@@ -39,7 +39,10 @@ $gutter--xxl: 1.75em;
 // Colors.
 $c--white: #fff;
 $c--black: #000;
+
 $c--primary: desaturate(#4b748b, 12%);
+$c--primary: desaturate(#4b648b, 15%);
+
 $c--secondary: #303155;
 
 $c--gray: mix($c--white, $c--black, 50%);
@@ -82,8 +85,10 @@ $c--scrollbar-thumb-shadow--hover: lighten($c--scrollbar-base, 10%);
 
 
 // Font sizing.
-$html-font-size: 16px;
-$font-size--md: 1em;
+$html-font-size: 14px;
+$html-font-size--lg: 16px;
+$html-font-size--xl: 18px;
+$font-size--md: 1rem;
 
 $font-size--xxs: $font-size--md * .75;
 $font-size--xs:  $font-size--md * .85;
