@@ -40,22 +40,33 @@
   &--navigation {
     grid-area: nav;
     background-color: mix($c--primary, $c--white, 25%);
+
+    :not(.user-logged-in) & {
+      margin-bottom: -4px;
+    }
   }
 
   &--info {
-    display: none;
     grid-area: info;
     background-color: mix($c--primary, $c--white, 10%);
 
-    .user-logged-in & {
-      display: block;
+    :not(.user-logged-in) & {
+      opacity: 0;
+      height: 0;
+      border: 0;
+      margin: 0;
+      padding: 0;
+
+      * {
+        display: none;
+      }
     }
   }
 
   &--content {
     grid-area: content;
     flex: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   &--footer {
