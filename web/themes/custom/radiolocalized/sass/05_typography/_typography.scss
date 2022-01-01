@@ -1,5 +1,13 @@
 html {
   font-size: $html-font-size;
+
+  @include breakpoint($lg) {
+    font-size: $html-font-size--lg;
+  }
+
+  @include breakpoint($xl) {
+    font-size: $html-font-size--xl;
+  }
 }
 
 body {
