@@ -1,6 +1,0 @@
-# CSS libraries for Layout plugins.
-song_teaser:
-  version: VERSION
-  css:
-    theme:
-      templates/layouts/song_teaser/song-teaser.css: {}

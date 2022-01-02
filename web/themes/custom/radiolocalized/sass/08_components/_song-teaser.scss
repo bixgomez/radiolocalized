@@ -5,15 +5,15 @@
   background-color: rgba($c--white, .75);
   line-height: $line-height--small;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .button--info {
     display: block;
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    position: absolute;
-    right: 11px;
-    top: 11px;
+    width: 2em;
+    height: 2em;
+    border-radius: 1em;
     border: 1px solid red;
     padding: 0;
     opacity: .25;
@@ -28,14 +28,20 @@
     }
   }
 
-  .song-title {
+  &__text {
+    font-size: $font-size--sm;
+    flex: 1;
+  }
+
+  &__title {
     font-size: $font-size--md;
     margin-bottom: $gutter--xxs;
   }
 
-  .section--details {
-    font-size: .9em;
+  &__button {
+    font-size: $font-size--md;
   }
+
 }
 
 div.all-inline-blocks:not(.layout-builder__layout) {
