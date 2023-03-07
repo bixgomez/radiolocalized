@@ -2,6 +2,50 @@
  * Scripts for Radio Localized
  **/
 
+Drupal.behaviors.songModal = {
+  attach: function (context, settings) {
+    
+    const filmLinks = document.querySelectorAll('a.film-title')
+    const modalOuter = document.querySelector('.modal-outer')
+    const modalInner = document.querySelector('.modal-inner')
+
+    filmLinks.forEach(a => a.addEventListener('click', handleFilmLinkClick))
+
+    function handleFilmLinkClick(event) {
+      const link = event.currentTarget
+      const filmId = link.dataset.filmid
+      const filmLink = link.dataset.filmlink
+
+      modalOuter.classList.add('open')
+
+      console.log(link)
+      console.log(filmId)
+      console.log(filmLink)
+    }
+
+    function closeModal() {
+      modalOuter.classList.remove('open')
+    }
+
+    modalOuter.addEventListener('click', function(e) {
+      const isOutside = !e.target.closest('.modal-inner')
+      if (isOutside) {
+        closeModal()
+      }
+    })
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeModal()
+      }
+    })
+
+    once('songModal', 'html').forEach(function (element) {
+      myFunction(element);
+    })
+  }
+}
+
 (function ($, Drupal) {
 
   // Leaflet as per : https://leafletjs.com/examples/quick-start/
