@@ -1,11 +1,11 @@
 'use strict';
 
-var gulp        = require('gulp'),
-    sass        = require('gulp-sass'),
-    sourcemaps  = require('gulp-sourcemaps'),
-    prefix      = require('gulp-autoprefixer'),
-    livereload  = require('gulp-livereload'),
-    sassGlob    = require('gulp-sass-glob');
+const gulp        = require('gulp')
+const sourcemaps  = require('gulp-sourcemaps')
+const prefix      = require('gulp-autoprefixer')
+const livereload  = require('gulp-livereload')
+const sassGlob    = require('gulp-sass-glob')
+const sass        = require('gulp-sass')(require('sass'))  
 
 // Directory for storing sass and css files
 var sassFiles          = './sass/**/*.scss';
@@ -36,10 +36,10 @@ gulp.task('sass', function () {
     }).on('error', sass.logError))
 
     // Run autoprefixer. Supports ie9 and above
-    .pipe(prefix({
-      browsers: ['last 2 versions'],
-      cascade: false
-    }))
+    // .pipe(prefix({
+    //   browsers: ['last 2 versions'],
+    //   cascade: false
+    // }))
 
     // Write sourcemaps.
     .pipe(sourcemaps.write())
