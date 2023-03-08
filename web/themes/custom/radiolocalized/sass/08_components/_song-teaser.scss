@@ -77,6 +77,7 @@ div.all-inline-blocks:not(.layout-builder__layout) {
   align-items: center;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.25s linear;
 
   &.open {
     opacity: 1;
@@ -91,4 +92,10 @@ div.all-inline-blocks:not(.layout-builder__layout) {
   z-index: 2000;
   border: 1px solid rgba($c--white, 0.5);
   border-radius: 0.5em;
+  // opacity: 0;
+  // transition: opacity 0.25s linear;
+
+  .modal-outer.open & {
+    // opacity: 1;
+  }
 }
