@@ -2,201 +2,154 @@
  * Scripts for Radio Localized
  **/
 
-Drupal.behaviors.songModal = {
-  attach: function (context, settings) {
-    
-    const filmLinks = document.querySelectorAll('a.film-title')
-    const modalOuter = document.querySelector('.modal-outer')
-    const modalInner = document.querySelector('.modal-inner')
-
-    filmLinks.forEach(a => a.addEventListener('click', handleFilmLinkClick))
-
-    function handleFilmLinkClick(event) {
-      const link = event.currentTarget
-      const filmId = link.dataset.filmid
-      const filmLink = link.dataset.filmlink
-
-      modalOuter.classList.add('open')
-
-      console.log(link)
-      console.log(filmId)
-      console.log(filmLink)
-    }
-
-    function closeModal() {
-      modalOuter.classList.remove('open')
-    }
-
-    modalOuter.addEventListener('click', function(e) {
-      const isOutside = !e.target.closest('.modal-inner')
-      if (isOutside) {
-        closeModal()
-      }
-    })
-
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        closeModal()
-      }
-    })
-
-    once('songModal', 'html').forEach(function (element) {
-      myFunction(element);
-    })
-  }
-}
-
-(function ($, Drupal) {
-
-  // Leaflet as per : https://leafletjs.com/examples/quick-start/
-  // Scoping jq vars : https://stackoverflow.com/questions/4153855/variable-scope-outside-jquery-function
-  Drupal.behaviors.simpleLeafletSetup = {
-    attach: function attach(context, settings) {
-
-      $('body', context).once('myLeafletSetup').each(function () {
-
-        // If we want to dynamically place the map div.  Right now we don't.
-        // const placeMapHere = $('article.node--type-episode div.layout__region--second');
-        // const removeThis = $(placeMapHere).find('div.block');
-        // $( removeThis ).remove();
-        // $( placeMapHere ).append( '<div id="mapid"></div>' );
-
-        $leafletMap = L.map('leaflet-map');
-        // $leafletMap = L.map('leaflet-map').setView([53.47938, -2.247311], 9);
-
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag', {
-          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
-          id: 'mapbox/streets-v11',
-          tileSize: 512,
-          zoomOffset: -1,
-          accessToken: 'pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag'
-        }).addTo($leafletMap);
-
-        // var marker = L.marker([51.5, -0.09]).addTo($mymap);
-      });
-
-    }
-  };
-
+(function (Drupal, once) {
+  
   Drupal.behaviors.getCoordsFromLinks = {
-    attach: function attach(context, settings) {
-      var $song_teasers = $(context).find('.song-teaser');
-      if ($song_teasers.length) {
+    attach(context) {
 
-        // Declare array of all lats & lons.
-        var allLats = new Array();
-        var allLons = new Array();
+      // Initiate map with arbitrary default coordinates.
+      const map = L.map('map').setView([50, -75], 1)
+
+      // Display default map.
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        accessToken: 'pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag'
+      }).addTo(map)
+
+      // Grab all song teasers that appear on the page.
+      const songTeasers = document.querySelectorAll('.song-teaser')
+
+      // If there are any, do the things.
+      if (songTeasers.length) {
+
+        // Initiate arrays of all latitudes & all longitudes.
+        const allLats = new Array()
+        const allLons = new Array()
 
         // Loop through all song teasers found on the page.
-        $.each($song_teasers, function(index, value) {
+        songTeasers.forEach(function (songTeaser, index) {
 
-          // Get the lat & lon for this song, and push to the array.
-          var thisItem = $(this);
-          var thisLat = $(this).find('li.lat');
-          var thisLon = $(this).find('li.lon');
-          var thisLatVal = $(thisLat).text();
-          var thisLonVal = $(thisLon).text();
-          allLats.push(thisLatVal);
-          allLons.push(thisLonVal);
+          // Get the latitude & longitude for this song.
+          let thisLat = songTeaser.querySelector('li.lat').innerText
+          let thisLon = songTeaser.querySelector('li.lon').innerText
 
-          // Add a marker at each location.
-          addMarker(thisLatVal,thisLonVal);
+          // Add each lat/lon pair to the appropriate array.
+          allLats.push(thisLat)
+          allLons.push(thisLon)
+
+          // Add a marker for this song location to the map
+          L.marker([thisLat,thisLon]).addTo(map)
 
           // Fly to that point when rolling onto the song title.
-          $(thisItem).mouseenter(function() {
-            thisItem.addClass("hovering");
-            centerMap(thisLatVal,thisLonVal,'flyTo', 13);
-          });
+          songTeaser.addEventListener("mouseenter", function(e) {
+            songTeaser.classList.add("hovering")
+            map.flyTo([thisLat, thisLon], 16, {
+              animate: true,
+              duration: 1.75
+            })
+          })
 
           // Zoom out a little when rolling off of the song title.
-          $(thisItem).mouseleave(function() {
-            thisItem.removeClass("hovering");
-            centerMap(thisLatVal,thisLonVal,'flyTo', 11);
-          });
-        });
+          songTeaser.addEventListener("mouseleave", function(e) {
+            songTeaser.classList.remove("hovering")
+            map.flyTo([thisLat, thisLon], 11, {
+              animate: true,
+              duration: 1.5
+            })
+            // resetMap()
+          })
 
-        // console.log(allLats);
-        // console.log(allLons);
+        })
+        
+        // Find minimum and maximum lats and lons.
+        let maxLat = Math.max.apply(Math,allLats)
+        let minLat = Math.min.apply(Math,allLats)
+        let maxLon = Math.max.apply(Math,allLons)
+        let minLon = Math.min.apply(Math,allLons)
 
-        var maxLat = Math.max.apply(Math,allLats);
-        var minLat = Math.min.apply(Math,allLats);
-        var maxLon = Math.max.apply(Math,allLons);
-        var minLon = Math.min.apply(Math,allLons);
+        // Calculate average of all lats & lons.
+        let avgLat = (maxLat + minLat)/2;
+        let avgLon = (maxLon + minLon)/2;
 
-        var avgLat = (maxLat + minLat)/2;
-        var avgLon = (maxLon + minLon)/2;
-
-        // Center the map to average lat/lon, at a zoom of 8.
-        centerMap(avgLat,avgLon,'setView', 8);
+        // Center the map at the average of all lats & lons, at a zoom level of 8.
+        // map.setView(new L.LatLng(avgLat, avgLon), 8);
 
         // Center the map at a zoom level that accommodates all of the points.
-        mapFitBounds(minLat,minLon,maxLat,maxLon);
+        var bounds = new L.LatLngBounds([[maxLat,maxLon], [minLat,minLon]])
+        map.fitBounds(bounds)
+
+        // After 8 seconds, zoom out a bit, centering on the average lat & lon.
+        // TODO: Make sure this does NOT happen if we have entered another song tile!
+        /*
+        const resetMap = async () => {
+          await sleep(8000)
+          map.flyTo([avgLat, avgLon], 9, {
+            animate: true,
+            duration: 1.5
+          })
+        } 
+        */
+        
+        /*
+        const sleep = async (milliseconds) => {
+          await new Promise(resolve => {
+            return setTimeout(resolve, milliseconds)
+          })
+        }
+        */
 
       }
     }
   };
 
-  function mapFitBounds(minLat,minLon,maxLat,maxLon) {
-    console.log('Fitting map within bounds.');
+  Drupal.behaviors.songModal = {
+    attach(context) {
 
-    $leafletMap.fitBounds([
-      [minLat, minLon],
-      [maxLat, maxLon]
-    ]);
+      const foo1 = 'bar1'
+      const foo2 = 'bar2'
+      console.log('here we are')
+      const songLinks = document.querySelectorAll('button.button--info')
+      const modalOuter = document.querySelector('.modal-outer')
+      const modalInner = document.querySelector('.modal-inner')
+      // console.log(songLinks)
+      // console.log(modalOuter)
+      // console.log(modalInner)
 
-    $currZoom = $leafletMap.getZoom();
-    console.log('$currZoom = ' + $currZoom);
+      // songLinks.forEach(a => a.addEventListener('click', handleSongLinkClick))
 
-    if ( $currZoom > 11 ) {
-      $leafletMap.setZoom(11);
+      songLinks.forEach(function (songLink, index) {
+        songLink.addEventListener('click', handleSongLinkClick)
+      })
+
+      function handleSongLinkClick(event) {
+        const link = event.currentTarget
+        // console.log(link)
+        modalOuter.classList.add('open')
+        modalInner.innerHTML = `
+        <h1>New Heading ${foo1}</h1>
+        <h2>New Heading ${foo2}</h2>
+        `
+      }
+
+      function closeModal() {
+        modalOuter.classList.remove('open')
+      }
+
+      modalOuter.addEventListener('click', function(e) {
+        const isOutside = !e.target.closest('.modal-inner')
+        if (isOutside) {
+          closeModal()
+        }
+      })
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeModal()
+        }
+      })
+
     }
   }
 
-  function centerMap(lat,lon,method,zoom) {
-    console.log('centering map at ' + lat + ', ' + lon);
-    console.log('method = ' + method);
-
-    if ($.isNumeric(zoom) === false ) {
-      let zoom = 10;
-    }
-
-    console.log('zoom = ' + zoom);
-
-    if (method === 'flyTo') {
-      console.log('flying to it');
-      $leafletMap.flyTo(new L.LatLng(lat,lon), zoom);
-    }
-    else if (method === 'panTo') {
-      console.log('panning to it');
-      $leafletMap.panTo(new L.LatLng(lat,lon), zoom);
-    }
-    else {
-      console.log('just setting it');
-      $leafletMap.setView(new L.LatLng(lat,lon), zoom);
-    }
-  }
-
-  function addMarker(lat,lon) {
-    console.log('adding marker at ' + lat + ', ' + lon);
-    var targetLatLng = L.latLng(lat, lon);
-
-    // https://stackoverflow.com/questions/58681396/check-if-a-location-on-a-leaflet-map-is-a-marker-or-not
-    // $leafletMap.eachLayer(function(layer) {
-    //   console.log(layer);
-    //   if (layer instanceof L.Marker) {
-    //     if (layer.getLatLng() === targetLatLng) {
-    //       console.log('already a marker here!');
-    //     }
-    //   }
-    // });
-
-    var marker = L.marker([lat, lon], {opacity: .5}).addTo($leafletMap);
-  }
-
-  function displayInfo(info) {
-    var $info_dest = $('#js-info');
-    $info_dest.text(info);
-  }
-
-})(jQuery, Drupal);
+}(Drupal, once))
