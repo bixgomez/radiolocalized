@@ -92,10 +92,28 @@ div.all-inline-blocks:not(.layout-builder__layout) {
   z-index: 2000;
   border: 1px solid rgba($c--white, 0.5);
   border-radius: 0.5em;
-  // opacity: 0;
-  // transition: opacity 0.25s linear;
+  padding: 1.25em;
+}
 
-  .modal-outer.open & {
-    // opacity: 1;
+.song-info {
+  &__title {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $c--primary--light;
+  }
+
+  &__stats {
+    text-transform: none;
+  }
+
+  &__location {
+    text-transform: none;
+    margin-top: 0.5rem;
+  }
+
+  &__description {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid $c--primary--light;
   }
 }
