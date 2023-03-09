@@ -7,15 +7,19 @@
   Drupal.behaviors.getCoordsFromLinks = {
     attach(context) {
 
-      // Initiate map with arbitrary default coordinates.
-      const map = L.map('map').setView([50, -75], 1)
-
       // Display default map.
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag', {
+      const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         accessToken: 'pk.eyJ1IjoiYml4Z29tZXoiLCJhIjoiY2trbWFqM2NyMGcxNDJvcnJsczJuZGtwOSJ9.BMugFXrzYKMYDJYcMfCwag'
-      }).addTo(map)
+      })
+
+      // Initiate map with arbitrary default coordinates.
+      const map = L.map('map', {
+        center: [40, -100],
+        zoom: 10,
+        layers: [osm]
+      });
 
       // Grab all song teasers that appear on the page.
       const songTeasers = document.querySelectorAll('.song-teaser')
@@ -124,7 +128,9 @@
 
       function handleSongLinkClick(event) {
         const link = event.currentTarget
-        // console.log(link)
+        console.log('----------------------------------------------')
+        console.log(link)
+        console.log('----------------------------------------------')
         modalOuter.classList.add('open')
         modalInner.innerHTML = `
         <h1>New Heading ${foo1}</h1>
@@ -132,10 +138,7 @@
         `
       }
 
-      function closeModal() {
-        modalOuter.classList.remove('open')
-      }
-
+      // If click outside the inner modal, the modal closes.
       modalOuter.addEventListener('click', function(e) {
         const isOutside = !e.target.closest('.modal-inner')
         if (isOutside) {
@@ -143,11 +146,17 @@
         }
       })
 
+      // If we hit the escape key, the modal closes.
       window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           closeModal()
         }
       })
+
+      // Function that closes the modal.
+      function closeModal() {
+        modalOuter.classList.remove('open')
+      }
 
     }
   }
