@@ -1,3 +1,4 @@
 {% for item in items %}
+  <span class="data--location">{{ item.content['#node'].title[0].value }}</span>
   <ul class="coords">{{ item.content }}</ul>
 {% endfor %}
