@@ -1,9 +1,9 @@
 <div class="song-teaser">
   <div class="song-teaser__text">
-    <span class="data--song-title">{{ label }}</span>
-    <span class="data--song-year">{{ content.field_year }}</span>
+    {{ label }}
+    {{ content.field_year }}
     <span class="data--song-artist">{{ content.field_artist }}</span>
-    <span class="data--song-album">{{ content.field_album }}</span>
+    {{ content.field_album }}
     <div class="song-teaser__coords hidden">
       {{ content.field_place }}
     </div>

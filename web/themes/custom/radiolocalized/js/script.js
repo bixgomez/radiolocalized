@@ -127,14 +127,35 @@
       })
 
       function handleSongLinkClick(event) {
-        const link = event.currentTarget
-        console.log('----------------------------------------------')
-        console.log(link)
-        console.log('----------------------------------------------')
+        const thisSong = event.currentTarget.closest('.song-teaser')
+        const thisSongTitle = thisSong.querySelector('.data--song-title')?.textContent
+        const thisSongYear = thisSong.querySelector('.data--song-year')?.textContent
+        const thisSongAlbum = thisSong.querySelector('.data--song-album')?.textContent
+        const thisSongArtist = thisSong.querySelector('.data--artist')?.textContent
+        const thisSongDescription = thisSong.querySelector('.data--song-description')?.textContent
+        const thisSongLocation = thisSong.querySelector('.data--song-location')?.textContent
+
+        const thisSongTitleDisplay = (typeof thisSongTitle !== "undefined") ? thisSongTitle : '';
+        const thisSongYearDisplay = (typeof thisSongYear !== "undefined") ? thisSongYear : '';
+        const thisSongAlbumDisplay = (typeof thisSongAlbum !== "undefined") ? thisSongAlbum : '';
+        const thisSongArtistDisplay = (typeof thisSongArtist !== "undefined") ? thisSongArtist : '';
+        const thisSongLocationDisplay = (typeof thisSongLocation !== "undefined") ? thisSongLocation : '';
+        const thisSongDescriptionDisplay = (typeof thisSongDescription !== "undefined") ? thisSongDescription : '';
+
+        // console.log(thisSongTitle)
+        // console.log(thisSongYear)
+        // console.log(thisSongArtist)
+        // console.log(thisSongAlbum)
+        // console.log(thisSongLocation)
+        // console.log(thisSongDescription)
         modalOuter.classList.add('open')
         modalInner.innerHTML = `
-        <h1>New Heading ${foo1}</h1>
-        <h2>New Heading ${foo2}</h2>
+        <div class="song-info">
+          <h1 class="song-info__title">${thisSongTitleDisplay}</h1>
+          <h2 class="song-info__stats">${thisSongYearDisplay} ${thisSongArtistDisplay} ${thisSongAlbumDisplay}</h2>
+          <h3 class="song-info__location">${thisSongLocationDisplay}</h3>
+          <p class="song-info__description">${thisSongDescriptionDisplay}</p>
+        </div>
         `
       }
 
