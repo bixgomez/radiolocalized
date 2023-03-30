@@ -2,7 +2,7 @@
  * Scripts for Radio Localized
  **/
 
-(function (Drupal, once) {
+(function (Drupal) {
   
   Drupal.behaviors.getCoordsFromLinks = {
     attach(context) {
@@ -182,4 +182,4 @@
     }
   }
 
-}(Drupal, once))
+}(Drupal))
