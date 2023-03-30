@@ -1,10 +1,10 @@
 name: Radio Localized
 type: theme
-description: 'A custom Drupal 9 theme.'
+description: "A custom Drupal 9/10 theme."
 package: Custom
 base theme: false
 core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 
 libraries:
   - radiolocalized/global-styling
@@ -16,9 +16,9 @@ stylesheets-remove:
 #  core/misc/dialog/off-canvas.reset.css: css/off-canvas.reset.css
 
 regions:
-  header: 'Header'
-  navigation: 'Navigation'
-  info: 'Info'
-  content: 'Content'
-  map: 'Map'
-  footer: 'Footer'
+  header: "Header"
+  navigation: "Navigation"
+  info: "Info"
+  content: "Content"
+  map: "Map"
+  footer: "Footer"
