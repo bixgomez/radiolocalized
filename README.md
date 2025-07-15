@@ -1,28 +1,74 @@
-# Radio Localized Drupal 9 Site
-This is a work-in-progress D9 site I am developing to support my radio show, Radio Localized, broadcast weekly on KBFG-FM in Seattle.  The radio show itself features a different location each episode.  The purpose of this site is to function as an extension of the show, displaying the places represented by each episode on an interactive map.
-
+# Radio Localized Drupal 10 Site
+This is a work-in-progress D10 site I am developing to support my radio show, Radio Localized, broadcast weekly on KBFG-FM in Seattle.  The radio show itself features a different location each episode.  The purpose of this site is to function as an extension of the show, displaying the places represented by each episode on an interactive map.
 
 ## Repository and Demo
 This repo resides at https://github.com/bixgomez/radiolocalized
 
-You can see it in action at http://radiolocalized.fezziwigmedia.com
+You can see it in action at https://radiolocalized.com
+
+## Local Development with DDEV
+
+### Prerequisites
+- [DDEV installed](https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/) on your machine
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) running
+
+### Getting Started
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/bixgomez/radiolocalized.git
+   cd radiolocalized
+   ```
+
+2. **Configure DDEV**
+   ```bash
+   ddev config
+   ```
+   When prompted:
+   - Project name: `radiolocalized` (or your preference)
+   - Docroot: `web`
+   - Project type: `drupal10`
+
+3. **Start DDEV**
+   ```bash
+   ddev start
+   ```
+
+4. **Install dependencies**
+   ```bash
+   ddev composer install
+   ```
+
+5. **Import your database** (if you have a backup)
+   ```bash
+   ddev import-db --src=your-database-backup.sql
+   ```
+
+6. **Access your site**
+   - Your site will be available at the URL shown after `ddev start`
+   - Usually something like `https://radiolocalized.ddev.site`
+
+### Useful DDEV Commands
+- `ddev start` - Start the project
+- `ddev stop` - Stop the project
+- `ddev restart` - Restart the project
+- `ddev ssh` - SSH into the web container
+- `ddev drush` - Run Drush commands
+- `ddev logs` - View container logs
 
 ## Notes
 As you will see, the site itself is currently under construction.  There is no landing page as of yet, and I have
 yet to upload data for all episodes.  However, it should give you a good idea of the sort of functionality I am
 trying to achieve.
 
-
 * **Built on Drupal, hosted on Linode**
-  * This site was built on the latest release of Drupal 9
+  * This site was built on the latest release of Drupal 10
   * Core, modules and dependencies were all installed using Composer
-  * I am currently hosting this site on a Linode VPS I built from scratch, running Ubuntu 16.04 LTS
-
+  * Production site is currently hosted on a Linode VPS running Ubuntu 16.04 LTS
 
 * **Front End Notes**
   * This site features an entirely custom built theme, a modified
     version of the theme I built for my (Drupal 8) portfolio
-    web site at http://richardgilbert.co
+    web site at http://richardgilbert.co (currently inaccessible)
   * My preferred workflow is Gulp with LiveReload.  I also enjoy
     BrowserSync, but as I began this theme ages ago, I have decided to maintain
     its original workflow.
@@ -30,7 +76,6 @@ trying to achieve.
   * The Sass structure is what I would call "semi-atomic": I don't stick to the
     strict method proposed by Brad Frost, but I do take some cues from its top-down
     modular structure.
-
 
 * **The Maps!**
   * As an urban planning student and general enthusiast, I love maps.  My graduate
@@ -41,13 +86,13 @@ trying to achieve.
   * You will find all of the JavaScript I wrote to support this functionality is in the theme.
 
 ## To-Dos
-As this is a personal project, I am writing specs "on the go", experimenting with ideas and reëvaluating decisions on the fly.  Working like this, issues arise constantly.  So...
+As this is a personal project, I am writing specs "on the go", experimenting with ideas and reëvaluating decisions on the fly.  Working like this, issues arise constantly.  So...
 
 * Further work on landing page, obviously.
 * Design and develop individual song page template
 * Main menu is unsustainable - this basic menu will only accommodate about 10 episodes before it becomes unmanageable
 * Embed a Mixcloud player for each episode (and a link to the Mixcloud account as a whole)
-* Clean up the site header
+* Clean up the site header
   * add blocks for info that will appear on the home page only
   * account for lack of episode information on non-episode pages.
 * Resolve mobile issues
