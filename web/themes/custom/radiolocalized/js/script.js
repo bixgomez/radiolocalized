@@ -109,18 +109,9 @@
 
   Drupal.behaviors.songModal = {
     attach(context) {
-
-      const foo1 = 'bar1'
-      const foo2 = 'bar2'
-      console.log('here we are')
       const songLinks = document.querySelectorAll('button.button--info')
       const modalOuter = document.querySelector('.modal-outer')
       const modalInner = document.querySelector('.modal-inner')
-      // console.log(songLinks)
-      // console.log(modalOuter)
-      // console.log(modalInner)
-
-      // songLinks.forEach(a => a.addEventListener('click', handleSongLinkClick))
 
       songLinks.forEach(function (songLink, index) {
         songLink.addEventListener('click', handleSongLinkClick)
@@ -134,7 +125,6 @@
         const thisSongArtist = thisSong.querySelector('.data--artist')?.textContent
         const thisSongDescription = thisSong.querySelector('.data--song-description')?.textContent
         const thisSongLocation = thisSong.querySelector('.data--song-location')?.textContent
-
         const thisSongTitleDisplay = (typeof thisSongTitle !== "undefined") ? thisSongTitle : '';
         const thisSongYearDisplay = (typeof thisSongYear !== "undefined") ? thisSongYear : '';
         const thisSongAlbumDisplay = (typeof thisSongAlbum !== "undefined") ? thisSongAlbum : '';
@@ -142,12 +132,6 @@
         const thisSongLocationDisplay = (typeof thisSongLocation !== "undefined") ? thisSongLocation : '';
         const thisSongDescriptionDisplay = (typeof thisSongDescription !== "undefined") ? thisSongDescription : '';
 
-        // console.log(thisSongTitle)
-        // console.log(thisSongYear)
-        // console.log(thisSongArtist)
-        // console.log(thisSongAlbum)
-        // console.log(thisSongLocation)
-        // console.log(thisSongDescription)
         modalOuter.classList.add('open')
         modalInner.innerHTML = `
         <div class="song-info">
