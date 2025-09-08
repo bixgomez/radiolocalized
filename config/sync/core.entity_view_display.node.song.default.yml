@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.song.body
     - field.field.node.song.field_album
     - field.field.node.song.field_artist
+    - field.field.node.song.field_episode
     - field.field.node.song.field_label
     - field.field.node.song.field_place
     - field.field.node.song.field_year
@@ -23,17 +24,9 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
-  field_album:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 5
-    region: content
-  field_artist:
+  field_episode:
     type: entity_reference_label
     label: above
     settings:
@@ -41,15 +34,15 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-  field_label:
+  field_album:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 7
+    weight: 6
     region: content
-  field_place:
+  field_artist:
     type: entity_reference_label
     label: above
     settings:
@@ -57,13 +50,29 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  field_label:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_place:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_year:
     type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
   links:
     settings: {  }
