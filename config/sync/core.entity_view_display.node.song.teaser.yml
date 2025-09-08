@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.song.body
     - field.field.node.song.field_album
     - field.field.node.song.field_artist
+    - field.field.node.song.field_label
     - field.field.node.song.field_place
     - field.field.node.song.field_year
     - node.type.song
@@ -41,6 +42,14 @@ content:
       link: false
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
     region: content
   field_place:
     type: entity_reference_entity_view
