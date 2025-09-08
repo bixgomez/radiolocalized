@@ -17,13 +17,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: 'views'
   handler_settings:
-    target_bundles:
-      episode: episode
-    sort:
-      field: _none
-      direction: ASC
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: episode_entity_reference
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference
