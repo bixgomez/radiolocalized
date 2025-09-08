@@ -6,5 +6,6 @@ dependencies:
     - node
 id: node.lat_lon_only
 label: 'Lat/Lon Only'
+description: ''
 targetEntityType: node
 cache: true
