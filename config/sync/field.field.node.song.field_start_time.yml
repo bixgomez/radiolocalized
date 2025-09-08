@@ -1,0 +1,19 @@
+uuid: 85c18819-cd0f-473c-9fbf-1e658737ef6c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_start_time
+    - node.type.song
+id: node.song.field_start_time
+field_name: field_start_time
+entity_type: node
+bundle: song
+label: 'Start Time'
+description: 'Time from episode start in MM:SS format (e.g., 02:30 for 2 minutes 30 seconds)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

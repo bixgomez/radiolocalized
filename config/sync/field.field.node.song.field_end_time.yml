@@ -1,0 +1,19 @@
+uuid: e48ab284-0095-4a20-9354-39ad291e9064
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_end_time
+    - node.type.song
+id: node.song.field_end_time
+field_name: field_end_time
+entity_type: node
+bundle: song
+label: 'End Time'
+description: 'Time from episode start in MM:SS format (e.g., 05:15 for 5 minutes 15 seconds)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

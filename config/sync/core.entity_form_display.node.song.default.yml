@@ -6,9 +6,12 @@ dependencies:
     - field.field.node.song.body
     - field.field.node.song.field_album
     - field.field.node.song.field_artist
+    - field.field.node.song.field_duration
+    - field.field.node.song.field_end_time
     - field.field.node.song.field_episode
     - field.field.node.song.field_label
     - field.field.node.song.field_place
+    - field.field.node.song.field_start_time
     - field.field.node.song.field_year
     - node.type.song
   module:
@@ -77,6 +80,30 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_duration:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 20
+      placeholder: '02:45'
+    third_party_settings: {  }
+  field_end_time:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 20
+      placeholder: '05:15'
+    third_party_settings: {  }
+  field_start_time:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 20
+      placeholder: '02:30'
     third_party_settings: {  }
   title:
     type: string_textfield
