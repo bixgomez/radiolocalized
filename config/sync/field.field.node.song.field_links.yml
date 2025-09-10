@@ -11,7 +11,7 @@ id: node.song.field_links
 field_name: field_links
 entity_type: node
 bundle: song
-label: 'Links'
+label: Links
 description: 'Add related links (Spotify, YouTube, etc.)'
 required: false
 translatable: false

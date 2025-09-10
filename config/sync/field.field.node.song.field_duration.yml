@@ -9,7 +9,7 @@ id: node.song.field_duration
 field_name: field_duration
 entity_type: node
 bundle: song
-label: 'Duration'
+label: Duration
 description: 'Duration in MM:SS format (calculated from end_time - start_time, e.g., 02:45)'
 required: false
 translatable: false

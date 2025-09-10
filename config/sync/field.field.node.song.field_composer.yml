@@ -1,16 +1,16 @@
-uuid: 80f453fc-2a47-4ac2-a544-111bb4f09f1b
+uuid: 7b1d3f5a-4c6e-8a2d-3f1e-7c9f5b3d6a8c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_year
+    - field.storage.node.field_composer
     - node.type.song
-id: node.song.field_year
-field_name: field_year
+id: node.song.field_composer
+field_name: field_composer
 entity_type: node
 bundle: song
-label: Year
-description: ''
+label: Composer
+description: 'The composer of the song'
 required: false
 translatable: false
 default_value: {  }

@@ -1,15 +1,15 @@
-uuid: c4f50347-8d8d-4b4d-8e8f-40e925fbc799
+uuid: 8c2e4f6a-3d5b-7a9c-2e1f-6b8d4a0c3e5f
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_duration
-field_name: field_duration
+id: node.field_composer
+field_name: field_composer
 entity_type: node
 type: string
 settings:
-  max_length: 10
+  max_length: 255
   case_sensitive: false
   is_ascii: false
 module: core

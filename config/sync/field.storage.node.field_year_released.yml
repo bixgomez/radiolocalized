@@ -1,15 +1,15 @@
-uuid: cdf46ac8-c335-42d2-b159-a04d83370da5
+uuid: 2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_year
-field_name: field_year
+id: node.field_year_released
+field_name: field_year_released
 entity_type: node
 type: string
 settings:
-  max_length: 4
+  max_length: 255
   case_sensitive: false
   is_ascii: false
 module: core

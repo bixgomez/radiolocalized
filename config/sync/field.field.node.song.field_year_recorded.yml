@@ -1,0 +1,19 @@
+uuid: 4e5f6a7b-8c9d-0e1f-2a3b-4e5f6a7b8c9d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_year_recorded
+    - node.type.song
+id: node.song.field_year_recorded
+field_name: field_year_recorded
+entity_type: node
+bundle: song
+label: 'Year Recorded'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
