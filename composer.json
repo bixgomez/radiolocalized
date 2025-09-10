@@ -35,6 +35,7 @@
         "drupal/token": "^1.16",
         "drupal/twigsuggest": "1.0.0-rc2",
         "drush/drush": "^12.5",
+        "google/apiclient": "^2.12",
         "mglaman/composer-drupal-lenient": "^1.0"
     },
     "conflict": {
