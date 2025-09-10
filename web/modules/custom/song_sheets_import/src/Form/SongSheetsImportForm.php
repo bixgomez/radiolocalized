@@ -127,6 +127,7 @@ class SongSheetsImportForm extends FormBase {
     
     $markup = '<h4>' . htmlspecialchars($title) . '</h4>';
     
+    
     // Find the "Song" column index
     $songIndex = array_search('Song', $data['headers']);
     if ($songIndex === false) {
@@ -134,14 +135,17 @@ class SongSheetsImportForm extends FormBase {
     }
     
     $markup .= '<ul>';
+    $rowCount = 0;
     foreach ($data['rows'] as $row) {
       $songTitle = !empty($row[$songIndex]) ? $row[$songIndex] : '[No Title]';
       $markup .= '<li><strong>' . htmlspecialchars($songTitle) . '</strong>';
       
-      // Add other fields as sub-bullets
+      $rowCount++;
+      
+      // Add other fields as sub-bullets (skip empty headers)
       $markup .= '<ul>';
       foreach ($data['headers'] as $index => $header) {
-        if ($index !== $songIndex && !empty($row[$index])) {
+        if ($index !== $songIndex && !empty(trim($header)) && !empty($row[$index])) {
           $markup .= '<li>' . htmlspecialchars($header) . ': ' . htmlspecialchars($row[$index]) . '</li>';
         }
       }
@@ -183,7 +187,7 @@ class SongSheetsImportForm extends FormBase {
     try {
       $credentialsPath = \Drupal::root() . '/test-sheets/radio-localized-episodes-8243df309e4a.json';
       $spreadsheetId = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
-      $range = $sheetName . '!2:100'; // Headers from row 2, data from rows 3+
+      $range = $sheetName . '!A2:AA100'; // Headers from row 2, data from rows 3+, get columns A-AA
 
       $client = new Google_Client();
       $client->setApplicationName('Drupal Songs Import');
@@ -199,9 +203,33 @@ class SongSheetsImportForm extends FormBase {
       }
       
       $headers = array_shift($values); // First row is headers
+      
+      // Process rows to append empty header columns to preceding named columns
+      $processedRows = [];
+      
+      foreach ($values as $rowIndex => $row) {
+        // Find the last column with a non-empty header and append empty columns
+        $lastNamedColumn = -1;
+        for ($i = 0; $i < count($row); $i++) {
+          $header = isset($headers[$i]) ? trim($headers[$i]) : '';
+          if (!empty($header)) {
+            $lastNamedColumn = $i;
+          } else {
+            // Empty header column - append data to the last named column
+            if ($lastNamedColumn >= 0 && isset($row[$i]) && !empty(trim($row[$i]))) {
+              $existingData = isset($row[$lastNamedColumn]) ? $row[$lastNamedColumn] : '';
+              $row[$lastNamedColumn] = trim($existingData . ' | ' . trim($row[$i]));
+              
+            }
+          }
+        }
+        
+        $processedRows[] = $row;
+      }
+      
       return [
         'headers' => $headers,
-        'rows' => $values, // Remaining rows are data
+        'rows' => $processedRows,
       ];
     } catch (Exception $e) {
       return ['headers' => [], 'rows' => []];
