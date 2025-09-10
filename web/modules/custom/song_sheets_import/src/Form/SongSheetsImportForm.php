@@ -119,15 +119,33 @@ class SongSheetsImportForm extends FormBase {
    */
   private function getColumnHeadersMarkup($sheetName) {
     $title = $this->getSheetTitle($sheetName);
-    $headers = $this->getSheetHeaders($sheetName);
+    $data = $this->getSheetData($sheetName);
     
-    if (empty($headers)) {
-      return '<p><em>No column headers found.</em></p>';
+    if (empty($data['headers']) || empty($data['rows'])) {
+      return '<p><em>No data found.</em></p>';
     }
     
-    $markup = '<h4>' . htmlspecialchars($title) . '</h4><ul>';
-    foreach ($headers as $header) {
-      $markup .= '<li><strong>' . htmlspecialchars($header) . '</strong></li>';
+    $markup = '<h4>' . htmlspecialchars($title) . '</h4>';
+    
+    // Find the "Song" column index
+    $songIndex = array_search('Song', $data['headers']);
+    if ($songIndex === false) {
+      return '<p><em>No "Song" column found.</em></p>';
+    }
+    
+    $markup .= '<ul>';
+    foreach ($data['rows'] as $row) {
+      $songTitle = !empty($row[$songIndex]) ? $row[$songIndex] : '[No Title]';
+      $markup .= '<li><strong>' . htmlspecialchars($songTitle) . '</strong>';
+      
+      // Add other fields as sub-bullets
+      $markup .= '<ul>';
+      foreach ($data['headers'] as $index => $header) {
+        if ($index !== $songIndex && !empty($row[$index])) {
+          $markup .= '<li>' . htmlspecialchars($header) . ': ' . htmlspecialchars($row[$index]) . '</li>';
+        }
+      }
+      $markup .= '</ul></li>';
     }
     $markup .= '</ul>';
     
@@ -155,6 +173,38 @@ class SongSheetsImportForm extends FormBase {
       return !empty($values[0][0]) ? $values[0][0] : 'Episode ' . $sheetName;
     } catch (Exception $e) {
       return 'Episode ' . $sheetName;
+    }
+  }
+
+  /**
+   * Get full data (headers + rows) from specific sheet.
+   */
+  private function getSheetData($sheetName) {
+    try {
+      $credentialsPath = \Drupal::root() . '/test-sheets/radio-localized-episodes-8243df309e4a.json';
+      $spreadsheetId = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
+      $range = $sheetName . '!2:100'; // Headers from row 2, data from rows 3+
+
+      $client = new Google_Client();
+      $client->setApplicationName('Drupal Songs Import');
+      $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
+      $client->setAuthConfig($credentialsPath);
+      
+      $service = new Google_Service_Sheets($client);
+      $response = $service->spreadsheets_values->get($spreadsheetId, $range);
+      $values = $response->getValues();
+      
+      if (empty($values)) {
+        return ['headers' => [], 'rows' => []];
+      }
+      
+      $headers = array_shift($values); // First row is headers
+      return [
+        'headers' => $headers,
+        'rows' => $values, // Remaining rows are data
+      ];
+    } catch (Exception $e) {
+      return ['headers' => [], 'rows' => []];
     }
   }
 
