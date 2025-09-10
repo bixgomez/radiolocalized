@@ -33,16 +33,35 @@ class SongSheetsImportForm extends FormBase {
       return $form;
     }
 
-    $form['sheet_select'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Select Sheet to Import'),
-      '#options' => $sheets,
-      '#default_value' => $this->getDefaultSheet($sheets),
-      '#description' => $this->t('Choose which episode sheet to import songs from.'),
-      '#ajax' => [
-        'callback' => '::updateColumnHeaders',
-        'wrapper' => 'column-headers-wrapper',
-      ],
+    // Get selected episode from URL parameter
+    $request = \Drupal::request();
+    $selectedSheet = $request->query->get('episode', $this->getDefaultSheet($sheets));
+    
+    $form['episode_grid'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['episode-grid']],
+    ];
+    
+    $form['episode_grid']['title'] = [
+      '#markup' => '<h3>' . $this->t('Select Episode') . '</h3>',
+    ];
+    
+    // Build episode links
+    $episodeLinks = '<ul class="episode-list">';
+    foreach ($sheets as $sheetId => $sheetLabel) {
+      $isSelected = ($sheetId == $selectedSheet);
+      $classes = ['episode-item'];
+      if ($isSelected) {
+        $classes[] = 'selected';
+      }
+      
+      $url = \Drupal\Core\Url::fromRoute('song_sheets_import.admin', [], ['query' => ['episode' => $sheetId]]);
+      $episodeLinks .= '<li><a href="' . $url->toString() . '" class="' . implode(' ', $classes) . '">' . htmlspecialchars($sheetId) . '</a></li>';
+    }
+    $episodeLinks .= '</ul>';
+    
+    $form['episode_grid']['episodes'] = [
+      '#markup' => $episodeLinks,
     ];
 
     $form['column_headers'] = [
@@ -51,13 +70,15 @@ class SongSheetsImportForm extends FormBase {
       '#suffix' => '</div>',
     ];
 
-    // Load column headers for default sheet
-    $defaultSheet = $this->getDefaultSheet($sheets);
-    if ($defaultSheet) {
+    // Load column headers for selected sheet
+    if ($selectedSheet) {
       $form['column_headers']['headers'] = [
-        '#markup' => $this->getColumnHeadersMarkup($defaultSheet),
+        '#markup' => $this->getColumnHeadersMarkup($selectedSheet),
       ];
     }
+    
+    // Add CSS and JavaScript
+    $form['#attached']['library'][] = 'song_sheets_import/episode-grid';
 
     return $form;
   }
@@ -105,14 +126,6 @@ class SongSheetsImportForm extends FormBase {
     return $numericKeys[0];
   }
 
-  /**
-   * AJAX callback for sheet selection.
-   */
-  public function updateColumnHeaders(array &$form, FormStateInterface $form_state) {
-    $selectedSheet = $form_state->getValue('sheet_select');
-    $form['column_headers']['headers']['#markup'] = $this->getColumnHeadersMarkup($selectedSheet);
-    return $form['column_headers'];
-  }
 
   /**
    * Get column headers markup for display.
