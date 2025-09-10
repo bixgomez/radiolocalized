@@ -1,0 +1,7 @@
+name: Song Sheets Import
+type: module
+description: Import song data from Google Sheets
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:node
