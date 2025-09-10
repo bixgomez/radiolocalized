@@ -10,11 +10,13 @@ dependencies:
     - field.field.node.song.field_end_time
     - field.field.node.song.field_episode
     - field.field.node.song.field_label
+    - field.field.node.song.field_links
     - field.field.node.song.field_place
     - field.field.node.song.field_start_time
     - field.field.node.song.field_year
     - node.type.song
   module:
+    - link
     - text
     - user
 id: node.song.default
@@ -105,5 +107,17 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 9
+    region: content
+  field_links:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 12
     region: content
 hidden: {  }

@@ -10,11 +10,13 @@ dependencies:
     - field.field.node.song.field_end_time
     - field.field.node.song.field_episode
     - field.field.node.song.field_label
+    - field.field.node.song.field_links
     - field.field.node.song.field_place
     - field.field.node.song.field_start_time
     - field.field.node.song.field_year
     - node.type.song
   module:
+    - link
     - text
 id: node.song.default
 targetEntityType: node
@@ -104,6 +106,14 @@ content:
     settings:
       size: 20
       placeholder: '02:30'
+    third_party_settings: {  }
+  field_links:
+    type: link_default
+    weight: 11
+    region: content
+    settings:
+      placeholder_url: 'https://...'
+      placeholder_title: 'Link title'
     third_party_settings: {  }
   title:
     type: string_textfield
