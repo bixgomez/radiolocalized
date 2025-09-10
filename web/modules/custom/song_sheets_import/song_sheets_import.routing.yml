@@ -1,0 +1,7 @@
+song_sheets_import.admin:
+  path: '/admin/config/content/song-sheets-import'
+  defaults:
+    _form: '\Drupal\song_sheets_import\Form\SongSheetsImportForm'
+    _title: 'Song Sheets Import'
+  requirements:
+    _permission: 'administer site configuration'

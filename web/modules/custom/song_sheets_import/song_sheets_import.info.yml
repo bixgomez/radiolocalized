@@ -3,5 +3,6 @@ type: module
 description: Import song data from Google Sheets
 core_version_requirement: ^10 || ^11
 package: Custom
+configure: song_sheets_import.admin
 dependencies:
   - drupal:node
