@@ -118,18 +118,20 @@ content:
     weight: 9
     region: content
   field_year_recorded:
-    type: string
+    type: number_integer
     label: above
     settings:
-      link_to_entity: false
+      thousand_separator: ''
+      prefix_suffix: true
     third_party_settings: {  }
     weight: 7
     region: content
   field_year_released:
-    type: string
+    type: number_integer
     label: above
     settings:
-      link_to_entity: false
+      thousand_separator: ''
+      prefix_suffix: true
     third_party_settings: {  }
     weight: 7
     region: content

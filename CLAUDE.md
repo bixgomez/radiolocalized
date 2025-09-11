@@ -126,22 +126,25 @@ A Warning! | The Music Tapes | 1st Imaginary Symphony for Nomad | 1999 | Merge R
 1. **Custom Drupal Module (`song_sheets_import`)**
    - ✅ Module created and enabled
    - ✅ Admin interface at `/admin/config/content/song-sheets-import`
-   - ✅ Episode dropdown with automatic selection of latest episode
-   - ✅ Real-time preview of sheet data via AJAX
+   - ✅ Episode grid navigation (URL-based, no JavaScript dependencies)
+   - ✅ Real-time preview of sheet data
 
 2. **Song Content Type Fields**
    - ✅ All necessary fields configured:
      - Episode (entity reference)
-     - Artist, Composer, Album, Year Released, Year Recorded, Label, Place
+     - Artist, Composer, Album, Label, Place (text fields)
+     - Year Released, Year Recorded (integer fields, 1895-2100 range)
      - Start Time, End Time, Duration (MM:SS format)
      - Links field (multiple URL/title pairs)
    - ✅ Proper field ordering and labeling
+   - ✅ Integer year fields for proper data validation and storage
 
 3. **Data Processing**
    - ✅ Google Sheets API integration working
    - ✅ Multi-column field handling (Notes and other spanning fields)
    - ✅ Automatic combination of empty header columns with preceding named columns
    - ✅ Data preview showing song titles with field details
+   - ✅ Field mapping system (Google Sheets columns → Drupal field labels)
 
 ### 🔄 Next Steps
 1. **Column Mapping Interface**
@@ -182,6 +185,17 @@ Convert various formats:
 - All Google-side permissions are properly configured
 - Service account has read access to all necessary sheets
 - Google API client library is already installed in Drupal
+
+### Field Type Changes in Drupal
+**Important:** You cannot change the field type of an existing field in Drupal. If you need to change a field from `string` to `integer` (or any other type change), you must:
+
+1. **Delete the old field configs** (both storage and field instance)
+2. **Create new fields** - you can use the same machine names if desired
+3. **Update all form/view display references** (if machine names changed)
+4. **Run config import** to apply changes
+5. **Export config** (`drush cex`) to sync UUIDs and prevent persistent update notifications
+
+**Strategy Note:** If other systems depend on specific machine names (like field mapping logic), it's better to keep the original machine names when recreating fields. We initially tried different machine names (`field_released_year`) but reverted to the originals (`field_year_released`) to maintain compatibility with the field mapping system that matches Google Sheets columns to Drupal field labels.
 
 ## Files & Locations Reference
 ```

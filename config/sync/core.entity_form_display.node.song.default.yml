@@ -118,19 +118,17 @@ content:
       placeholder: '02:30'
     third_party_settings: {  }
   field_year_recorded:
-    type: string_textfield
+    type: number
     weight: 4
     region: content
     settings:
-      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_year_released:
-    type: string_textfield
+    type: number
     weight: 4
     region: content
     settings:
-      size: 60
       placeholder: ''
     third_party_settings: {  }
   title:
