@@ -1,0 +1,21 @@
+uuid: 6b7c8d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_notes
+    - node.type.song
+  module:
+    - text
+id: node.song.field_notes
+field_name: field_notes
+entity_type: node
+bundle: song
+label: Notes
+description: 'Additional notes about this song'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

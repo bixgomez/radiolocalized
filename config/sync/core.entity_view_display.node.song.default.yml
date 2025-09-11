@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.song.field_episode
     - field.field.node.song.field_label
     - field.field.node.song.field_links
+    - field.field.node.song.field_notes
     - field.field.node.song.field_place
     - field.field.node.song.field_start_time
     - field.field.node.song.field_year_recorded
@@ -100,6 +101,13 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 12
+    region: content
+  field_notes:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 13
     region: content
   field_place:
     type: entity_reference_label
