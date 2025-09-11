@@ -12,6 +12,14 @@ This file contains notes and reference information for Claude Code assistance.
 ## Commands
 (Commands will be added here as discovered)
 
+## CRITICAL RESTRICTIONS
+⚠️ **NEVER RUN DRUSH COMMANDS** ⚠️
+- Do not run any `drush` commands under any circumstances
+- This includes `drush cim`, `drush cex`, `drush cr`, etc.
+- These commands can cause serious issues on this local development environment
+- User will handle all Drupal configuration management manually
+- If configuration changes are needed, edit config files directly and let user import them
+
 ## Notes
 (Project-specific notes will be added here)
 
