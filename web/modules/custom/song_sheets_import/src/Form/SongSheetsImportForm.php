@@ -128,6 +128,78 @@ class SongSheetsImportForm extends FormBase {
 
 
   /**
+   * Get field labels for song content type.
+   */
+  private function getSongFieldLabels() {
+    $fieldManager = \Drupal::service('entity_field.manager');
+    $fieldDefinitions = $fieldManager->getFieldDefinitions('node', 'song');
+    
+    $fieldLabels = [];
+    foreach ($fieldDefinitions as $fieldName => $fieldDefinition) {
+      // Skip base fields we don't want to map
+      if (in_array($fieldName, ['nid', 'uuid', 'vid', 'langcode', 'type', 'revision_timestamp', 'revision_uid', 'revision_log', 'status', 'uid', 'created', 'changed', 'promote', 'sticky', 'default_langcode', 'revision_default', 'revision_translation_affected', 'path'])) {
+        continue;
+      }
+      
+      $fieldLabels[$fieldName] = $fieldDefinition->getLabel();
+    }
+    
+    return $fieldLabels;
+  }
+
+  /**
+   * Map Google Sheets columns to Drupal field labels.
+   */
+  private function mapColumnsToFields($headers) {
+    $fieldLabels = $this->getSongFieldLabels();
+    $mapping = [];
+    
+    foreach ($headers as $columnIndex => $columnHeader) {
+      $columnHeader = trim($columnHeader);
+      if (empty($columnHeader)) {
+        continue;
+      }
+      
+      // Special mapping cases for legacy column names
+      if (strcasecmp($columnHeader, 'Song') === 0) {
+        $mapping[$columnIndex] = ['field' => 'title', 'label' => 'Title', 'match' => 'special'];
+        continue;
+      }
+      
+      if (strcasecmp($columnHeader, 'Length') === 0) {
+        $mapping[$columnIndex] = ['field' => 'field_duration', 'label' => 'Duration', 'match' => 'special'];
+        continue;
+      }
+      
+      if (strcasecmp($columnHeader, 'Link') === 0) {
+        $mapping[$columnIndex] = ['field' => 'field_links', 'label' => 'Links', 'match' => 'special'];
+        continue;
+      }
+      
+      // Try exact match first
+      foreach ($fieldLabels as $fieldName => $fieldLabel) {
+        if (strcasecmp($columnHeader, $fieldLabel) === 0) {
+          $mapping[$columnIndex] = ['field' => $fieldName, 'label' => $fieldLabel, 'match' => 'exact'];
+          continue 2;
+        }
+      }
+      
+      // Try fuzzy match
+      foreach ($fieldLabels as $fieldName => $fieldLabel) {
+        if (stripos($fieldLabel, $columnHeader) !== false || stripos($columnHeader, $fieldLabel) !== false) {
+          $mapping[$columnIndex] = ['field' => $fieldName, 'label' => $fieldLabel, 'match' => 'fuzzy'];
+          continue 2;
+        }
+      }
+      
+      // No match found
+      $mapping[$columnIndex] = ['field' => null, 'label' => null, 'match' => 'none'];
+    }
+    
+    return $mapping;
+  }
+
+  /**
    * Get column headers markup for display.
    */
   private function getColumnHeadersMarkup($sheetName) {
@@ -140,11 +212,33 @@ class SongSheetsImportForm extends FormBase {
     
     $markup = '<h4>' . htmlspecialchars($title) . '</h4>';
     
+    // Show field mapping
+    $mapping = $this->mapColumnsToFields($data['headers']);
+    $markup .= '<div class="field-mapping"><h5>Field Mapping:</h5><ul>';
+    
+    foreach ($data['headers'] as $index => $header) {
+      if (empty(trim($header))) continue;
+      
+      $mapInfo = $mapping[$index] ?? ['field' => null, 'label' => null, 'match' => 'none'];
+      $matchClass = 'mapping-' . $mapInfo['match'];
+      
+      if ($mapInfo['match'] === 'exact') {
+        $markup .= '<li class="' . $matchClass . '"><strong>' . htmlspecialchars($header) . '</strong> → ' . htmlspecialchars($mapInfo['label']) . ' ✓</li>';
+      } elseif ($mapInfo['match'] === 'special') {
+        $markup .= '<li class="' . $matchClass . '"><strong>' . htmlspecialchars($header) . '</strong> → ' . htmlspecialchars($mapInfo['label']) . ' ★</li>';
+      } elseif ($mapInfo['match'] === 'fuzzy') {
+        $markup .= '<li class="' . $matchClass . '"><strong>' . htmlspecialchars($header) . '</strong> → ' . htmlspecialchars($mapInfo['label']) . ' ~</li>';
+      } else {
+        $markup .= '<li class="' . $matchClass . '"><strong>' . htmlspecialchars($header) . '</strong> → <em>No match found</em> ✗</li>';
+      }
+    }
+    
+    $markup .= '</ul></div>';
     
     // Find the "Song" column index
     $songIndex = array_search('Song', $data['headers']);
     if ($songIndex === false) {
-      return '<p><em>No "Song" column found.</em></p>';
+      return $markup . '<p><em>No "Song" column found.</em></p>';
     }
     
     $markup .= '<ul>';
