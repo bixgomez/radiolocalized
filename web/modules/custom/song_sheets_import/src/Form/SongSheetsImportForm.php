@@ -426,6 +426,7 @@ class SongSheetsImportForm extends FormBase {
       
       // Import songs
       $imported = 0;
+      $updated = 0;
       $skipped = 0;
       $mapping = $this->mapColumnsToFields($data['headers']);
       
@@ -433,13 +434,15 @@ class SongSheetsImportForm extends FormBase {
         $result = $this->importSong($row, $data['headers'], $mapping, $episode);
         if ($result === 'imported') {
           $imported++;
+        } elseif ($result === 'updated') {
+          $updated++;
         } else {
           $skipped++;
         }
       }
       
       \Drupal::messenger()->addStatus(
-        "Import complete! Imported: $imported songs, Skipped: $skipped songs for Episode $selectedSheet: $episodeTitle"
+        "Import complete! Created: $imported songs, Updated: $updated songs, Skipped: $skipped songs for Episode $selectedSheet: $episodeTitle"
       );
       
     } catch (\Exception $e) {
@@ -511,7 +514,10 @@ class SongSheetsImportForm extends FormBase {
     $existing = $query->execute();
     
     if (!empty($existing)) {
-      return 'skipped'; // Song already exists
+      // Song exists - update empty fields only
+      $existingNid = reset($existing);
+      $existingSong = \Drupal::entityTypeManager()->getStorage('node')->load($existingNid);
+      return $this->updateEmptyFields($existingSong, $row, $headers, $mapping);
     }
     
     // Create new song node
@@ -535,6 +541,12 @@ class SongSheetsImportForm extends FormBase {
         } elseif ($mapInfo['field'] === 'field_artist') {
           // Handle multiple artists (split by |)
           $songData[$mapInfo['field']] = $this->processArtists($value);
+        } elseif ($mapInfo['field'] === 'field_links') {
+          // Handle multiple links (split by |)
+          $songData[$mapInfo['field']] = $this->processLinks($value);
+        } elseif ($mapInfo['field'] === 'field_notes') {
+          // Handle multiple notes (split by |)
+          $songData[$mapInfo['field']] = $this->processNotes($value);
         } else {
           $songData[$mapInfo['field']] = $value;
         }
@@ -545,6 +557,49 @@ class SongSheetsImportForm extends FormBase {
     $song->save();
     
     return 'imported';
+  }
+
+  /**
+   * Update empty fields in existing song.
+   */
+  private function updateEmptyFields($existingSong, $row, $headers, $mapping) {
+    $updated = FALSE;
+    
+    foreach ($mapping as $index => $mapInfo) {
+      if (!$mapInfo['field'] || $mapInfo['field'] === 'title' || !isset($row[$index]) || empty(trim($row[$index]))) {
+        continue;
+      }
+      
+      $fieldName = $mapInfo['field'];
+      $newValue = trim($row[$index]);
+      
+      // Check if field is currently empty
+      $currentValue = $existingSong->get($fieldName)->getValue();
+      $isEmpty = empty($currentValue) || (isset($currentValue[0]['value']) && empty($currentValue[0]['value']));
+      
+      if ($isEmpty) {
+        // Field is empty, update it
+        if (in_array($fieldName, ['field_year_released', 'field_year_recorded'])) {
+          $existingSong->set($fieldName, (int) $newValue);
+        } elseif ($fieldName === 'field_artist') {
+          $existingSong->set($fieldName, $this->processArtists($newValue));
+        } elseif ($fieldName === 'field_links') {
+          $existingSong->set($fieldName, $this->processLinks($newValue));
+        } elseif ($fieldName === 'field_notes') {
+          $existingSong->set($fieldName, $this->processNotes($newValue));
+        } else {
+          $existingSong->set($fieldName, $newValue);
+        }
+        $updated = TRUE;
+      }
+    }
+    
+    if ($updated) {
+      $existingSong->save();
+      return 'updated';
+    }
+    
+    return 'skipped';
   }
 
   /**
@@ -599,6 +654,52 @@ class SongSheetsImportForm extends FormBase {
     $artist->save();
     
     return $artist->id();
+  }
+
+  /**
+   * Process links and return array of link field values.
+   */
+  private function processLinks($linkString) {
+    // Split by pipe separator (from multi-column processing)
+    $links = explode('|', $linkString);
+    $linkValues = [];
+    
+    foreach ($links as $link) {
+      $link = trim($link);
+      if (empty($link)) {
+        continue;
+      }
+      
+      // For now, just treat each as a URL with the URL as the title
+      // Could be enhanced to parse "title|url" format if needed
+      $linkValues[] = [
+        'uri' => $link,
+        'title' => $link,
+      ];
+    }
+    
+    return $linkValues;
+  }
+
+  /**
+   * Process notes and return array of text field values.
+   */
+  private function processNotes($notesString) {
+    // Split by pipe separator (from multi-column processing)
+    $notes = explode('|', $notesString);
+    $noteValues = [];
+    
+    foreach ($notes as $note) {
+      $note = trim($note);
+      if (empty($note)) {
+        continue;
+      }
+      
+      // Each note becomes a separate entry in the multiple field
+      $noteValues[] = ['value' => $note];
+    }
+    
+    return $noteValues;
   }
 
   /**
