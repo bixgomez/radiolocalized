@@ -75,6 +75,23 @@ class SongSheetsImportForm extends FormBase {
       $form['column_headers']['headers'] = [
         '#markup' => $this->getColumnHeadersMarkup($selectedSheet),
       ];
+      
+      // Add the LET 'ER RIP import button
+      $data = $this->getSheetData($selectedSheet);
+      $songCount = count($data['rows']);
+      
+      $form['import_button'] = [
+        '#type' => 'submit',
+        '#value' => $this->t("🚀 LET 'ER RIP! Import @count songs from Episode @episode", [
+          '@count' => $songCount,
+          '@episode' => $selectedSheet,
+        ]),
+        '#submit' => ['::importEpisode'],
+        '#attributes' => [
+          'class' => ['button--danger', 'import-button'],
+          'onclick' => 'return confirm("Are you sure you want to import ' . $songCount . ' songs? This cannot be undone!");',
+        ],
+      ];
     }
     
     // Add CSS and JavaScript
@@ -176,6 +193,11 @@ class SongSheetsImportForm extends FormBase {
         continue;
       }
       
+      if (strcasecmp($columnHeader, 'Year') === 0) {
+        $mapping[$columnIndex] = ['field' => 'field_year_released', 'label' => 'Released', 'match' => 'special'];
+        continue;
+      }
+      
       // Try exact match first
       foreach ($fieldLabels as $fieldName => $fieldLabel) {
         if (strcasecmp($columnHeader, $fieldLabel) === 0) {
@@ -261,6 +283,15 @@ class SongSheetsImportForm extends FormBase {
     $markup .= '</ul>';
     
     return $markup;
+  }
+
+  /**
+   * Parse episode title from sheet title.
+   */
+  private function parseEpisodeTitle($sheetTitle) {
+    // Remove "Episode XXX" part and separators (- or :)
+    $title = preg_replace('/^Episode\s+\d+\s*[-:]\s*/', '', $sheetTitle);
+    return trim($title);
   }
 
   /**
@@ -368,10 +399,213 @@ class SongSheetsImportForm extends FormBase {
   }
 
   /**
+   * Import episode submit handler.
+   */
+  public function importEpisode(array &$form, FormStateInterface $form_state) {
+    $request = \Drupal::request();
+    $selectedSheet = $request->query->get('episode');
+    
+    if (!$selectedSheet) {
+      \Drupal::messenger()->addError('No episode selected for import.');
+      return;
+    }
+    
+    try {
+      // Get sheet data
+      $sheetTitle = $this->getSheetTitle($selectedSheet);
+      $data = $this->getSheetData($selectedSheet);
+      
+      if (empty($data['rows'])) {
+        \Drupal::messenger()->addWarning('No songs found in this episode.');
+        return;
+      }
+      
+      // Create or find episode
+      $episodeTitle = $this->parseEpisodeTitle($sheetTitle);
+      $episode = $this->createOrFindEpisode($selectedSheet, $episodeTitle);
+      
+      // Import songs
+      $imported = 0;
+      $skipped = 0;
+      $mapping = $this->mapColumnsToFields($data['headers']);
+      
+      foreach ($data['rows'] as $row) {
+        $result = $this->importSong($row, $data['headers'], $mapping, $episode);
+        if ($result === 'imported') {
+          $imported++;
+        } else {
+          $skipped++;
+        }
+      }
+      
+      \Drupal::messenger()->addStatus(
+        "Import complete! Imported: $imported songs, Skipped: $skipped songs for Episode $selectedSheet: $episodeTitle"
+      );
+      
+    } catch (\Exception $e) {
+      \Drupal::messenger()->addError('Import failed: ' . $e->getMessage());
+      \Drupal::logger('song_sheets_import')->error('Import error: @error', ['@error' => $e->getMessage()]);
+    }
+  }
+
+  /**
+   * Create or find episode entity.
+   */
+  private function createOrFindEpisode($episodeNumber, $episodeTitle) {
+    // Query for existing episode by episode number
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'episode')
+      ->condition('field_episode_number', $episodeNumber)
+      ->accessCheck(FALSE);
+    
+    $nids = $query->execute();
+    
+    if (!empty($nids)) {
+      // Episode exists, return it
+      $nid = reset($nids);
+      return \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+    }
+    
+    // Create new episode
+    $episode = \Drupal::entityTypeManager()->getStorage('node')->create([
+      'type' => 'episode',
+      'title' => $episodeTitle,
+      'field_episode_number' => $episodeNumber,
+      'uid' => \Drupal::currentUser()->id(),
+      'status' => 1, // Published
+    ]);
+    
+    $episode->save();
+    
+    \Drupal::messenger()->addStatus("Created new Episode $episodeNumber: $episodeTitle");
+    
+    return $episode;
+  }
+
+  /**
+   * Import a single song.
+   */
+  private function importSong($row, $headers, $mapping, $episode) {
+    // Extract song title from the row
+    $songTitleIndex = null;
+    foreach ($mapping as $index => $mapInfo) {
+      if ($mapInfo['field'] === 'title') {
+        $songTitleIndex = $index;
+        break;
+      }
+    }
+    
+    if ($songTitleIndex === null || empty($row[$songTitleIndex])) {
+      return 'skipped'; // No song title
+    }
+    
+    $songTitle = trim($row[$songTitleIndex]);
+    
+    // Check if song already exists (title + episode)
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'song')
+      ->condition('title', $songTitle)
+      ->condition('field_episode', $episode->id())
+      ->accessCheck(FALSE);
+    
+    $existing = $query->execute();
+    
+    if (!empty($existing)) {
+      return 'skipped'; // Song already exists
+    }
+    
+    // Create new song node
+    $songData = [
+      'type' => 'song',
+      'title' => $songTitle,
+      'field_episode' => $episode->id(),
+      'uid' => \Drupal::currentUser()->id(),
+      'status' => 1,
+    ];
+    
+    // Map other fields
+    foreach ($mapping as $index => $mapInfo) {
+      if ($mapInfo['field'] && $mapInfo['field'] !== 'title' && isset($row[$index]) && !empty(trim($row[$index]))) {
+        $value = trim($row[$index]);
+        
+        // Handle different field types
+        if (in_array($mapInfo['field'], ['field_year_released', 'field_year_recorded'])) {
+          // Convert to integer
+          $songData[$mapInfo['field']] = (int) $value;
+        } elseif ($mapInfo['field'] === 'field_artist') {
+          // Handle multiple artists (split by |)
+          $songData[$mapInfo['field']] = $this->processArtists($value);
+        } else {
+          $songData[$mapInfo['field']] = $value;
+        }
+      }
+    }
+    
+    $song = \Drupal::entityTypeManager()->getStorage('node')->create($songData);
+    $song->save();
+    
+    return 'imported';
+  }
+
+  /**
+   * Process artist names and return entity reference array.
+   */
+  private function processArtists($artistString) {
+    // Split by pipe separator (from multi-column processing)
+    $artistNames = explode('|', $artistString);
+    $artistIds = [];
+    
+    foreach ($artistNames as $artistName) {
+      $artistName = trim($artistName);
+      if (empty($artistName)) {
+        continue;
+      }
+      
+      // Find or create artist node
+      $artistId = $this->findOrCreateArtist($artistName);
+      if ($artistId) {
+        $artistIds[] = $artistId;
+      }
+    }
+    
+    return $artistIds;
+  }
+
+  /**
+   * Find or create an artist node.
+   */
+  private function findOrCreateArtist($artistName) {
+    // Query for existing artist by title
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'artist')
+      ->condition('title', $artistName)
+      ->accessCheck(FALSE);
+    
+    $nids = $query->execute();
+    
+    if (!empty($nids)) {
+      // Artist exists, return the ID
+      return reset($nids);
+    }
+    
+    // Create new artist
+    $artist = \Drupal::entityTypeManager()->getStorage('node')->create([
+      'type' => 'artist',
+      'title' => $artistName,
+      'uid' => \Drupal::currentUser()->id(),
+      'status' => 1, // Published
+    ]);
+    
+    $artist->save();
+    
+    return $artist->id();
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Submit handling will be added later.
+    // Regular form submission - do nothing
   }
 
 }
