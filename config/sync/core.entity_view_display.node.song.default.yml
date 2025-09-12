@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.song.field_duration
     - field.field.node.song.field_end_time
     - field.field.node.song.field_episode
+    - field.field.node.song.field_episode_number
     - field.field.node.song.field_label
     - field.field.node.song.field_links
     - field.field.node.song.field_notes
@@ -148,4 +149,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  field_episode_number: true

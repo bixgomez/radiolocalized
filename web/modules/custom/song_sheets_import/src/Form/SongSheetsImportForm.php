@@ -63,6 +63,18 @@ class SongSheetsImportForm extends FormBase {
     $form['episode_grid']['episodes'] = [
       '#markup' => $episodeLinks,
     ];
+    
+    // Add bulk import button at bottom of episode selection
+    $form['episode_grid']['bulk_import_button'] = [
+      '#type' => 'submit',
+      '#value' => $this->t("💥 LET 'EM ALL RIP! Import ALL episodes"),
+      '#submit' => ['::importAllEpisodes'],
+      '#attributes' => [
+        'class' => ['button--danger', 'bulk-import-button'],
+        'onclick' => 'return confirm("Are you sure you want to import ALL episodes? This will process every episode and could take a while!");',
+        'style' => 'margin-top: 20px; background-color: #d63031; display: block;',
+      ],
+    ];
 
     $form['column_headers'] = [
       '#type' => 'container',
@@ -183,6 +195,11 @@ class SongSheetsImportForm extends FormBase {
         continue;
       }
       
+      if (strcasecmp($columnHeader, 'Title') === 0) {
+        $mapping[$columnIndex] = ['field' => 'title', 'label' => 'Title', 'match' => 'special'];
+        continue;
+      }
+      
       if (strcasecmp($columnHeader, 'Length') === 0) {
         $mapping[$columnIndex] = ['field' => 'field_duration', 'label' => 'Duration', 'match' => 'special'];
         continue;
@@ -257,10 +274,13 @@ class SongSheetsImportForm extends FormBase {
     
     $markup .= '</ul></div>';
     
-    // Find the "Song" column index
+    // Find the song title column index (either "Song" or "Title")
     $songIndex = array_search('Song', $data['headers']);
     if ($songIndex === false) {
-      return $markup . '<p><em>No "Song" column found.</em></p>';
+      $songIndex = array_search('Title', $data['headers']);
+    }
+    if ($songIndex === false) {
+      return $markup . '<p><em>No "Song" or "Title" column found.</em></p>';
     }
     
     $markup .= '<ul>';
@@ -399,6 +419,38 @@ class SongSheetsImportForm extends FormBase {
   }
 
   /**
+   * Import all episodes submit handler with batch processing.
+   */
+  public function importAllEpisodes(array &$form, FormStateInterface $form_state) {
+    $availableSheets = $this->getAvailableSheets();
+    
+    if (empty($availableSheets)) {
+      \Drupal::messenger()->addError('No episodes found to import.');
+      return;
+    }
+    
+    // Set up batch processing
+    $episodes = array_keys($availableSheets);
+    $batch = [
+      'title' => $this->t('Importing all episodes...'),
+      'operations' => [],
+      'finished' => '\Drupal\song_sheets_import\Form\SongSheetsImportForm::batchFinished',
+      'progress_message' => $this->t('Processing episode @current of @total.'),
+    ];
+    
+    // Process episodes in chunks of 5
+    $chunks = array_chunk($episodes, 5);
+    foreach ($chunks as $chunk) {
+      $batch['operations'][] = [
+        '\Drupal\song_sheets_import\Form\SongSheetsImportForm::batchProcess',
+        [$chunk]
+      ];
+    }
+    
+    batch_set($batch);
+  }
+
+  /**
    * Import episode submit handler.
    */
   public function importEpisode(array &$form, FormStateInterface $form_state) {
@@ -504,19 +556,55 @@ class SongSheetsImportForm extends FormBase {
     
     $songTitle = trim($row[$songTitleIndex]);
     
-    // Check if song already exists (title + episode)
-    $query = \Drupal::entityQuery('node')
+    // Check if song already exists (title + episode number)
+    // Get the episode number from our current episode
+    $episodeNumber = $episode->get('field_episode_number')->value;
+    
+    // Debug logging - what are we looking for?
+    \Drupal::logger('song_sheets_import')->info('DUPLICATE CHECK: Looking for song "@title" in Episode #@episode_num', [
+      '@title' => $songTitle,
+      '@episode_num' => $episodeNumber,
+    ]);
+    
+    // Find songs with same title AND same episode number (using direct field match)
+    $songQuery = \Drupal::entityQuery('node')
       ->condition('type', 'song')
       ->condition('title', $songTitle)
-      ->condition('field_episode', $episode->id())
+      ->condition('field_episode_number', $episodeNumber)
       ->accessCheck(FALSE);
     
-    $existing = $query->execute();
+    $existing = $songQuery->execute();
+    
+    \Drupal::logger('song_sheets_import')->info('DUPLICATE CHECK: Found @count songs with title "@title" in Episode #@episode_num', [
+      '@count' => count($existing),
+      '@title' => $songTitle,
+      '@episode_num' => $episodeNumber,
+    ]);
     
     if (!empty($existing)) {
-      // Song exists - update empty fields only
+      // Song exists - update empty fields and ensure episode reference is current
       $existingNid = reset($existing);
       $existingSong = \Drupal::entityTypeManager()->getStorage('node')->load($existingNid);
+      
+      // Debug logging
+      \Drupal::logger('song_sheets_import')->info('Found existing song "@title" (ID: @id) in Episode #@episode_num', [
+        '@title' => $songTitle,
+        '@id' => $existingNid,
+        '@episode_num' => $episodeNumber,
+      ]);
+      
+      // Always update episode reference to current episode (in case episode was deleted/recreated)
+      $currentEpisodeId = $existingSong->get('field_episode')->target_id;
+      if ($currentEpisodeId != $episode->id()) {
+        $existingSong->set('field_episode', $episode->id());
+        $existingSong->save();
+        \Drupal::logger('song_sheets_import')->info('Updated episode reference for song "@title" from episode ID @old_id to @new_id', [
+          '@title' => $songTitle,
+          '@old_id' => $currentEpisodeId ?: 'NULL',
+          '@new_id' => $episode->id(),
+        ]);
+      }
+      
       return $this->updateEmptyFields($existingSong, $row, $headers, $mapping);
     }
     
@@ -525,6 +613,7 @@ class SongSheetsImportForm extends FormBase {
       'type' => 'song',
       'title' => $songTitle,
       'field_episode' => $episode->id(),
+      'field_episode_number' => $episodeNumber,
       'uid' => \Drupal::currentUser()->id(),
       'status' => 1,
     ];
@@ -547,6 +636,11 @@ class SongSheetsImportForm extends FormBase {
         } elseif ($mapInfo['field'] === 'field_notes') {
           // Handle multiple notes (split by |)
           $songData[$mapInfo['field']] = $this->processNotes($value);
+        } elseif (in_array($mapInfo['field'], ['field_start_time', 'field_end_time', 'field_duration'])) {
+          // Validate time fields - skip if value doesn't look like time
+          if ($this->isValidTimeFormat($value)) {
+            $songData[$mapInfo['field']] = $value;
+          }
         } else {
           $songData[$mapInfo['field']] = $value;
         }
@@ -555,6 +649,13 @@ class SongSheetsImportForm extends FormBase {
     
     $song = \Drupal::entityTypeManager()->getStorage('node')->create($songData);
     $song->save();
+    
+    // Debug logging
+    \Drupal::logger('song_sheets_import')->info('Created new song "@title" (ID: @id) in Episode #@episode_num', [
+      '@title' => $songTitle,
+      '@id' => $song->id(),
+      '@episode_num' => $episodeNumber,
+    ]);
     
     return 'imported';
   }
@@ -587,6 +688,11 @@ class SongSheetsImportForm extends FormBase {
           $existingSong->set($fieldName, $this->processLinks($newValue));
         } elseif ($fieldName === 'field_notes') {
           $existingSong->set($fieldName, $this->processNotes($newValue));
+        } elseif (in_array($fieldName, ['field_start_time', 'field_end_time', 'field_duration'])) {
+          // Validate time fields - skip if value doesn't look like time
+          if ($this->isValidTimeFormat($newValue)) {
+            $existingSong->set($fieldName, $newValue);
+          }
         } else {
           $existingSong->set($fieldName, $newValue);
         }
@@ -700,6 +806,129 @@ class SongSheetsImportForm extends FormBase {
     }
     
     return $noteValues;
+  }
+
+  /**
+   * Validate if a value looks like a time format.
+   */
+  private function isValidTimeFormat($value) {
+    // Check for various time formats: MM:SS, H:MM:SS, MM:SS.ms
+    // Also allow empty values or values that are clearly times
+    $timePatterns = [
+      '/^\d{1,2}:\d{2}$/',           // MM:SS or H:MM
+      '/^\d{1,2}:\d{2}:\d{2}$/',     // H:MM:SS
+      '/^\d{1,2}:\d{2}\.\d+$/',      // MM:SS.milliseconds
+    ];
+    
+    foreach ($timePatterns as $pattern) {
+      if (preg_match($pattern, $value)) {
+        return true;
+      }
+    }
+    
+    // If it contains letters (like "Miles Davis Quintet"), it's probably not a time
+    if (preg_match('/[a-zA-Z]/', $value)) {
+      return false;
+    }
+    
+    return true;
+  }
+
+  /**
+   * Batch process callback.
+   */
+  public static function batchProcess($episodes, &$context) {
+    if (!isset($context['sandbox']['progress'])) {
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['imported'] = 0;
+      $context['sandbox']['updated'] = 0;
+      $context['sandbox']['skipped'] = 0;
+      $context['sandbox']['failed'] = [];
+    }
+    
+    // Create temporary form instance to access methods
+    $form = new static(\Drupal::configFactory());
+    
+    foreach ($episodes as $selectedSheet) {
+      $context['message'] = t('Processing Episode @episode...', ['@episode' => $selectedSheet]);
+      
+      try {
+        // Get sheet data
+        $sheetTitle = $form->getSheetTitle($selectedSheet);
+        $data = $form->getSheetData($selectedSheet);
+        
+        if (empty($data['rows'])) {
+          \Drupal::messenger()->addWarning("No songs found in Episode $selectedSheet: $sheetTitle");
+          $context['sandbox']['progress']++;
+          continue;
+        }
+        
+        // Create or find episode
+        $episodeTitle = $form->parseEpisodeTitle($sheetTitle);
+        $episode = $form->createOrFindEpisode($selectedSheet, $episodeTitle);
+        
+        // Import songs
+        $episodeImported = 0;
+        $episodeUpdated = 0;
+        $episodeSkipped = 0;
+        $mapping = $form->mapColumnsToFields($data['headers']);
+        
+        foreach ($data['rows'] as $row) {
+          $result = $form->importSong($row, $data['headers'], $mapping, $episode);
+          if ($result === 'imported') {
+            $episodeImported++;
+          } elseif ($result === 'updated') {
+            $episodeUpdated++;
+          } else {
+            $episodeSkipped++;
+          }
+        }
+        
+        $context['sandbox']['imported'] += $episodeImported;
+        $context['sandbox']['updated'] += $episodeUpdated;
+        $context['sandbox']['skipped'] += $episodeSkipped;
+        
+        // Only show messages for episodes that had significant activity
+        if ($episodeImported > 0 || $episodeUpdated > 5) {
+          \Drupal::messenger()->addStatus(
+            "Episode $selectedSheet: Created $episodeImported, Updated $episodeUpdated, Skipped $episodeSkipped songs"
+          );
+        }
+        
+      } catch (\Exception $e) {
+        $context['sandbox']['failed'][] = $selectedSheet;
+        \Drupal::messenger()->addError("Failed to import Episode $selectedSheet: " . $e->getMessage());
+        \Drupal::logger('song_sheets_import')->error('Import error for episode @episode: @error', [
+          '@episode' => $selectedSheet,
+          '@error' => $e->getMessage()
+        ]);
+      }
+      
+      $context['sandbox']['progress']++;
+      
+      // Add delay to avoid API rate limiting
+      sleep(1); // 1 second delay
+    }
+  }
+
+  /**
+   * Batch finished callback.
+   */
+  public static function batchFinished($success, $results, $operations, $elapsed) {
+    if ($success) {
+      // Calculate totals from all batch operations
+      $totalImported = 0;
+      $totalUpdated = 0;
+      $totalSkipped = 0;
+      $failedEpisodes = [];
+      
+      // Get totals from the last context (batch API doesn't pass results this way)
+      // We'll display a simple completion message
+      $message = t("Bulk import complete! Check the messages above for detailed results.");
+      \Drupal::messenger()->addStatus($message);
+    } else {
+      \Drupal::messenger()->addError(t('The bulk import process encountered an error.'));
+    }
   }
 
   /**

@@ -1,0 +1,23 @@
+uuid: 9f8e7d6c-5b4a-3d2c-1e0f-9f8e7d6c5b4a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_episode_number
+    - node.type.song
+id: node.song.field_episode_number
+field_name: field_episode_number
+entity_type: node
+bundle: song
+label: 'Episode Number'
+description: 'The episode number this song belongs to (for duplicate detection).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: 9999
+  prefix: ''
+  suffix: ''
+field_type: integer

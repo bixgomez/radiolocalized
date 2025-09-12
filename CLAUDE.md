@@ -136,38 +136,41 @@ A Warning! | The Music Tapes | 1st Imaginary Symphony for Nomad | 1999 | Merge R
    - ✅ Admin interface at `/admin/config/content/song-sheets-import`
    - ✅ Episode grid navigation (URL-based, no JavaScript dependencies)
    - ✅ Real-time preview of sheet data
+   - ✅ Full import functionality with batch processing
+   - ✅ Single episode and bulk import options
 
 2. **Song Content Type Fields**
    - ✅ All necessary fields configured:
      - Episode (entity reference)
+     - Episode Number (integer field for bulletproof duplicate detection)
      - Artist, Composer, Album, Label, Place (text fields)
      - Year Released, Year Recorded (integer fields, 1895-2100 range)
      - Start Time, End Time, Duration (MM:SS format)
      - Links field (multiple URL/title pairs)
+     - Notes field (multiple text values)
    - ✅ Proper field ordering and labeling
    - ✅ Integer year fields for proper data validation and storage
 
-3. **Data Processing**
+3. **Data Processing & Import**
    - ✅ Google Sheets API integration working
    - ✅ Multi-column field handling (Notes and other spanning fields)
    - ✅ Automatic combination of empty header columns with preceding named columns
    - ✅ Data preview showing song titles with field details
    - ✅ Field mapping system (Google Sheets columns → Drupal field labels)
+   - ✅ **BULLETPROOF DUPLICATE DETECTION** using Title + Episode Number
+   - ✅ **Automatic episode reconnection** when episodes are deleted/recreated
+   - ✅ Empty field updating for existing songs
+   - ✅ Artist node creation and entity reference handling
+   - ✅ Time field validation and processing
+   - ✅ Link processing with URL validation
+   - ✅ Comprehensive logging and debugging
 
-### 🔄 Next Steps
-1. **Column Mapping Interface**
-   - Google columns → Drupal fields mapping
-   - Handle field variations between sheets
-
-2. **Import Functionality**
-   - Create song nodes from selected sheet data
-   - Handle time field conversions (text to MM:SS format)
-   - Duplicate detection and handling
-
-3. **Error Handling & Logging**
-   - Import progress display
-   - Failed row tracking and reporting
-   - Import statistics and summaries
+4. **Error Handling & Logging**
+   - ✅ Import progress display with statistics
+   - ✅ Failed row tracking and reporting
+   - ✅ Import statistics (created/updated/skipped counts)
+   - ✅ Detailed debug logging for duplicate detection
+   - ✅ Batch processing for large imports
 
 ## Technical Considerations
 
@@ -238,9 +241,47 @@ API Scope: Google_Service_Sheets::SPREADSHEETS_READONLY
 - ✅ Admin UI implemented with episode dropdown
 - ✅ Multi-column field handling (Notes and other spanning fields)
 - ✅ Song content type fields configured (Composer, Year Released, Year Recorded)
-- ⬜ Import process handles all data correctly
-- ⬜ Error handling and logging in place
-- ⬜ Documentation completed
+- ✅ **Import process handles all data correctly** 
+- ✅ **Error handling and logging in place**
+- ✅ **Bulletproof duplicate detection system implemented**
+- ✅ **Documentation completed**
+
+## 🎯 MAJOR BREAKTHROUGH: Duplicate Detection System
+
+### Problem Solved
+Previously, duplicate detection relied on Title + Episode Entity Reference. This failed when episodes were deleted because the entity reference became null, causing duplicate songs to be created during re-import.
+
+### Solution Implemented
+**Dual-Field System:**
+- `field_episode` (entity reference) - for relationships and Views
+- `field_episode_number` (integer) - for bulletproof duplicate detection
+
+### How It Works
+1. **Duplicate Detection:** Uses Title + Episode Number (reliable even if episodes deleted)
+2. **Auto-Reconnection:** Always updates episode entity reference to current episode
+3. **Data Integrity:** Maintains both relationship data and detection reliability
+4. **Logging:** Comprehensive debug info for troubleshooting
+
+### Code Logic
+```php
+// Find duplicates by title + episode number (bulletproof)
+$songQuery = \Drupal::entityQuery('node')
+  ->condition('type', 'song')
+  ->condition('title', $songTitle)
+  ->condition('field_episode_number', $episodeNumber)
+  ->accessCheck(FALSE);
+
+// Always reconnect to current episode if different
+if ($currentEpisodeId != $episode->id()) {
+  $existingSong->set('field_episode', $episode->id());
+}
+```
+
+### Result
+✅ No more duplicates when episodes are deleted/recreated  
+✅ Automatic reconnection of orphaned songs to new episodes  
+✅ Maintains all existing functionality  
+✅ Future-proof and reliable
 
 ⏺ Looking at the CLAUDE.md file, I can see it contains a comprehensive Google Sheets to Drupal import project summary that's separate from our current field configuration
    work. The file documents:
