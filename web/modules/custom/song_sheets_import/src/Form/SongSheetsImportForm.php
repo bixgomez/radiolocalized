@@ -14,10 +14,47 @@ use Exception;
 class SongSheetsImportForm extends FormBase {
 
   /**
+   * Google Sheets credentials path.
+   */
+  private const CREDENTIALS_PATH = '/test-sheets/radio-localized-episodes-8243df309e4a.json';
+
+  /**
+   * Google Sheets spreadsheet ID.
+   */
+  private const SPREADSHEET_ID = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
     return 'song_sheets_import_form';
+  }
+
+  /**
+   * Create and configure Google Sheets service.
+   *
+   * @return \Google_Service_Sheets|null
+   *   The Google Sheets service or NULL on failure.
+   */
+  private function createGoogleSheetsService() {
+    try {
+      $credentialsPath = \Drupal::root() . self::CREDENTIALS_PATH;
+      
+      if (!file_exists($credentialsPath)) {
+        \Drupal::logger('song_sheets_import')->error('Google Sheets credentials file not found: @path', ['@path' => $credentialsPath]);
+        return NULL;
+      }
+
+      $client = new Google_Client();
+      $client->setApplicationName('Drupal Songs Import');
+      $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
+      $client->setAuthConfig($credentialsPath);
+      
+      return new Google_Service_Sheets($client);
+    } catch (Exception $e) {
+      \Drupal::logger('song_sheets_import')->error('Failed to create Google Sheets service: @error', ['@error' => $e->getMessage()]);
+      return NULL;
+    }
   }
 
   /**
@@ -116,17 +153,13 @@ class SongSheetsImportForm extends FormBase {
    * Get available sheets from Google Sheets.
    */
   private function getAvailableSheets() {
-    try {
-      $credentialsPath = \Drupal::root() . '/test-sheets/radio-localized-episodes-8243df309e4a.json';
-      $spreadsheetId = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
+    $service = $this->createGoogleSheetsService();
+    if (!$service) {
+      return [];
+    }
 
-      $client = new Google_Client();
-      $client->setApplicationName('Drupal Songs Import');
-      $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-      $client->setAuthConfig($credentialsPath);
-      
-      $service = new Google_Service_Sheets($client);
-      $spreadsheet = $service->spreadsheets->get($spreadsheetId);
+    try {
+      $spreadsheet = $service->spreadsheets->get(self::SPREADSHEET_ID);
       
       $sheets = [];
       foreach ($spreadsheet->getSheets() as $sheet) {
@@ -138,6 +171,7 @@ class SongSheetsImportForm extends FormBase {
       
       return $sheets;
     } catch (Exception $e) {
+      \Drupal::logger('song_sheets_import')->error('Failed to get available sheets: @error', ['@error' => $e->getMessage()]);
       return [];
     }
   }
@@ -318,22 +352,19 @@ class SongSheetsImportForm extends FormBase {
    * Get title from specific sheet.
    */
   private function getSheetTitle($sheetName) {
-    try {
-      $credentialsPath = \Drupal::root() . '/test-sheets/radio-localized-episodes-8243df309e4a.json';
-      $spreadsheetId = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
-      $range = $sheetName . '!1:1'; // First row has title
+    $service = $this->createGoogleSheetsService();
+    if (!$service) {
+      return 'Episode ' . $sheetName;
+    }
 
-      $client = new Google_Client();
-      $client->setApplicationName('Drupal Songs Import');
-      $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-      $client->setAuthConfig($credentialsPath);
-      
-      $service = new Google_Service_Sheets($client);
-      $response = $service->spreadsheets_values->get($spreadsheetId, $range);
+    try {
+      $range = $sheetName . '!1:1'; // First row has title
+      $response = $service->spreadsheets_values->get(self::SPREADSHEET_ID, $range);
       $values = $response->getValues();
       
       return !empty($values[0][0]) ? $values[0][0] : 'Episode ' . $sheetName;
     } catch (Exception $e) {
+      \Drupal::logger('song_sheets_import')->warning('Failed to get sheet title for @sheet: @error', ['@sheet' => $sheetName, '@error' => $e->getMessage()]);
       return 'Episode ' . $sheetName;
     }
   }
@@ -342,18 +373,14 @@ class SongSheetsImportForm extends FormBase {
    * Get full data (headers + rows) from specific sheet.
    */
   private function getSheetData($sheetName) {
-    try {
-      $credentialsPath = \Drupal::root() . '/test-sheets/radio-localized-episodes-8243df309e4a.json';
-      $spreadsheetId = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
-      $range = $sheetName . '!A2:AA100'; // Headers from row 2, data from rows 3+, get columns A-AA
+    $service = $this->createGoogleSheetsService();
+    if (!$service) {
+      return ['headers' => [], 'rows' => []];
+    }
 
-      $client = new Google_Client();
-      $client->setApplicationName('Drupal Songs Import');
-      $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-      $client->setAuthConfig($credentialsPath);
-      
-      $service = new Google_Service_Sheets($client);
-      $response = $service->spreadsheets_values->get($spreadsheetId, $range);
+    try {
+      $range = $sheetName . '!A2:AA100'; // Headers from row 2, data from rows 3+, get columns A-AA
+      $response = $service->spreadsheets_values->get(self::SPREADSHEET_ID, $range);
       $values = $response->getValues();
       
       if (empty($values)) {
@@ -390,30 +417,30 @@ class SongSheetsImportForm extends FormBase {
         'rows' => $processedRows,
       ];
     } catch (Exception $e) {
+      \Drupal::logger('song_sheets_import')->error('Failed to get sheet data for @sheet: @error', ['@sheet' => $sheetName, '@error' => $e->getMessage()]);
       return ['headers' => [], 'rows' => []];
     }
   }
 
   /**
    * Get headers from specific sheet.
+   * 
+   * @deprecated This method is unused and may be removed in future versions.
    */
   private function getSheetHeaders($sheetName) {
-    try {
-      $credentialsPath = \Drupal::root() . '/test-sheets/radio-localized-episodes-8243df309e4a.json';
-      $spreadsheetId = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
-      $range = $sheetName . '!2:2'; // Second row has headers
+    $service = $this->createGoogleSheetsService();
+    if (!$service) {
+      return [];
+    }
 
-      $client = new Google_Client();
-      $client->setApplicationName('Drupal Songs Import');
-      $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-      $client->setAuthConfig($credentialsPath);
-      
-      $service = new Google_Service_Sheets($client);
-      $response = $service->spreadsheets_values->get($spreadsheetId, $range);
+    try {
+      $range = $sheetName . '!2:2'; // Second row has headers
+      $response = $service->spreadsheets_values->get(self::SPREADSHEET_ID, $range);
       $values = $response->getValues();
       
       return !empty($values[0]) ? $values[0] : [];
     } catch (Exception $e) {
+      \Drupal::logger('song_sheets_import')->warning('Failed to get sheet headers for @sheet: @error', ['@sheet' => $sheetName, '@error' => $e->getMessage()]);
       return [];
     }
   }
