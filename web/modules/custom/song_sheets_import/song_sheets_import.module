@@ -8,6 +8,8 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 
 /**
  * Implements hook_help().
@@ -25,6 +27,48 @@ function song_sheets_import_help($route_name, RouteMatchInterface $route_match) 
 }
 
 /**
+ * Helper function to load episode data by episode number.
+ *
+ * @param string $episode_number
+ *   The episode number.
+ *
+ * @return array|null
+ *   Array with episode data or NULL if not found.
+ */
+function song_sheets_import_load_episode_data($episode_number) {
+  $episode_query = \Drupal::entityQuery('node')
+    ->condition('type', 'episode')
+    ->condition('field_episode_number', $episode_number)
+    ->accessCheck(FALSE)
+    ->range(0, 1);
+  
+  $episode_nids = $episode_query->execute();
+  
+  if (!empty($episode_nids)) {
+    $episode_nid = reset($episode_nids);
+    $episode = \Drupal::entityTypeManager()->getStorage('node')->load($episode_nid);
+    
+    if ($episode && $episode->hasField('field_audio_file') && !$episode->get('field_audio_file')->isEmpty()) {
+      $audio_media = $episode->get('field_audio_file')->entity;
+      
+      if ($audio_media && $audio_media->hasField('field_media_audio_file') && !$audio_media->get('field_media_audio_file')->isEmpty()) {
+        $audio_file = $audio_media->get('field_media_audio_file')->entity;
+        
+        if ($audio_file) {
+          return [
+            'episode' => $episode,
+            'audio_url' => \Drupal::service('file_url_generator')->generateAbsoluteString($audio_file->getFileUri()),
+            'episode_title' => $episode->getTitle(),
+          ];
+        }
+      }
+    }
+  }
+  
+  return NULL;
+}
+
+/**
  * Implements hook_preprocess_views_view().
  */
 function song_sheets_import_preprocess_views_view(&$variables) {
@@ -34,43 +78,19 @@ function song_sheets_import_preprocess_views_view(&$variables) {
   if ($view->id() == 'episodes' && $view->current_display == 'page_episode_songs') {
     if (!empty($view->args)) {
       $episode_number = $view->args[0];
+      $episode_data = song_sheets_import_load_episode_data($episode_number);
       
-      // Find the episode and get audio file URL
-      $episode_query = \Drupal::entityQuery('node')
-        ->condition('type', 'episode')
-        ->condition('field_episode_number', $episode_number)
-        ->accessCheck(FALSE)
-        ->range(0, 1);
-      
-      $episode_nids = $episode_query->execute();
-      
-      if (!empty($episode_nids)) {
-        $episode_nid = reset($episode_nids);
-        $episode = \Drupal::entityTypeManager()->getStorage('node')->load($episode_nid);
-        
-        if ($episode && $episode->hasField('field_audio_file') && !$episode->get('field_audio_file')->isEmpty()) {
-          $audio_media = $episode->get('field_audio_file')->entity;
-          
-          if ($audio_media && $audio_media->hasField('field_media_audio_file') && !$audio_media->get('field_media_audio_file')->isEmpty()) {
-            $audio_file = $audio_media->get('field_media_audio_file')->entity;
-            
-            if ($audio_file) {
-              $audio_url = \Drupal::service('file_url_generator')->generateAbsoluteString($audio_file->getFileUri());
-              $episode_title = $episode->getTitle();
-              
-              // Add audio player variables to the template
-              $variables['episode_audio_player'] = [
-                '#theme' => 'episode_audio_player',
-                '#episode_title' => $episode_title,
-                '#episode_number' => $episode_number,
-                '#audio_url' => $audio_url,
-                '#attached' => [
-                  'library' => ['song_sheets_import/episode-player'],
-                ],
-              ];
-            }
-          }
-        }
+      if ($episode_data) {
+        // Add audio player variables to the template
+        $variables['episode_audio_player'] = [
+          '#theme' => 'episode_audio_player',
+          '#episode_title' => $episode_data['episode_title'],
+          '#episode_number' => $episode_number,
+          '#audio_url' => $episode_data['audio_url'],
+          '#attached' => [
+            'library' => ['song_sheets_import/episode-player'],
+          ],
+        ];
       }
     }
   }
@@ -100,8 +120,7 @@ function song_sheets_import_preprocess_views_view_table(&$variables) {
   
   // Add timestamp buttons to episode songs view
   if ($view->id() == 'episodes' && $view->current_display == 'page_episode_songs') {
-    // Add the episode player library to the view
-    $variables['#attached']['library'][] = 'song_sheets_import/episode-player';
+    // Library is already attached in hook_preprocess_views_view()
     
     // Add timestamp buttons to each row
     foreach ($variables['rows'] as $row_index => &$row) {
