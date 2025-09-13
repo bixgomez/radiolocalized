@@ -19,6 +19,29 @@
   margin-bottom: 15px;
 }
 
+/* WaveSurfer Styles */
+.waveform-container {
+  margin: 15px 0;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+#waveform {
+  width: 100%;
+}
+
+.player-controls {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.player-controls button {
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
 .episode-timer {
   display: inline-block;
   font-family: 'Courier New', monospace;

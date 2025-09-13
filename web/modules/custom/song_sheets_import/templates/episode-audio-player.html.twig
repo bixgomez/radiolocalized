@@ -9,16 +9,20 @@
  * - audio_url: URL to the audio file
  */
 #}
-<div class="episode-player">
+<div class="episode-player" data-audio-url="{{ audio_url }}">
   <h3>{{ episode_title }}</h3>
   <div class="player-status">Episode {{ episode_number }}</div>
   
-  <audio controls preload="metadata">
-    <source src="{{ audio_url }}" type="audio/mpeg">
-    <source src="{{ audio_url }}" type="audio/ogg">
-    <source src="{{ audio_url }}" type="audio/wav">
-    Your browser does not support the audio element.
-  </audio>
+  <div class="waveform-container">
+    <div id="waveform"></div>
+  </div>
+  
+  <div class="player-controls">
+    <button id="play-pause-btn" type="button" class="btn btn-primary">
+      <span class="play-icon">▶</span>
+      <span class="pause-icon" style="display: none;">⏸</span>
+    </button>
+  </div>
   
   <div class="episode-controls">
     <strong>Current Time:</strong> 

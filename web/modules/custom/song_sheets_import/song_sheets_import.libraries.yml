@@ -8,6 +8,7 @@ episode-player:
     component:
       css/episode-player.css: {}
   js:
+    //unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js: { type: external, minified: true }
     js/episode-player.js: {}
   dependencies:
     - core/drupal
