@@ -4,18 +4,29 @@ status: true
 dependencies:
   config:
     - field.field.node.episode.body
+    - field.field.node.episode.field_audio_file
     - field.field.node.episode.field_date
     - field.field.node.episode.field_episode_number
     - field.field.node.episode.field_song
     - field.field.node.episode.field_subtitle
     - node.type.episode
   module:
+    - media
     - user
 id: node.episode.default
 targetEntityType: node
 bundle: episode
 mode: default
 content:
+  field_audio_file:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
   field_song:
     type: entity_reference_entity_view
     label: hidden
@@ -23,7 +34,7 @@ content:
       view_mode: teaser
       link: false
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden:
   body: true

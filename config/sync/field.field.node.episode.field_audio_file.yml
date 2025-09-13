@@ -1,0 +1,29 @@
+uuid: ab12cd34-ef56-gh78-ij90-abcdef123456
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_audio_file
+    - media.type.audio
+    - node.type.episode
+id: node.episode.field_audio_file
+field_name: field_audio_file
+entity_type: node
+bundle: episode
+label: 'Audio File'
+description: 'Upload the audio file for this episode to enable timestamp logging.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings:
+    target_bundles:
+      audio: audio
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
