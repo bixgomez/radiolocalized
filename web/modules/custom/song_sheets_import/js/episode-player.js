@@ -15,6 +15,12 @@
         var playPauseBtn = element.querySelector('#play-pause-btn');
         var playIcon = playPauseBtn.querySelector('.play-icon');
         var pauseIcon = playPauseBtn.querySelector('.pause-icon');
+        var skipBack30 = element.querySelector('#skip-back-30');
+        var skipBack15 = element.querySelector('#skip-back-15');
+        var skipBack5 = element.querySelector('#skip-back-5');
+        var skipForward5 = element.querySelector('#skip-forward-5');
+        var skipForward15 = element.querySelector('#skip-forward-15');
+        var skipForward30 = element.querySelector('#skip-forward-30');
         var wavesurfer;
 
         // Wait for WaveSurfer to be available
@@ -60,9 +66,42 @@
           }
         }
 
+        // Helper function to skip to specific time with bounds checking
+        function skipToTime(seconds) {
+          var currentTime = wavesurfer.getCurrentTime();
+          var duration = wavesurfer.getDuration();
+          var newTime = Math.max(0, Math.min(duration, currentTime + seconds));
+          wavesurfer.seekTo(newTime / duration);
+        }
+
         // Play/Pause button handler
         playPauseBtn.addEventListener('click', function() {
           wavesurfer.playPause();
+        });
+
+        // Skip button handlers
+        skipBack30.addEventListener('click', function() {
+          skipToTime(-30);
+        });
+
+        skipBack15.addEventListener('click', function() {
+          skipToTime(-15);
+        });
+
+        skipBack5.addEventListener('click', function() {
+          skipToTime(-5);
+        });
+
+        skipForward5.addEventListener('click', function() {
+          skipToTime(5);
+        });
+
+        skipForward15.addEventListener('click', function() {
+          skipToTime(15);
+        });
+
+        skipForward30.addEventListener('click', function() {
+          skipToTime(30);
         });
 
         // WaveSurfer event listeners
