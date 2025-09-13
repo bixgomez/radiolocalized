@@ -2,3 +2,13 @@ episode-grid:
   css:
     component:
       css/episode-grid.css: {}
+
+episode-player:
+  css:
+    component:
+      css/episode-player.css: {}
+  js:
+    js/episode-player.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

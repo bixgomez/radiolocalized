@@ -1,0 +1,89 @@
+/* Episode Audio Player Styles */
+
+.episode-player {
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.episode-player h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.episode-player audio {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.episode-timer {
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  min-width: 80px;
+  text-align: center;
+}
+
+.episode-player.playing .episode-timer {
+  color: #28a745;
+  border-color: #28a745;
+  background: #f8fff9;
+}
+
+/* Song timestamp buttons */
+.song-timestamp-button {
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 1.2;
+  border-radius: 3px;
+  margin: 0 2px;
+  min-width: 35px;
+}
+
+.song-timestamp-button:disabled {
+  opacity: 0.6;
+}
+
+/* Timestamp display cells */
+.timestamp-start,
+.timestamp-end,
+.timestamp-duration {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Song table styling for timestamp logging */
+.episode-songs-table .song-timestamp-controls {
+  white-space: nowrap;
+  text-align: center;
+  padding: 4px;
+}
+
+.episode-songs-table td {
+  vertical-align: middle;
+}
+
+.episode-songs-table .song-title {
+  font-weight: 500;
+}
+
+/* Player status indicator */
+.episode-player .player-status {
+  float: right;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.episode-player.playing .player-status:after {
+  content: " ▶ Playing";
+  color: #28a745;
+}

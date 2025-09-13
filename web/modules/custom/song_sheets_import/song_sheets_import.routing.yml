@@ -5,3 +5,11 @@ song_sheets_import.admin:
     _title: 'Song Sheets Import'
   requirements:
     _permission: 'administer site configuration'
+
+song_sheets_import.update_timestamp:
+  path: '/admin/song-timestamp/update'
+  defaults:
+    _controller: '\Drupal\song_sheets_import\Controller\TimestampController::updateTimestamp'
+  requirements:
+    _custom_access: '\Drupal\song_sheets_import\Controller\TimestampController::access'
+  methods: [POST]

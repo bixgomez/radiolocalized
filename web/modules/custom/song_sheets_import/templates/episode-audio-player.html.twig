@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Episode Audio Player template.
+ *
+ * Available variables:
+ * - episode_title: The title of the episode
+ * - episode_number: The episode number
+ * - audio_url: URL to the audio file
+ */
+#}
+<div class="episode-player">
+  <h3>{{ episode_title }}</h3>
+  <div class="player-status">Episode {{ episode_number }}</div>
+  
+  <audio controls preload="metadata">
+    <source src="{{ audio_url }}" type="audio/mpeg">
+    <source src="{{ audio_url }}" type="audio/ogg">
+    <source src="{{ audio_url }}" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <div class="episode-controls">
+    <strong>Current Time:</strong> 
+    <span class="episode-timer">00:00</span>
+  </div>
+  
+  <p class="episode-instructions">
+    <small><strong>Instructions:</strong> Play the episode and use the "Set" buttons in the song table below to capture start and end times as you listen.</small>
+  </p>
+</div>
