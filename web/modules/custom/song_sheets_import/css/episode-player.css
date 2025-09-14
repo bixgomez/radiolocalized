@@ -119,7 +119,8 @@
 }
 
 /* Song timestamp buttons */
-.song-timestamp-button {
+.song-timestamp-button,
+.song-goto-button {
   padding: 2px 8px;
   font-size: 12px;
   line-height: 1.2;
@@ -128,8 +129,21 @@
   min-width: 35px;
 }
 
-.song-timestamp-button:disabled {
+.song-timestamp-button:disabled,
+.song-goto-button:disabled {
   opacity: 0.6;
+}
+
+/* GoTo button specific styles */
+.song-goto-button {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.song-goto-button:hover:not(:disabled) {
+  background-color: #5a6268;
+  border-color: #545b62;
 }
 
 /* Timestamp display cells */

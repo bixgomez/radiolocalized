@@ -208,8 +208,39 @@
           alert("Error loading audio file. Please try refreshing the page.");
         });
 
-        // Handle timestamp capture buttons
+        // Handle GoTo buttons
         document.addEventListener("click", function (e) {
+          if (e.target.classList.contains("song-goto-button")) {
+            e.preventDefault();
+            
+            var button = e.target;
+            var timestamp = button.dataset.timestamp;
+            
+            if (timestamp && timestamp !== '--:--' && wavesurfer) {
+              // Parse MM:SS format to seconds
+              var timeParts = timestamp.split(':');
+              if (timeParts.length === 2) {
+                var minutes = parseInt(timeParts[0], 10) || 0;
+                var seconds = parseInt(timeParts[1], 10) || 0;
+                var totalSeconds = minutes * 60 + seconds;
+                
+                // Get duration and calculate seek position
+                var duration = wavesurfer.getDuration();
+                if (duration > 0) {
+                  var seekTo = totalSeconds / duration;
+                  wavesurfer.seekTo(seekTo);
+                  
+                  // Visual feedback
+                  button.textContent = '✓';
+                  setTimeout(function() {
+                    button.textContent = 'GoTo';
+                  }, 1000);
+                }
+              }
+            }
+          }
+          
+          // Handle timestamp capture buttons
           if (e.target.classList.contains("song-timestamp-button")) {
             e.preventDefault();
 
@@ -268,6 +299,15 @@
                   if (cell) {
                     cell.textContent = currentTime;
                   }
+                  
+                  // Enable and update the corresponding GoTo button
+                  var gotoButton = currentRow.querySelector(
+                    '.song-goto-button[data-field-type="' + fieldType + '"]'
+                  );
+                  if (gotoButton) {
+                    gotoButton.dataset.timestamp = currentTime;
+                    gotoButton.disabled = false;
+                  }
 
                   // If we updated a previous song's end time, update that display too
                   if (data.previous_updated && previousSongId) {
@@ -277,6 +317,15 @@
                         previousRow.querySelector(".timestamp-end");
                       if (prevEndCell) {
                         prevEndCell.textContent = currentTime;
+                      }
+                      
+                      // Enable and update the previous song's end GoTo button
+                      var prevGotoButton = previousRow.querySelector(
+                        '.song-goto-button[data-field-type="end"]'
+                      );
+                      if (prevGotoButton) {
+                        prevGotoButton.dataset.timestamp = currentTime;
+                        prevGotoButton.disabled = false;
                       }
                     }
                   }

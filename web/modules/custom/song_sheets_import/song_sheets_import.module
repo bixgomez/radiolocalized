@@ -133,14 +133,14 @@ function song_sheets_import_preprocess_views_view_table(&$variables) {
       
       // Add timestamp buttons to start time column
       if (isset($row['columns']['field_start_time']) && isset($row['columns']['field_end_time'])) {
-        // Modify the start time cell to include current value and set button
+        // Modify the start time cell to include current value, set button, and goto button
         $row['columns']['field_start_time']['content'][0]['field_output'] = [
           '#type' => 'container',
           '#attributes' => ['class' => ['timestamp-cell']],
           'timestamp' => [
             '#markup' => '<span class="timestamp-start">' . ($start_time ?: '--:--') . '</span> ',
           ],
-          'button' => [
+          'set_button' => [
             '#type' => 'button',
             '#value' => 'Set',
             '#attributes' => [
@@ -150,11 +150,37 @@ function song_sheets_import_preprocess_views_view_table(&$variables) {
               'type' => 'button',
             ],
           ],
+          'goto_button' => [
+            '#type' => 'button',
+            '#value' => 'GoTo',
+            '#attributes' => [
+              'class' => ['btn', 'btn-secondary', 'btn-sm', 'song-goto-button'],
+              'data-timestamp' => $start_time,
+              'data-field-type' => 'start',
+              'type' => 'button',
+              'disabled' => empty($start_time),
+            ],
+          ],
         ];
         
-        // Modify the end time cell to show only the current value (no set button)
+        // Modify the end time cell to include current value and goto button
         $row['columns']['field_end_time']['content'][0]['field_output'] = [
-          '#markup' => '<span class="timestamp-end">' . ($end_time ?: '--:--') . '</span>',
+          '#type' => 'container',
+          '#attributes' => ['class' => ['timestamp-cell']],
+          'timestamp' => [
+            '#markup' => '<span class="timestamp-end">' . ($end_time ?: '--:--') . '</span> ',
+          ],
+          'goto_button' => [
+            '#type' => 'button',
+            '#value' => 'GoTo',
+            '#attributes' => [
+              'class' => ['btn', 'btn-secondary', 'btn-sm', 'song-goto-button'],
+              'data-timestamp' => $end_time,
+              'data-field-type' => 'end',
+              'type' => 'button',
+              'disabled' => empty($end_time),
+            ],
+          ],
         ];
       }
     }
