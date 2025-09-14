@@ -68,10 +68,16 @@
         // Load the audio file
         wavesurfer.load(audioUrl);
 
-        // Add loading progress feedback
+        // Add loading progress feedback with better stages
+        var loadingStage = "download";
+        
         wavesurfer.on("loading", function (percent) {
           if (percent < 100) {
-            playIcon.textContent = "Loading " + Math.round(percent) + "%";
+            playIcon.textContent = "Downloading " + Math.round(percent) + "%";
+            loadingStage = "download";
+          } else {
+            playIcon.textContent = "Processing audio...";
+            loadingStage = "processing";
           }
         });
 
@@ -133,6 +139,13 @@
         });
 
         // WaveSurfer event listeners
+        // Add decode progress for waveform generation
+        wavesurfer.on("decode", function () {
+          if (loadingStage === "processing") {
+            playIcon.textContent = "Building waveform...";
+          }
+        });
+
         wavesurfer.on("ready", function () {
           console.log("WaveSurfer ready");
 
