@@ -1,16 +1,16 @@
-uuid: 12ab34cd-56ef-78gh-90ij-123456789abc
+uuid: 4b9e1e84-7b70-4d09-9726-80b4e121d4ae
 langcode: en
 status: true
 dependencies:
   module:
-    - media
     - node
-id: node.field_audio_file
-field_name: field_audio_file
+id: node.field_track_number
+field_name: field_track_number
 entity_type: node
-type: entity_reference
+type: integer
 settings:
-  target_type: media
+  unsigned: false
+  size: normal
 module: core
 locked: false
 cardinality: 1

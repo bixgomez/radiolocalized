@@ -34,6 +34,13 @@
   </div>
 {% endif %}
 
+{# Add reset order button #}
+<div class="episode-controls-wrapper">
+  <button id="reset-episode-order" type="button" class="btn btn-secondary btn-sm" title="Reset song order to original Google Sheets order">
+    🔄 Reset Order
+  </button>
+</div>
+
 <div{{ attributes.addClass('view', 'view-' ~ id, 'view-id-' ~ id, 'view-display-id-' ~ display_id, css_class) }}>
   {{ title_prefix }}
   {% if title %}

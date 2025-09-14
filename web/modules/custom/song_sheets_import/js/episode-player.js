@@ -36,7 +36,7 @@
           return;
         }
 
-        // Initialize WaveSurfer
+        // Initialize WaveSurfer with optimizations for faster loading
         wavesurfer = WaveSurfer.create({
           container: element.querySelector('#waveform'),
           waveColor: '#4f46e5',
@@ -44,13 +44,40 @@
           height: 80,
           normalize: true,
           backend: 'WebAudio',
-          responsive: true
+          responsive: true,
+          // Optimize for faster loading
+          pixelRatio: 1,
+          barWidth: 2,
+          barGap: 1,
+          // Use MediaElement as fallback for faster initial playback
+          mediaControls: false,
+          interact: true
         });
 
+        // Show loading state - disable all controls
+        playPauseBtn.disabled = true;
+        playIcon.textContent = 'Loading...';
+        pauseIcon.style.display = 'none';
+        playIcon.style.display = 'inline';
+        skipBack30.disabled = true;
+        skipBack15.disabled = true;
+        skipBack5.disabled = true;
+        skipForward5.disabled = true;
+        skipForward15.disabled = true;
+        skipForward30.disabled = true;
+        element.classList.add('loading');
+        
         // Load the audio file
         wavesurfer.load(audioUrl);
+        
+        // Add loading progress feedback
+        wavesurfer.on('loading', function(percent) {
+          if (percent < 100) {
+            playIcon.textContent = 'Loading ' + Math.round(percent) + '%';
+          }
+        });
 
-        // Format time as MM:SS
+        // Format time as MM:SS (for durations over 1 hour, show as MM:SS not HH:MM:SS)
         function formatTime(seconds) {
           var minutes = Math.floor(seconds / 60);
           var remainingSeconds = Math.floor(seconds % 60);
@@ -107,6 +134,22 @@
         // WaveSurfer event listeners
         wavesurfer.on('ready', function() {
           console.log('WaveSurfer ready');
+          
+          // Remove loading state and enable controls
+          playPauseBtn.disabled = false;
+          playIcon.textContent = '▶';
+          pauseIcon.style.display = 'none';
+          playIcon.style.display = 'inline';
+          element.classList.remove('loading');
+          
+          // Enable skip buttons
+          skipBack30.disabled = false;
+          skipBack15.disabled = false;
+          skipBack5.disabled = false;
+          skipForward5.disabled = false;
+          skipForward15.disabled = false;
+          skipForward30.disabled = false;
+          
           updateTimer();
         });
 
@@ -136,6 +179,21 @@
           pauseIcon.style.display = 'none';
         });
 
+        wavesurfer.on('error', function(error) {
+          console.error('WaveSurfer error:', error);
+          
+          // Remove loading state and show error
+          playPauseBtn.disabled = false;
+          playIcon.textContent = 'Error';
+          playIcon.style.color = 'red';
+          pauseIcon.style.display = 'none';
+          playIcon.style.display = 'inline';
+          element.classList.remove('loading');
+          element.classList.add('error');
+          
+          alert('Error loading audio file. Please try refreshing the page.');
+        });
+
         // Handle timestamp capture buttons
         document.addEventListener('click', function(e) {
           if (e.target.classList.contains('song-timestamp-button')) {
@@ -145,10 +203,36 @@
             var songId = button.dataset.songId;
             var fieldType = button.dataset.fieldType;
             var currentTime = formatTime(wavesurfer.getCurrentTime());
+            var currentRow = button.closest('tr');
+            
+            // Find previous song info if we're setting a start time
+            var previousSongId = null;
+            if (fieldType === 'start') {
+              var previousRow = currentRow.previousElementSibling;
+              if (previousRow && previousRow.tagName === 'TR') {
+                var prevButton = previousRow.querySelector('.song-timestamp-button[data-field-type="start"]');
+                if (prevButton) {
+                  previousSongId = prevButton.dataset.songId;
+                }
+              }
+            }
             
             // Show immediate feedback
             button.textContent = 'Setting...';
             button.disabled = true;
+            
+            // Prepare request data
+            var requestData = {
+              song_id: songId,
+              field_type: fieldType,
+              timestamp: currentTime
+            };
+            
+            // Add previous song data if we found one
+            if (previousSongId) {
+              requestData.previous_song_id = previousSongId;
+              requestData.previous_timestamp = currentTime;
+            }
             
             // AJAX call to update the song timestamp
             fetch('/admin/song-timestamp/update', {
@@ -156,20 +240,26 @@
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
-              body: new URLSearchParams({
-                song_id: songId,
-                field_type: fieldType,
-                timestamp: currentTime
-              })
+              body: new URLSearchParams(requestData)
             })
             .then(response => response.json())
             .then(data => {
               if (data.success) {
-                // Update the display cell
-                var row = button.closest('tr');
-                var cell = row.querySelector('.timestamp-' + fieldType);
+                // Update the current song's display cell
+                var cell = currentRow.querySelector('.timestamp-' + fieldType);
                 if (cell) {
                   cell.textContent = currentTime;
+                }
+                
+                // If we updated a previous song's end time, update that display too
+                if (data.previous_updated && previousSongId) {
+                  var previousRow = currentRow.previousElementSibling;
+                  if (previousRow) {
+                    var prevEndCell = previousRow.querySelector('.timestamp-end');
+                    if (prevEndCell) {
+                      prevEndCell.textContent = currentTime;
+                    }
+                  }
                 }
                 
                 // Show success feedback
@@ -200,6 +290,61 @@
 
         // Store wavesurfer instance for global access
         element.wavesurfer = wavesurfer;
+      });
+
+      // Handle reset order button (outside the episode-player context)
+      once('reset-order', '#reset-episode-order', context).forEach(function (button) {
+        button.addEventListener('click', function() {
+          // Try multiple selectors to find the table
+          var table = document.querySelector('.views-table tbody') ||
+                      document.querySelector('table tbody') ||
+                      document.querySelector('.view-content table tbody') ||
+                      document.querySelector('.episode-songs-table tbody') ||
+                      document.querySelector('[class*="view"] tbody');
+          
+          if (!table) {
+            console.log('Available tables:', document.querySelectorAll('table'));
+            console.log('Available tbody elements:', document.querySelectorAll('tbody'));
+            alert('Could not find song table to reorder');
+            return;
+          }
+
+          // Get all table rows
+          var rows = Array.from(table.querySelectorAll('tr'));
+          
+          // Sort rows by track number (get from data attribute or parse from content)
+          rows.sort(function(a, b) {
+            // Try to get track number from row data or song ID
+            var aTrackNum = getTrackNumber(a);
+            var bTrackNum = getTrackNumber(b);
+            return aTrackNum - bTrackNum;
+          });
+
+          // Remove all rows and re-append in sorted order
+          rows.forEach(function(row) {
+            table.removeChild(row);
+          });
+          rows.forEach(function(row) {
+            table.appendChild(row);
+          });
+
+          // Show success message
+          button.textContent = '✅ Ordered';
+          setTimeout(function() {
+            button.innerHTML = '🔄 Reset Order';
+          }, 2000);
+        });
+
+        // Helper function to extract track number from table row
+        function getTrackNumber(row) {
+          // Try to get song ID from Set button and use that as fallback
+          var setButton = row.querySelector('.song-timestamp-button');
+          if (setButton && setButton.dataset.songId) {
+            // Use song ID as fallback (newer songs will have higher IDs)
+            return parseInt(setButton.dataset.songId) || 9999;
+          }
+          return 9999; // Fallback for rows without buttons
+        }
       });
     }
   };

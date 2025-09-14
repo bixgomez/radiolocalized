@@ -509,8 +509,8 @@ class SongSheetsImportForm extends FormBase {
       $skipped = 0;
       $mapping = $this->mapColumnsToFields($data['headers']);
       
-      foreach ($data['rows'] as $row) {
-        $result = $this->importSong($row, $data['headers'], $mapping, $episode);
+      foreach ($data['rows'] as $trackNumber => $row) {
+        $result = $this->importSong($row, $data['headers'], $mapping, $episode, $trackNumber + 1);
         if ($result === 'imported') {
           $imported++;
         } elseif ($result === 'updated') {
@@ -567,7 +567,7 @@ class SongSheetsImportForm extends FormBase {
   /**
    * Import a single song.
    */
-  private function importSong($row, $headers, $mapping, $episode) {
+  private function importSong($row, $headers, $mapping, $episode, $trackNumber = 1) {
     // Extract song title from the row
     $songTitleIndex = null;
     foreach ($mapping as $index => $mapInfo) {
@@ -632,7 +632,10 @@ class SongSheetsImportForm extends FormBase {
         ]);
       }
       
-      return $this->updateEmptyFields($existingSong, $row, $headers, $mapping);
+      // Always update track number for existing songs
+      $existingSong->set('field_track_number', $trackNumber);
+      
+      return $this->updateEmptyFields($existingSong, $row, $headers, $mapping, $trackNumber);
     }
     
     // Create new song node
@@ -641,6 +644,7 @@ class SongSheetsImportForm extends FormBase {
       'title' => $songTitle,
       'field_episode' => $episode->id(),
       'field_episode_number' => $episodeNumber,
+      'field_track_number' => $trackNumber,
       'uid' => \Drupal::currentUser()->id(),
       'status' => 1,
     ];
@@ -690,8 +694,14 @@ class SongSheetsImportForm extends FormBase {
   /**
    * Update empty fields in existing song.
    */
-  private function updateEmptyFields($existingSong, $row, $headers, $mapping) {
+  private function updateEmptyFields($existingSong, $row, $headers, $mapping, $trackNumber = null) {
     $updated = FALSE;
+    
+    // Always update track number if provided
+    if ($trackNumber !== null) {
+      $existingSong->set('field_track_number', $trackNumber);
+      $updated = TRUE;
+    }
     
     foreach ($mapping as $index => $mapInfo) {
       if (!$mapInfo['field'] || $mapInfo['field'] === 'title' || !isset($row[$index]) || empty(trim($row[$index]))) {
@@ -900,8 +910,8 @@ class SongSheetsImportForm extends FormBase {
         $episodeSkipped = 0;
         $mapping = $form->mapColumnsToFields($data['headers']);
         
-        foreach ($data['rows'] as $row) {
-          $result = $form->importSong($row, $data['headers'], $mapping, $episode);
+        foreach ($data['rows'] as $trackNumber => $row) {
+          $result = $form->importSong($row, $data['headers'], $mapping, $episode, $trackNumber + 1);
           if ($result === 'imported') {
             $episodeImported++;
           } elseif ($result === 'updated') {

@@ -26,6 +26,8 @@ class TimestampController extends ControllerBase {
     $song_id = $request->request->get('song_id');
     $field_type = $request->request->get('field_type');
     $timestamp = $request->request->get('timestamp');
+    $previous_song_id = $request->request->get('previous_song_id');
+    $previous_timestamp = $request->request->get('previous_timestamp');
 
     // Validate inputs
     if (empty($song_id) || empty($field_type) || empty($timestamp)) {
@@ -83,7 +85,28 @@ class TimestampController extends ControllerBase {
       $song->set($field_name, $timestamp);
       $song->save();
 
-      // Log the update
+      // If setting a start time and we have a previous song, update its end time
+      $previous_updated = FALSE;
+      if ($field_type === 'start' && !empty($previous_song_id) && !empty($previous_timestamp)) {
+        $previous_song = $this->entityTypeManager()->getStorage('node')->load($previous_song_id);
+        if ($previous_song && $previous_song->bundle() === 'song' && $previous_song->access('update')) {
+          $previous_song->set('field_end_time', $previous_timestamp);
+          $previous_song->save();
+          $previous_updated = TRUE;
+          
+          // Log the previous song update
+          $this->getLogger('song_sheets_import')->info(
+            'Updated end time for previous song "@prev_title" (ID: @prev_id) to @timestamp',
+            [
+              '@prev_title' => $previous_song->getTitle(),
+              '@prev_id' => $previous_song_id,
+              '@timestamp' => $previous_timestamp,
+            ]
+          );
+        }
+      }
+
+      // Log the main update
       $this->getLogger('song_sheets_import')->info(
         'Updated @field_type timestamp for song "@title" (ID: @id) to @timestamp',
         [
@@ -97,6 +120,7 @@ class TimestampController extends ControllerBase {
       return new JsonResponse([
         'success' => TRUE,
         'message' => 'Timestamp updated successfully',
+        'previous_updated' => $previous_updated,
         'data' => [
           'song_id' => $song_id,
           'field_type' => $field_type,

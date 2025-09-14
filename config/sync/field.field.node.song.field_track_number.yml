@@ -1,0 +1,23 @@
+uuid: b0d73eaf-5766-4d45-83f2-944a20902c92
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_track_number
+    - node.type.song
+id: node.song.field_track_number
+field_name: field_track_number
+entity_type: node
+bundle: song
+label: 'Track Number'
+description: 'Original order from Google Sheets import (used for resetting episode order)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: 999
+  prefix: ''
+  suffix: ''
+field_type: integer

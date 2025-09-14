@@ -8,6 +8,28 @@
   margin-bottom: 30px;
 }
 
+/* Loading state styles */
+.episode-player.loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.episode-player.loading .waveform-container {
+  background: #f0f0f0;
+  position: relative;
+}
+
+.episode-player.loading .waveform-container::after {
+  content: "Loading audio waveform...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 14px;
+  font-style: italic;
+}
+
 .episode-player h3 {
   margin-top: 0;
   margin-bottom: 15px;
@@ -143,4 +165,22 @@
 .episode-player.playing .player-status:after {
   content: " ▶ Playing";
   color: #28a745;
+}
+
+/* Episode controls (reset order button) */
+.episode-controls-wrapper {
+  margin: 10px 0;
+  text-align: right;
+}
+
+#reset-episode-order {
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+#reset-episode-order:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
 }

@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.song.field_notes
     - field.field.node.song.field_place
     - field.field.node.song.field_start_time
+    - field.field.node.song.field_track_number
     - field.field.node.song.field_year_recorded
     - field.field.node.song.field_year_released
     - node.type.song
@@ -133,6 +134,13 @@ content:
     settings:
       size: 20
       placeholder: '02:30'
+    third_party_settings: {  }
+  field_track_number:
+    type: number
+    weight: 13
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
   field_year_recorded:
     type: number
