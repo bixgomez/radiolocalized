@@ -26,6 +26,8 @@ class TimestampController extends ControllerBase {
     $song_id = $request->request->get('song_id');
     $field_type = $request->request->get('field_type');
     $timestamp = $request->request->get('timestamp');
+    // Optional: if setting the last song's start, also set its end time.
+    $current_end_timestamp = $request->request->get('current_end_timestamp');
     $previous_song_id = $request->request->get('previous_song_id');
     $previous_timestamp = $request->request->get('previous_timestamp');
 
@@ -45,11 +47,18 @@ class TimestampController extends ControllerBase {
       ], 400);
     }
 
-    // Validate timestamp format (MM:SS)
-    if (!preg_match('/^\d{1,2}:\d{2}$/', $timestamp)) {
+    // Validate timestamp format (MM:SS) - allow up to 3-digit minutes.
+    if (!preg_match('/^\d{1,3}:\d{2}$/', $timestamp)) {
       return new JsonResponse([
         'success' => FALSE,
         'message' => 'Invalid timestamp format',
+      ], 400);
+    }
+
+    if (!empty($current_end_timestamp) && !preg_match('/^\d{1,3}:\d{2}$/', $current_end_timestamp)) {
+      return new JsonResponse([
+        'success' => FALSE,
+        'message' => 'Invalid end timestamp format',
       ], 400);
     }
 
@@ -81,8 +90,20 @@ class TimestampController extends ControllerBase {
 
       $field_name = $field_mapping[$field_type];
 
-      // Update the field
-      $song->set($field_name, $timestamp);
+      // Update fields. If setting start time and an end value is provided for
+      // the current (last) song, set both before saving.
+      if ($field_type === 'start') {
+        $song->set('field_start_time', $timestamp);
+        if (!empty($current_end_timestamp)) {
+          $song->set('field_end_time', $current_end_timestamp);
+        }
+      }
+      elseif ($field_type === 'end') {
+        $song->set('field_end_time', $timestamp);
+      }
+      else { // duration
+        $song->set('field_duration', $timestamp);
+      }
       $song->save();
 
       // If setting a start time and we have a previous song, update its end time
@@ -125,6 +146,7 @@ class TimestampController extends ControllerBase {
           'song_id' => $song_id,
           'field_type' => $field_type,
           'timestamp' => $timestamp,
+          'current_end_timestamp' => $current_end_timestamp,
         ],
       ]);
 

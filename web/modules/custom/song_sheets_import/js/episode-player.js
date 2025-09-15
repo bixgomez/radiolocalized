@@ -249,6 +249,9 @@
             var fieldType = button.dataset.fieldType;
             var currentTime = formatTime(wavesurfer.getCurrentTime());
             var currentRow = button.closest("tr");
+            var nextRow = currentRow ? currentRow.nextElementSibling : null;
+            var isLastRow = !nextRow || nextRow.tagName !== 'TR';
+            var episodeDuration = formatTime(wavesurfer.getDuration());
 
             // Find previous song info if we're setting a start time
             var previousSongId = null;
@@ -281,6 +284,12 @@
               requestData.previous_timestamp = currentTime;
             }
 
+            // If this is the last song and we're setting the start time,
+            // also set its end time to the episode's full duration.
+            if (fieldType === 'start' && isLastRow && episodeDuration) {
+              requestData.current_end_timestamp = episodeDuration;
+            }
+
             // AJAX call to update the song timestamp
             fetch("/admin/song-timestamp/update", {
               method: "POST",
@@ -307,6 +316,19 @@
                   if (gotoButton) {
                     gotoButton.dataset.timestamp = currentTime;
                     gotoButton.disabled = false;
+                  }
+
+                  // If we set the current song's end time (last row), update UI.
+                  if (requestData.current_end_timestamp) {
+                    var endCell = currentRow.querySelector('.timestamp-end');
+                    if (endCell) {
+                      endCell.textContent = requestData.current_end_timestamp;
+                    }
+                    var endGoto = currentRow.querySelector('.song-goto-button[data-field-type="end"]');
+                    if (endGoto) {
+                      endGoto.dataset.timestamp = requestData.current_end_timestamp;
+                      endGoto.disabled = false;
+                    }
                   }
 
                   // If we updated a previous song's end time, update that display too
