@@ -1,0 +1,6 @@
+name: 'Episode Audio Linker'
+type: module
+description: 'Associates audio media to Episode nodes based on media title (Radio Localized NNN - ...).'
+core_version_requirement: '^10 || ^11'
+package: 'Custom'
+

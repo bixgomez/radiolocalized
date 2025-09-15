@@ -1,0 +1,7 @@
+episode_audio_linker.form:
+  title: 'Associate Episode Audio'
+  description: 'Link audio media to episodes by parsing media titles.'
+  parent: system.admin_config_content
+  route_name: episode_audio_linker.form
+  weight: 50
+
