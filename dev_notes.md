@@ -342,3 +342,12 @@ if ($currentEpisodeId != $episode->id()) {
   3. Map the Google Sheets columns to your song fields
   4. Convert time formats (like "3:45" to MM:SS format)
   5. Create song nodes with proper field values
+
+## Open Questions (to review later)
+- Credentials location: Are you okay keeping the JSON in `web/test-sheets` (public web root), or should we relocate to a non-web/private path and reference it via settings?
+- Column variations: Do you want a configurable mapping UI (stored in config), or keep the current code-based mapping rules?
+- “Length” ambiguity: There are two “Length” columns (track vs actual play time). Which one maps to `field_duration`, and do we want to store the other anywhere?
+- Episode creation: Should the importer create missing Episode nodes, or do you prefer Episodes are pre-created and importer only links?
+- Default duplicate behavior: When a match exists (Title + Episode Number), should the default be “Update” or “Skip”?
+- Logging destination: Keep importer logs in Drupal watchdog only, or also write a dedicated import log file for audits?
+- Environment alignment: Notes reference DDEV, but this project path looks local LAMP/LEMP. Should I assume we’re working and testing locally here (no DDEV orchestration)?

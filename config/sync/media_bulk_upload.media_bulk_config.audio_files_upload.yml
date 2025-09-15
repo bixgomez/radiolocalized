@@ -1,0 +1,16 @@
+uuid: 0ab22b30-5d15-4ac9-bde5-c764da6256c3
+langcode: en
+status: true
+dependencies: {  }
+id: audio_files_upload
+label: 'Audio Files Upload'
+media_types:
+  audio: audio
+  document: 0
+  image: 0
+  remote_video: 0
+  video: 0
+form_mode: media_library
+upload_location: ../uploads
+show_alt: null
+show_title: null
