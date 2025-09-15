@@ -14,7 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class EpisodeAudioLinkerForm extends FormBase {
 
-  protected EntityTypeManagerInterface $entityTypeManager;
+  /** @var \Drupal\Core\Entity\EntityTypeManagerInterface */
+  protected $entityTypeManager;
 
   public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
@@ -213,4 +214,3 @@ class EpisodeAudioLinkerForm extends FormBase {
   }
 
 }
-

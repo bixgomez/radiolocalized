@@ -1,8 +1,7 @@
 episode_audio_linker.form:
   path: '/admin/config/content/episode-audio-linker'
   defaults:
-    _form: '\\Drupal\\episode_audio_linker\\Form\\EpisodeAudioLinkerForm'
+    _form: '\Drupal\episode_audio_linker\Form\EpisodeAudioLinkerForm'
     _title: 'Associate Episode Audio'
   requirements:
     _permission: 'administer episode audio linking'
-
