@@ -319,14 +319,6 @@
                         prevEndCell.textContent = currentTime;
                       }
                       
-                      // Enable and update the previous song's end GoTo button
-                      var prevGotoButton = previousRow.querySelector(
-                        '.song-goto-button[data-field-type="end"]'
-                      );
-                      if (prevGotoButton) {
-                        prevGotoButton.dataset.timestamp = currentTime;
-                        prevGotoButton.disabled = false;
-                      }
                     }
                   }
 

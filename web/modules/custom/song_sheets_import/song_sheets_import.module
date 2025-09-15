@@ -163,24 +163,9 @@ function song_sheets_import_preprocess_views_view_table(&$variables) {
           ],
         ];
         
-        // Modify the end time cell to include current value and goto button
+        // Modify the end time cell to show only the current value (no buttons)
         $row['columns']['field_end_time']['content'][0]['field_output'] = [
-          '#type' => 'container',
-          '#attributes' => ['class' => ['timestamp-cell']],
-          'timestamp' => [
-            '#markup' => '<span class="timestamp-end">' . ($end_time ?: '--:--') . '</span> ',
-          ],
-          'goto_button' => [
-            '#type' => 'button',
-            '#value' => 'GoTo',
-            '#attributes' => [
-              'class' => ['btn', 'btn-secondary', 'btn-sm', 'song-goto-button'],
-              'data-timestamp' => $end_time,
-              'data-field-type' => 'end',
-              'type' => 'button',
-              'disabled' => empty($end_time),
-            ],
-          ],
+          '#markup' => '<span class="timestamp-end">' . ($end_time ?: '--:--') . '</span>',
         ];
       }
     }
