@@ -81,15 +81,6 @@ class TimestampController extends ControllerBase {
         ], 403);
       }
 
-      // Map field types to field names
-      $field_mapping = [
-        'start' => 'field_start_time',
-        'end' => 'field_end_time',
-        'duration' => 'field_duration',
-      ];
-
-      $field_name = $field_mapping[$field_type];
-
       // Update fields. If setting start time and an end value is provided for
       // the current (last) song, set both before saving.
       if ($field_type === 'start') {
@@ -104,14 +95,39 @@ class TimestampController extends ControllerBase {
       else { // duration
         $song->set('field_duration', $timestamp);
       }
+
+      // If this song now has both start and end, compute and set duration.
+      $duration_value = NULL;
+      $start_value = $song->get('field_start_time')->value;
+      $end_value = $song->get('field_end_time')->value;
+      if (!empty($start_value) && !empty($end_value)) {
+        $start_secs = $this->mmSsToSeconds($start_value);
+        $end_secs = $this->mmSsToSeconds($end_value);
+        if ($end_secs >= $start_secs) {
+          $duration_value = $this->secondsToMmSs($end_secs - $start_secs);
+          $song->set('field_duration', $duration_value);
+        }
+      }
+
       $song->save();
 
       // If setting a start time and we have a previous song, update its end time
       $previous_updated = FALSE;
+      $previous_duration = NULL;
       if ($field_type === 'start' && !empty($previous_song_id) && !empty($previous_timestamp)) {
         $previous_song = $this->entityTypeManager()->getStorage('node')->load($previous_song_id);
         if ($previous_song && $previous_song->bundle() === 'song' && $previous_song->access('update')) {
           $previous_song->set('field_end_time', $previous_timestamp);
+          // Compute and set previous duration if possible.
+          $prev_start = $previous_song->get('field_start_time')->value;
+          if (!empty($prev_start)) {
+            $prev_start_secs = $this->mmSsToSeconds($prev_start);
+            $prev_end_secs = $this->mmSsToSeconds($previous_timestamp);
+            if ($prev_end_secs >= $prev_start_secs) {
+              $previous_duration = $this->secondsToMmSs($prev_end_secs - $prev_start_secs);
+              $previous_song->set('field_duration', $previous_duration);
+            }
+          }
           $previous_song->save();
           $previous_updated = TRUE;
           
@@ -147,6 +163,10 @@ class TimestampController extends ControllerBase {
           'field_type' => $field_type,
           'timestamp' => $timestamp,
           'current_end_timestamp' => $current_end_timestamp,
+          'duration' => $duration_value,
+          'start' => $song->get('field_start_time')->value,
+          'end' => $song->get('field_end_time')->value,
+          'previous_duration' => $previous_duration,
         ],
       ]);
 
@@ -181,4 +201,26 @@ class TimestampController extends ControllerBase {
     ], 'OR');
   }
 
+  /**
+   * Convert an MM:SS string to seconds.
+   */
+  private function mmSsToSeconds(string $mmss): int {
+    $parts = explode(':', $mmss);
+    if (count($parts) !== 2) {
+      return 0;
+    }
+    $m = (int) $parts[0];
+    $s = (int) $parts[1];
+    return max(0, $m * 60 + $s);
+  }
+
+  /**
+   * Convert seconds to MM:SS string.
+   */
+  private function secondsToMmSs(int $seconds): string {
+    $seconds = max(0, $seconds);
+    $m = (int) floor($seconds / 60);
+    $s = $seconds % 60;
+    return str_pad((string) $m, 2, '0', STR_PAD_LEFT) . ':' . str_pad((string) $s, 2, '0', STR_PAD_LEFT);
+  }
 }

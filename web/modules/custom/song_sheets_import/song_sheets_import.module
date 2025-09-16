@@ -130,6 +130,7 @@ function song_sheets_import_preprocess_views_view_table(&$variables) {
       $song = \Drupal::entityTypeManager()->getStorage('node')->load($song_id);
       $start_time = $song ? $song->get('field_start_time')->value : '';
       $end_time = $song ? $song->get('field_end_time')->value : '';
+      $duration = $song ? $song->get('field_duration')->value : '';
       
       // Add timestamp buttons to start time column
       if (isset($row['columns']['field_start_time']) && isset($row['columns']['field_end_time'])) {
@@ -167,6 +168,13 @@ function song_sheets_import_preprocess_views_view_table(&$variables) {
         $row['columns']['field_end_time']['content'][0]['field_output'] = [
           '#markup' => '<span class="timestamp-end">' . ($end_time ?: '--:--') . '</span>',
         ];
+
+        // Ensure the duration cell has a predictable span for live updates.
+        if (isset($row['columns']['field_duration'])) {
+          $row['columns']['field_duration']['content'][0]['field_output'] = [
+            '#markup' => '<span class="timestamp-duration">' . ($duration ?: '--:--') . '</span>',
+          ];
+        }
       }
     }
   }

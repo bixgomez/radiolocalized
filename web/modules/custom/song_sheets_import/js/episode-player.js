@@ -10,6 +10,17 @@
    */
   Drupal.behaviors.episodePlayer = {
     attach: function (context, settings) {
+      // CSRF token caching helper.
+      var __csrfToken = null;
+      function getCsrfToken() {
+        if (__csrfToken) {
+          return Promise.resolve(__csrfToken);
+        }
+        return fetch('/session/token', { credentials: 'same-origin' })
+          .then(function (resp) { return resp.text(); })
+          .then(function (token) { __csrfToken = token; return token; })
+          .catch(function () { return ''; });
+      }
       once("episode-player", ".episode-player", context).forEach(function (
         element
       ) {
@@ -251,7 +262,8 @@
             var currentRow = button.closest("tr");
             var nextRow = currentRow ? currentRow.nextElementSibling : null;
             var isLastRow = !nextRow || nextRow.tagName !== 'TR';
-            var episodeDuration = formatTime(wavesurfer.getDuration());
+            var durationSec = Math.floor(wavesurfer.getDuration());
+            var episodeDuration = durationSec > 0 ? formatTime(durationSec) : null;
 
             // Find previous song info if we're setting a start time
             var previousSongId = null;
@@ -291,16 +303,19 @@
             }
 
             // AJAX call to update the song timestamp
-            fetch("/admin/song-timestamp/update", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: new URLSearchParams(requestData),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                if (data.success) {
+            // Ensure CSRF token is present for POST.
+            getCsrfToken().then(function (token) {
+              fetch("/admin/song-timestamp/update", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "X-CSRF-Token": token || "",
+                },
+                body: new URLSearchParams(requestData),
+              })
+                .then(function (response) { return response.json(); })
+                .then(function (data) {
+                  if (data.success) {
                   // Update the current song's display cell
                   var cell = currentRow.querySelector(
                     ".timestamp-" + fieldType
@@ -331,6 +346,14 @@
                     }
                   }
 
+                  // Update current song duration if provided
+                  if (data.data && data.data.duration) {
+                    var durCell = currentRow.querySelector('.timestamp-duration');
+                    if (durCell) {
+                      durCell.textContent = data.data.duration;
+                    }
+                  }
+
                   // If we updated a previous song's end time, update that display too
                   if (data.previous_updated && previousSongId) {
                     var previousRow = currentRow.previousElementSibling;
@@ -339,6 +362,13 @@
                         previousRow.querySelector(".timestamp-end");
                       if (prevEndCell) {
                         prevEndCell.textContent = currentTime;
+                      }
+                      // Also update previous duration cell if provided
+                      if (data.data && data.data.previous_duration) {
+                        var prevDurCell = previousRow.querySelector('.timestamp-duration');
+                        if (prevDurCell) {
+                          prevDurCell.textContent = data.data.previous_duration;
+                        }
                       }
                       
                     }
@@ -362,11 +392,12 @@
                   button.disabled = false;
                 }
               })
-              .catch((error) => {
+              .catch(function (error) {
                 alert("Error updating timestamp");
                 button.textContent = "Set";
                 button.disabled = false;
               });
+            });
           }
         });
 

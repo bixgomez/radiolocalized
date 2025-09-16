@@ -13,3 +13,5 @@ song_sheets_import.update_timestamp:
   requirements:
     _custom_access: '\Drupal\song_sheets_import\Controller\TimestampController::access'
   methods: [POST]
+  options:
+    _csrf_token: TRUE
