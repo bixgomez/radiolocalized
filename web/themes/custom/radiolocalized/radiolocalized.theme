@@ -16,3 +16,73 @@ function radiolocalized_theme_suggestions_page_alter(array &$suggestions, array 
     $suggestions[] = 'page__' . $node->bundle();
   }
 }
+
+/**
+ * Preprocess for page templates.
+ *
+ * Adds edit link for the episode associated with the episodes/% views page.
+ */
+function radiolocalized_preprocess_page(array &$variables) {
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
+  
+  // 1) Episode node pages under /episodes/* (path alias) or canonical node route.
+  // If the current route has a node parameter and it's an Episode, use it
+  // directly to build the edit URL.
+  $route_node = $route_match->getParameter('node');
+  if ($route_node instanceof \Drupal\node\NodeInterface) {
+    if ($route_node->bundle() === 'episode' && $route_node->access('update')) {
+      $variables['episode_edit_url'] = \Drupal\Core\Url::fromRoute('entity.node.edit_form', ['node' => $route_node->id()])->toString();
+      return;
+    }
+  }
+
+  // 2) Target the Episodes pages (Views pages with contextual arg).
+  // Prefer the views route prefix, but also allow matching by path pattern
+  // to be resilient if routing changes but path remains /episodes/%.
+  $current_path = \Drupal::service('path.current')->getPath();
+  if (strpos($route_name, 'view.episodes.') === 0 || preg_match('#^/episodes/(?:episode-)?(\\d+)#', $current_path)) {
+    // Try to get the episode number from various sources.
+    $episode_number = $route_match->getParameter('arg_0');
+    if ($episode_number === NULL || $episode_number === '') {
+      // Views sometimes exposes contextual args using different attribute keys.
+      // Use the current Request from the request stack.
+      $request = \Drupal::request();
+      $episode_number = $request->attributes->get('arg_0') ?? $request->attributes->get('views_arg_0');
+    }
+    if ($episode_number === NULL || $episode_number === '') {
+      // Fallback: parse the current path, accepting /episodes/{number}
+      // or /episodes/episode-{number}--{title}.
+      $path = $current_path;
+      if (preg_match('#^/episodes/(?:episode-)?(\\d+)#', $path, $m)) {
+        $episode_number = $m[1];
+      }
+    }
+
+    if ($episode_number !== NULL && $episode_number !== '' && is_numeric($episode_number)) {
+      // If this value is actually a node ID, prefer that episode directly.
+      $nid = (int) $episode_number;
+      $episode = \Drupal\node\Entity\Node::load($nid);
+      if ($episode instanceof \Drupal\node\NodeInterface && $episode->bundle() === 'episode') {
+        if ($episode->access('update')) {
+          $variables['episode_edit_url'] = \Drupal\Core\Url::fromRoute('entity.node.edit_form', ['node' => $episode->id()])->toString();
+        }
+        return;
+      }
+
+      // Otherwise, treat it as an Episode Number field value.
+      $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'type' => 'episode',
+        'field_episode_number' => (int) $episode_number,
+      ]);
+      if ($nodes) {
+        /** @var \Drupal\node\Entity\Node $episode */
+        $episode = reset($nodes);
+        // Only provide the edit URL if the current user can edit.
+        if ($episode->access('update')) {
+          $variables['episode_edit_url'] = \Drupal\Core\Url::fromRoute('entity.node.edit_form', ['node' => $episode->id()])->toString();
+        }
+      }
+    }
+  }
+}

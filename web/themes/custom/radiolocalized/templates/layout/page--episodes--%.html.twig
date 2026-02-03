@@ -1,0 +1,23 @@
+<div class="page-wrapper">
+
+	{% if page.header %}
+		{{ page.header }}
+	{% endif %}
+
+	{{ page.navigation }}
+
+<div class="region region--info">
+		<div class="region-inner">
+			{% if episode_edit_url %}
+				<a href="{{ episode_edit_url }}" class="btn btn-primary btn-sm">EDIT</a>
+			{% endif %}
+		</div>
+	</div>
+
+	{{ page.content }}
+
+	{% if page.footer %}
+		{{ page.footer }}
+	{% endif %}
+
+</div>

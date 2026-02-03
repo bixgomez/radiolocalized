@@ -51,14 +51,14 @@
     background-color: mix($c--primary, $c--white, 10%);
 
     :not(.user-logged-in) & {
-      opacity: 0;
-      height: 0;
-      border: 0;
-      margin: 0;
-      padding: 0;
+      // opacity: 0;
+      // height: 0;
+      // border: 0;
+      // margin: 0;
+      // padding: 0;
 
       * {
-        display: none;
+       // display: none;
       }
     }
   }
