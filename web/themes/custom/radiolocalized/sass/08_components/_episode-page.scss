@@ -1,5 +1,19 @@
 .page-node-type-episode {
 
+  .page-wrapper {
+    height: auto;
+  }
+
+  .page-wrapper__episode {
+    grid-template-areas:
+        "header"
+        "nav"
+        "info"
+        "content"
+        "footer";
+    grid-template-columns: 1fr;
+  }
+
   .region--content {
     background-color: mix($c--primary, $c--white, 20%);
     direction: rtl;
@@ -8,4 +22,8 @@
       direction: ltr;
     }
   }
+}
+
+.page-node-type-episode-edit {
+
 }
