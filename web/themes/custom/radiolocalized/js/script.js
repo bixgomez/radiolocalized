@@ -2,24 +2,27 @@
  * Scripts for Radio Localized
  **/
 
-(function (Drupal) {
-  
+(function (Drupal, once) {
+
   Drupal.behaviors.getCoordsFromLinks = {
     attach(context) {
 
-      // Display default map.
-      const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=***REMOVED***', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        accessToken: '***REMOVED***'
-      })
+      // Only initialize the map once per page load.
+      once('leaflet-map-init', '#map', context).forEach(function(mapContainer) {
 
-      // Initiate map with arbitrary default coordinates.
-      const map = L.map('map', {
-        center: [40, -100],
-        zoom: 10,
-        layers: [osm]
-      });
+        // Display default map.
+        const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=***REMOVED***', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          accessToken: '***REMOVED***'
+        })
+
+        // Initiate map with arbitrary default coordinates.
+        const map = L.map(mapContainer, {
+          center: [40, -100],
+          zoom: 10,
+          layers: [osm]
+        });
 
       // Grab all song teasers that appear on the page.
       const songTeasers = document.querySelectorAll('.song-teaser')
@@ -103,7 +106,8 @@
         }
         */
 
-      }
+        }
+      }); // End once('leaflet-map-init')
     }
   };
 
@@ -166,4 +170,4 @@
     }
   }
 
-}(Drupal))
+}(Drupal, once))
