@@ -6,10 +6,13 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\node\NodeInterface;
+use Drupal\views\Views;
 
 /**
  * Implements hook_help().
@@ -69,28 +72,147 @@ function song_sheets_import_load_episode_data($episode_number) {
 }
 
 /**
+ * Helper to resolve an episode's audio URL from a node entity.
+ *
+ * @param \Drupal\node\NodeInterface $episode
+ *   The episode node entity.
+ *
+ * @return string|null
+ *   Absolute URL for the episode audio file or NULL if not available.
+ */
+function song_sheets_import_get_episode_audio_url(NodeInterface $episode) {
+  if (!$episode->hasField('field_audio_file') || $episode->get('field_audio_file')->isEmpty()) {
+    return NULL;
+  }
+
+  $audio_media = $episode->get('field_audio_file')->entity;
+  if (!$audio_media || !$audio_media->hasField('field_media_audio_file') || $audio_media->get('field_media_audio_file')->isEmpty()) {
+    return NULL;
+  }
+
+  $audio_file = $audio_media->get('field_media_audio_file')->entity;
+  if (!$audio_file) {
+    return NULL;
+  }
+
+  return \Drupal::service('file_url_generator')->generateAbsoluteString($audio_file->getFileUri());
+}
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function song_sheets_import_entity_extra_field_info() {
+  $extra = [];
+
+  $extra['node']['episode']['form']['episode_audio_player'] = [
+    'label' => t('Episode audio player'),
+    'description' => t('WaveSurfer player for episode audio with time controls.'),
+    'weight' => 5,
+  ];
+
+  $extra['node']['episode']['form']['episode_songs_view'] = [
+    'label' => t('Episode songs table'),
+    'description' => t('Songs table with Set/GoTo timestamp controls.'),
+    'weight' => 6,
+  ];
+
+  return $extra;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function song_sheets_import_form_node_episode_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form_object = $form_state->getFormObject();
+  if (!$form_object || !method_exists($form_object, 'getEntity') || !method_exists($form_object, 'getFormDisplay')) {
+    return;
+  }
+
+  $node = $form_object->getEntity();
+  if (!$node instanceof NodeInterface || $node->bundle() !== 'episode') {
+    return;
+  }
+
+  if (!$node->hasField('field_episode_number') || $node->get('field_episode_number')->isEmpty()) {
+    return;
+  }
+
+  $episode_number = $node->get('field_episode_number')->value;
+  if ($episode_number === NULL || $episode_number === '') {
+    return;
+  }
+
+  $form_display = $form_object->getFormDisplay($form_state);
+
+  if ($form_display->getComponent('episode_audio_player')) {
+    $audio_url = song_sheets_import_get_episode_audio_url($node);
+    if ($audio_url) {
+      $form['episode_audio_player'] = [
+        '#theme' => 'episode_audio_player',
+        '#episode_title' => $node->getTitle(),
+        '#episode_number' => $episode_number,
+        '#audio_url' => $audio_url,
+        '#attached' => [
+          'library' => ['song_sheets_import/episode-player'],
+        ],
+        '#weight' => 5,
+      ];
+    }
+  }
+
+  if ($form_display->getComponent('episode_songs_view')) {
+    $view = Views::getView('episodes');
+    if ($view) {
+      $view->setDisplay('page_episode_songs');
+      // Pass episode nid as argument (view filters by field_episode entity reference).
+      $view->setArguments([$node->id()]);
+      $view->song_sheets_import_hide_player = TRUE;
+      $view->song_sheets_import_hide_controls = TRUE;
+      $render_array = $view->render();
+      $render_array['#weight'] = 6;
+      $form['episode_songs_view'] = $render_array;
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_views_view().
  */
 function song_sheets_import_preprocess_views_view(&$variables) {
   $view = $variables['view'];
-  
+
   // Add episode audio player data to episodes view
   if ($view->id() == 'episodes' && $view->current_display == 'page_episode_songs') {
     if (!empty($view->args)) {
-      $episode_number = $view->args[0];
-      $episode_data = song_sheets_import_load_episode_data($episode_number);
-      
-      if ($episode_data) {
-        // Add audio player variables to the template
-        $variables['episode_audio_player'] = [
-          '#theme' => 'episode_audio_player',
-          '#episode_title' => $episode_data['episode_title'],
-          '#episode_number' => $episode_number,
-          '#audio_url' => $episode_data['audio_url'],
-          '#attached' => [
-            'library' => ['song_sheets_import/episode-player'],
-          ],
-        ];
+      // Argument is now episode nid (not episode number).
+      $episode_nid = $view->args[0];
+      $episode = \Drupal::entityTypeManager()->getStorage('node')->load($episode_nid);
+
+      $hide_player = !empty($view->song_sheets_import_hide_player);
+      $variables['show_episode_audio_player'] = !$hide_player;
+      $variables['show_episode_controls'] = empty($view->song_sheets_import_hide_controls);
+
+      if ($episode && !$hide_player) {
+        $audio_url = song_sheets_import_get_episode_audio_url($episode);
+        $episode_number = $episode->hasField('field_episode_number') ? $episode->get('field_episode_number')->value : '';
+
+        if ($audio_url) {
+          // Add audio player variables to the template.
+          $variables['episode_audio_player'] = [
+            '#theme' => 'episode_audio_player',
+            '#episode_title' => $episode->getTitle(),
+            '#episode_number' => $episode_number,
+            '#audio_url' => $audio_url,
+            '#attached' => [
+              'library' => ['song_sheets_import/episode-player'],
+            ],
+          ];
+        }
+      }
+
+      if (empty($variables['episode_audio_player'])) {
+        // Ensure episode player library is still attached for song controls.
+        $variables['#attached']['library'][] = 'song_sheets_import/episode-player';
       }
     }
   }

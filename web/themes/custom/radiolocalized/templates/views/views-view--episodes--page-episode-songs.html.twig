@@ -28,18 +28,20 @@
 #}
 
 {# Add the episode audio player before the view content #}
-{% if episode_audio_player %}
+{% if show_episode_audio_player and episode_audio_player %}
   <div class="episode-audio-player-wrapper">
     {{ episode_audio_player }}
   </div>
 {% endif %}
 
 {# Add reset order button #}
-<div class="episode-controls-wrapper">
-  <button id="reset-episode-order" type="button" class="btn btn-secondary btn-sm" title="Reset song order to original Google Sheets order">
-    🔄 Reset Order
-  </button>
-</div>
+{% if show_episode_controls %}
+  <div class="episode-controls-wrapper">
+    <button id="reset-episode-order" type="button" class="btn btn-secondary btn-sm" title="Reset song order to original Google Sheets order">
+      🔄 Reset Order
+    </button>
+  </div>
+{% endif %}
 
 <div{{ attributes.addClass('view', 'view-' ~ id, 'view-id-' ~ id, 'view-display-id-' ~ display_id, css_class) }}>
   {{ title_prefix }}
