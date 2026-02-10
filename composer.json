@@ -25,6 +25,7 @@
         "drupal/core-recommended": "^10.4",
         "drupal/ctools": "^4.1",
         "drupal/devel": "^5.1",
+        "drupal/eva": "^3.1",
         "drupal/geocoder": "^4.5",
         "drupal/geofield": "^1.65",
         "drupal/geofield_map": "^3.0",
