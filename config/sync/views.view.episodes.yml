@@ -890,69 +890,15 @@ display:
             operator_limit_selection: false
             operator_list: {  }
       style:
-        type: table
+        type: default
         options:
           grouping: {  }
           row_class: ''
           default_row_class: true
-          columns:
-            title: title
-            field_artist: field_artist
-            field_album: field_album
-            field_start_time: field_start_time
-            field_end_time: field_end_time
-            field_duration: field_duration
-          default: field_start_time
-          info:
-            title:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_artist:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_album:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_start_time:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_end_time:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_duration:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
       row:
-        type: fields
-        options: {  }
+        type: 'entity:node'
+        options:
+          view_mode: teaser
       defaults:
         title: false
         style: false

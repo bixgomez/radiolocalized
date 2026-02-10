@@ -38,8 +38,16 @@
         songTeasers.forEach(function (songTeaser, index) {
 
           // Get the latitude & longitude for this song.
-          let thisLat = songTeaser.querySelector('li.lat').innerText
-          let thisLon = songTeaser.querySelector('li.lon').innerText
+          const latEl = songTeaser.querySelector('li.lat')
+          const lonEl = songTeaser.querySelector('li.lon')
+
+          // Skip songs without coordinates.
+          if (!latEl || !lonEl) {
+            return
+          }
+
+          let thisLat = latEl.innerText
+          let thisLon = lonEl.innerText
 
           // Add each lat/lon pair to the appropriate array.
           allLats.push(thisLat)
@@ -48,24 +56,16 @@
           // Add a marker for this song location to the map
           L.marker([thisLat,thisLon]).addTo(map)
 
-          // Fly to that point when rolling onto the song title.
-          songTeaser.addEventListener("mouseenter", function(e) {
-            songTeaser.classList.add("hovering")
-            map.flyTo([thisLat, thisLon], 16, {
-              animate: true,
-              duration: 1.75
+          // Fly to that point when clicking the info button.
+          const infoButton = songTeaser.querySelector('.button--info')
+          if (infoButton) {
+            infoButton.addEventListener('click', function(e) {
+              map.flyTo([thisLat, thisLon], 16, {
+                animate: true,
+                duration: 1.75
+              })
             })
-          })
-
-          // Zoom out a little when rolling off of the song title.
-          songTeaser.addEventListener("mouseleave", function(e) {
-            songTeaser.classList.remove("hovering")
-            map.flyTo([thisLat, thisLon], 11, {
-              animate: true,
-              duration: 1.5
-            })
-            // resetMap()
-          })
+          }
 
         })
         
@@ -110,64 +110,5 @@
       }); // End once('leaflet-map-init')
     }
   };
-
-  Drupal.behaviors.songModal = {
-    attach(context) {
-      const songLinks = document.querySelectorAll('button.button--info')
-      const modalOuter = document.querySelector('.modal-outer')
-      const modalInner = document.querySelector('.modal-inner')
-
-      songLinks.forEach(function (songLink, index) {
-        songLink.addEventListener('click', handleSongLinkClick)
-      })
-
-      function handleSongLinkClick(event) {
-        const thisSong = event.currentTarget.closest('.song-teaser')
-        const thisSongTitle = thisSong.querySelector('.data--song-title')?.textContent
-        const thisSongYear = thisSong.querySelector('.data--song-year')?.textContent
-        const thisSongAlbum = thisSong.querySelector('.data--song-album')?.textContent
-        const thisSongArtist = thisSong.querySelector('.data--artist')?.textContent
-        const thisSongDescription = thisSong.querySelector('.data--song-description')?.textContent
-        const thisSongLocation = thisSong.querySelector('.data--song-location')?.textContent
-        const thisSongTitleDisplay = (typeof thisSongTitle !== "undefined") ? thisSongTitle : '';
-        const thisSongYearDisplay = (typeof thisSongYear !== "undefined") ? thisSongYear : '';
-        const thisSongAlbumDisplay = (typeof thisSongAlbum !== "undefined") ? thisSongAlbum : '';
-        const thisSongArtistDisplay = (typeof thisSongArtist !== "undefined") ? thisSongArtist : '';
-        const thisSongLocationDisplay = (typeof thisSongLocation !== "undefined") ? thisSongLocation : '';
-        const thisSongDescriptionDisplay = (typeof thisSongDescription !== "undefined") ? thisSongDescription : '';
-
-        modalOuter.classList.add('open')
-        modalInner.innerHTML = `
-        <div class="song-info">
-          <h1 class="song-info__title">${thisSongTitleDisplay}</h1>
-          <h2 class="song-info__stats">${thisSongYearDisplay} ${thisSongArtistDisplay} ${thisSongAlbumDisplay}</h2>
-          <h3 class="song-info__location">${thisSongLocationDisplay}</h3>
-          <p class="song-info__description">${thisSongDescriptionDisplay}</p>
-        </div>
-        `
-      }
-
-      // If click outside the inner modal, the modal closes.
-      modalOuter.addEventListener('click', function(e) {
-        const isOutside = !e.target.closest('.modal-inner')
-        if (isOutside) {
-          closeModal()
-        }
-      })
-
-      // If we hit the escape key, the modal closes.
-      window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          closeModal()
-        }
-      })
-
-      // Function that closes the modal.
-      function closeModal() {
-        modalOuter.classList.remove('open')
-      }
-
-    }
-  }
 
 }(Drupal, once))
