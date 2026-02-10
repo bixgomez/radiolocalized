@@ -4,6 +4,7 @@ namespace Drupal\song_sheets_import\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Site\Settings;
 use Google_Client;
 use Google_Service_Sheets;
 use Exception;
@@ -14,14 +15,26 @@ use Exception;
 class SongSheetsImportForm extends FormBase {
 
   /**
-   * Google Sheets credentials path.
+   * Get Google Sheets credentials path from settings.
+   *
+   * @return string|null
+   *   The credentials file path, or NULL if not configured.
    */
-  private const CREDENTIALS_PATH = '/test-sheets/radio-localized-episodes-8243df309e4a.json';
+  private function getCredentialsPath() {
+    $settings = Settings::get('song_sheets_import', []);
+    return $settings['credentials_path'] ?? NULL;
+  }
 
   /**
-   * Google Sheets spreadsheet ID.
+   * Get Google Sheets spreadsheet ID from settings.
+   *
+   * @return string|null
+   *   The spreadsheet ID, or NULL if not configured.
    */
-  private const SPREADSHEET_ID = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
+  private function getSpreadsheetId() {
+    $settings = Settings::get('song_sheets_import', []);
+    return $settings['spreadsheet_id'] ?? NULL;
+  }
 
   /**
    * {@inheritdoc}
@@ -38,8 +51,13 @@ class SongSheetsImportForm extends FormBase {
    */
   private function createGoogleSheetsService() {
     try {
-      $credentialsPath = \Drupal::root() . self::CREDENTIALS_PATH;
-      
+      $credentialsPath = $this->getCredentialsPath();
+
+      if (!$credentialsPath) {
+        \Drupal::logger('song_sheets_import')->error('Google Sheets credentials path not configured. Add song_sheets_import settings to settings.local.php');
+        return NULL;
+      }
+
       if (!file_exists($credentialsPath)) {
         \Drupal::logger('song_sheets_import')->error('Google Sheets credentials file not found: @path', ['@path' => $credentialsPath]);
         return NULL;
@@ -49,7 +67,7 @@ class SongSheetsImportForm extends FormBase {
       $client->setApplicationName('Drupal Songs Import');
       $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
       $client->setAuthConfig($credentialsPath);
-      
+
       return new Google_Service_Sheets($client);
     } catch (Exception $e) {
       \Drupal::logger('song_sheets_import')->error('Failed to create Google Sheets service: @error', ['@error' => $e->getMessage()]);
@@ -159,7 +177,7 @@ class SongSheetsImportForm extends FormBase {
     }
 
     try {
-      $spreadsheet = $service->spreadsheets->get(self::SPREADSHEET_ID);
+      $spreadsheet = $service->spreadsheets->get($this->getSpreadsheetId());
       
       $sheets = [];
       foreach ($spreadsheet->getSheets() as $sheet) {
@@ -359,7 +377,7 @@ class SongSheetsImportForm extends FormBase {
 
     try {
       $range = $sheetName . '!1:1'; // First row has title
-      $response = $service->spreadsheets_values->get(self::SPREADSHEET_ID, $range);
+      $response = $service->spreadsheets_values->get($this->getSpreadsheetId(), $range);
       $values = $response->getValues();
       
       return !empty($values[0][0]) ? $values[0][0] : 'Episode ' . $sheetName;
@@ -380,7 +398,7 @@ class SongSheetsImportForm extends FormBase {
 
     try {
       $range = $sheetName . '!A2:AA100'; // Headers from row 2, data from rows 3+, get columns A-AA
-      $response = $service->spreadsheets_values->get(self::SPREADSHEET_ID, $range);
+      $response = $service->spreadsheets_values->get($this->getSpreadsheetId(), $range);
       $values = $response->getValues();
       
       if (empty($values)) {
@@ -435,7 +453,7 @@ class SongSheetsImportForm extends FormBase {
 
     try {
       $range = $sheetName . '!2:2'; // Second row has headers
-      $response = $service->spreadsheets_values->get(self::SPREADSHEET_ID, $range);
+      $response = $service->spreadsheets_values->get($this->getSpreadsheetId(), $range);
       $values = $response->getValues();
       
       return !empty($values[0]) ? $values[0] : [];

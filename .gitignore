@@ -70,3 +70,9 @@ node_modules
 /web/modules/contrib
 /files_private
 .vscode
+
+# Ignore private credentials directory
+/private
+
+# Ignore old test-sheets directory (contained Google credentials)
+/web/test-sheets
