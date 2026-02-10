@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.3.0",
     "breakpoint-sass": "^3.0.0"
   },
   "devDependencies": {
@@ -20,6 +19,7 @@
     "chokidar": "^4.0.3",
     "clean-css": "^5.3.3",
     "sass": "^1.94.2",
-    "vite": "^6.4.1"
+    "vite": "^5.4.0",
+    "vite-plugin-sass-glob-import": "^3.0.2"
   }
 }

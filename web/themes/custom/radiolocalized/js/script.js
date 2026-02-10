@@ -58,12 +58,47 @@
 
           // Fly to that point when clicking the info button.
           const infoButton = songTeaser.querySelector('.button--info')
+          const songInfo = songTeaser.nextElementSibling
+
           if (infoButton) {
             infoButton.addEventListener('click', function(e) {
-              map.flyTo([thisLat, thisLon], 16, {
-                animate: true,
-                duration: 1.75
+              // Reset all other buttons and hide all other song-info panels
+              const allButtons = document.querySelectorAll('.button--info')
+              const allSongInfos = document.querySelectorAll('.song-info')
+
+              allButtons.forEach(function(btn) {
+                if (btn !== infoButton) {
+                  btn.classList.remove('active')
+                }
               })
+
+              allSongInfos.forEach(function(info) {
+                if (info !== songInfo) {
+                  info.classList.remove('active')
+                }
+              })
+
+              // Toggle the active class for icon rotation
+              const isActive = infoButton.classList.toggle('active')
+
+              // Toggle song-info visibility
+              if (songInfo && songInfo.classList.contains('song-info')) {
+                songInfo.classList.toggle('active', isActive)
+              }
+
+              if (isActive) {
+                // Fly to this song's location
+                map.flyTo([thisLat, thisLon], 16, {
+                  animate: true,
+                  duration: 1.75
+                })
+              } else {
+                // Reset map to show all points
+                map.flyToBounds(bounds, {
+                  animate: true,
+                  duration: 1.75
+                })
+              }
             })
           }
 

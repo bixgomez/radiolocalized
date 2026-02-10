@@ -1,7 +1,11 @@
-.song-teaser {
-  margin-bottom: 0.5em;
+.mini-block {
   border: 1px solid $c--gray--light;
+  background-color: rgba($c--white, 0.5);
   padding: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.song-teaser {
   background-color: rgba($c--white, 0.75);
   line-height: $line-height--small;
   position: relative;
@@ -16,21 +20,23 @@
     border-radius: 1em;
     border: 1px solid red;
     padding: 0;
-    opacity: 0.25;
+    opacity: 0.5;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
-    > span.qmark {
-      font-size: 1.25em;
-      line-height: 0;
-      font-weight: 500;
-      transition: font-size 0.1s linear, font-weight 0.1s linear;
+    &:hover {
+      opacity: .75;
     }
 
-    &:hover > span.qmark {
-      font-size: 1.625em;
-      font-weight: 600;
+    iconify-icon {
+      transform: rotate(90deg);
+      transition: transform 0.25s ease;
+    }
+
+    &.active iconify-icon {
+      transform: rotate(-90deg);
     }
   }
 
@@ -55,6 +61,14 @@
 
   &__button {
     font-size: $font-size--md;
+  }
+}
+
+.song-info {
+  display: none;
+
+  &.active {
+    display: block;
   }
 }
 

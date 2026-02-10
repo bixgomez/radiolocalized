@@ -4,6 +4,7 @@ global-styling:
       dist/css/styles.css: {}
   js:
     dist/js/script.js: {}
+    https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js: { type: external, minified: true }
   dependencies:
     - core/drupal
     - core/drupalSettings

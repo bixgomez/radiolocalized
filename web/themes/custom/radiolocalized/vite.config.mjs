@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import fs from 'fs'
 import CleanCSS from 'clean-css'
+import sassGlobImports from 'vite-plugin-sass-glob-import'
 
 const __dirname = import.meta.dirname
 
@@ -42,7 +43,6 @@ export default defineConfig({
         silenceDeprecations: ['legacy-js-api'],
         loadPaths: [
           resolve(__dirname, 'node_modules/breakpoint-sass/stylesheets'),
-          resolve(__dirname, 'node_modules/@fortawesome/fontawesome-free/scss')
         ],
       },
     },
@@ -71,6 +71,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    sassGlobImports(),
     dualCssOutput(),
   ],
 })
