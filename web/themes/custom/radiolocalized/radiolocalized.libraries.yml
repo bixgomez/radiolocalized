@@ -1,10 +1,9 @@
 global-styling:
   css:
     theme:
-      css/styles.css: {}
-      css/print.css: {}
+      dist/css/styles.css: {}
   js:
-   js/script.js: {}
+    dist/js/script.js: {}
   dependencies:
     - core/drupal
     - core/drupalSettings
