@@ -25,54 +25,112 @@
         });
 
       // Grab all song teasers that appear on the page.
-      const songTeasers = document.querySelectorAll('.song-teaser')
+      const songTeasers = mapContainer.ownerDocument.querySelectorAll('.song-teaser')
+      const contentRegion = mapContainer.ownerDocument.querySelector('.region--content')
+
+      const keepPanelInView = function(songInfoEl) {
+        if (!contentRegion || !songInfoEl) {
+          return
+        }
+
+        const revealPadding = 28
+        const getDurationMs = function(el) {
+          const raw = window.getComputedStyle(el).transitionDuration.split(',')[0].trim()
+          if (!raw) {
+            return 0
+          }
+          if (raw.endsWith('ms')) {
+            return parseFloat(raw)
+          }
+          if (raw.endsWith('s')) {
+            return parseFloat(raw) * 1000
+          }
+          return 0
+        }
+
+        const ensureVisible = function() {
+          const contentRect = contentRegion.getBoundingClientRect()
+          const panelRect = songInfoEl.getBoundingClientRect()
+          const panelMarginBottom = parseFloat(window.getComputedStyle(songInfoEl).marginBottom) || 0
+          const panelBottom = panelRect.bottom + panelMarginBottom
+
+          if (panelBottom > contentRect.bottom - revealPadding) {
+            const delta = panelBottom - contentRect.bottom + revealPadding
+            contentRegion.scrollBy({
+              top: delta,
+              behavior: 'smooth'
+            })
+          }
+        }
+
+        const durationMs = getDurationMs(songInfoEl)
+        const endDelay = Math.max(0, durationMs + 40)
+
+        // Run immediately, once during the reveal, and once after it completes.
+        window.requestAnimationFrame(ensureVisible)
+        window.setTimeout(ensureVisible, Math.round(durationMs * 0.5))
+        window.setTimeout(ensureVisible, endDelay)
+      }
+
+      const setPanelMaxHeight = function(songInfoEl) {
+        if (!songInfoEl) {
+          return
+        }
+        songInfoEl.style.setProperty('--song-info-max-height', songInfoEl.scrollHeight + 'px')
+      }
 
       // If there are any, do the things.
       if (songTeasers.length) {
 
-        // Initiate arrays of all latitudes & all longitudes.
-        const allLats = new Array()
-        const allLons = new Array()
+        // Cache interactive elements and map points to avoid repeated DOM queries.
+        const infoButtons = new Array()
+        const songInfos = new Array()
+        const points = new Array()
+        let bounds = null
 
         // Loop through all song teasers found on the page.
-        songTeasers.forEach(function (songTeaser, index) {
+        songTeasers.forEach(function (songTeaser) {
 
           // Get the latitude & longitude for this song.
           const latEl = songTeaser.querySelector('li.lat')
           const lonEl = songTeaser.querySelector('li.lon')
 
-          // Skip songs without coordinates.
-          if (!latEl || !lonEl) {
-            return
+          let thisLat = null
+          let thisLon = null
+          let hasValidCoords = false
+
+          if (latEl && lonEl) {
+            thisLat = parseFloat(latEl.innerText.trim())
+            thisLon = parseFloat(lonEl.innerText.trim())
+            hasValidCoords = Number.isFinite(thisLat) && Number.isFinite(thisLon)
           }
 
-          let thisLat = latEl.innerText
-          let thisLon = lonEl.innerText
+          if (hasValidCoords) {
+            points.push([thisLat, thisLon])
 
-          // Add each lat/lon pair to the appropriate array.
-          allLats.push(thisLat)
-          allLons.push(thisLon)
-
-          // Add a marker for this song location to the map
-          L.marker([thisLat,thisLon]).addTo(map)
+            // Add a marker for this song location to the map.
+            L.marker([thisLat, thisLon]).addTo(map)
+          }
 
           // Fly to that point when clicking the info button.
           const infoButton = songTeaser.querySelector('.button--info')
           const songInfo = songTeaser.nextElementSibling
 
           if (infoButton) {
-            infoButton.addEventListener('click', function(e) {
-              // Reset all other buttons and hide all other song-info panels
-              const allButtons = document.querySelectorAll('.button--info')
-              const allSongInfos = document.querySelectorAll('.song-info')
+            infoButtons.push(infoButton)
+            if (songInfo && songInfo.classList.contains('song-info')) {
+              songInfos.push(songInfo)
+            }
 
-              allButtons.forEach(function(btn) {
+            infoButton.addEventListener('click', function() {
+              // Reset all other buttons and hide all other song-info panels.
+              infoButtons.forEach(function(btn) {
                 if (btn !== infoButton) {
                   btn.classList.remove('active')
                 }
               })
 
-              allSongInfos.forEach(function(info) {
+              songInfos.forEach(function(info) {
                 if (info !== songInfo) {
                   info.classList.remove('active')
                 }
@@ -80,19 +138,30 @@
 
               // Toggle the active class for icon rotation
               const isActive = infoButton.classList.toggle('active')
+              infoButton.setAttribute('aria-expanded', isActive ? 'true' : 'false')
 
               // Toggle song-info visibility
               if (songInfo && songInfo.classList.contains('song-info')) {
+                if (isActive) {
+                  setPanelMaxHeight(songInfo)
+                }
                 songInfo.classList.toggle('active', isActive)
+                if (isActive) {
+                  // Recalculate once expanded to keep height in sync with rendered content.
+                  window.requestAnimationFrame(function() {
+                    setPanelMaxHeight(songInfo)
+                  })
+                  keepPanelInView(songInfo)
+                }
               }
 
-              if (isActive) {
+              if (isActive && hasValidCoords) {
                 // Fly to this song's location
                 map.flyTo([thisLat, thisLon], 16, {
                   animate: true,
                   duration: 1.75
                 })
-              } else {
+              } else if (bounds && bounds.isValid()) {
                 // Reset map to show all points
                 map.flyToBounds(bounds, {
                   animate: true,
@@ -103,22 +172,16 @@
           }
 
         })
-        
-        // Find minimum and maximum lats and lons.
-        let maxLat = Math.max.apply(Math,allLats)
-        let minLat = Math.min.apply(Math,allLats)
-        let maxLon = Math.max.apply(Math,allLons)
-        let minLon = Math.min.apply(Math,allLons)
-
-        // Calculate average of all lats & lons.
-        let avgLat = (maxLat + minLat)/2;
-        let avgLon = (maxLon + minLon)/2;
+        // Stop here if no valid coordinates were found.
+        if (!points.length) {
+          return
+        }
 
         // Center the map at the average of all lats & lons, at a zoom level of 8.
         // map.setView(new L.LatLng(avgLat, avgLon), 8);
 
         // Center the map at a zoom level that accommodates all of the points.
-        var bounds = new L.LatLngBounds([[maxLat,maxLon], [minLat,minLon]])
+        bounds = new L.LatLngBounds(points)
         map.fitBounds(bounds)
 
         // After 8 seconds, zoom out a bit, centering on the average lat & lon.

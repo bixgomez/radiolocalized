@@ -1,3 +1,13 @@
+.view-display-id-eva_episode_songs {
+
+  > .views-row {
+
+    &:last-of-type {
+      margin-bottom: -0.5em;
+    }
+  }
+}
+
 .mini-block {
   border: 1px solid $c--gray--light;
   background-color: rgba($c--white, 0.5);
@@ -5,7 +15,8 @@
   margin-bottom: 0.5em;
 }
 
-.song-teaser {
+.song-teaser > .mini-block {
+
   background-color: rgba($c--white, 0.75);
   line-height: $line-height--small;
   position: relative;
@@ -65,11 +76,17 @@
 }
 
 .song-info {
-  display: none;
+  box-sizing: border-box;
+  transition: max-height 0.25s linear;
+  max-height: 0;
+  overflow: hidden;
 
   &.active {
-    display: block;
+    max-height: var(--song-info-max-height, 64rem);
   }
+}
+
+.song-info > .mini-block {
 }
 
 div.all-inline-blocks:not(.layout-builder__layout) {

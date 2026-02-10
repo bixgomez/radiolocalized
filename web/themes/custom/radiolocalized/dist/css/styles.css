@@ -807,7 +807,7 @@ body {
 .region--content {
   grid-area: content;
   flex: 1;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 .region--footer {
   grid-area: footer;
@@ -1079,13 +1079,16 @@ nav#block-radiolocalized-main-menu ul.menu ul.sub-nav {
 .page-node-type-episode .region--content > .region-inner {
   direction: ltr;
 }
+.view-display-id-eva_episode_songs > .views-row:last-of-type {
+  margin-bottom: -0.5em;
+}
 .mini-block {
   border: 1px solid rgb(165.75, 165.75, 165.75);
   background-color: rgba(255, 255, 255, 0.5);
   padding: 0.5em;
   margin-bottom: 0.5em;
 }
-.song-teaser {
+.song-teaser > .mini-block {
   background-color: rgba(255, 255, 255, 0.75);
   line-height: 1.2;
   position: relative;
@@ -1093,7 +1096,7 @@ nav#block-radiolocalized-main-menu ul.menu ul.sub-nav {
   justify-content: space-between;
   align-items: center;
 }
-.song-teaser button.button--info {
+.song-teaser > .mini-block button.button--info {
   display: block;
   width: 2em;
   height: 2em;
@@ -1106,39 +1109,42 @@ nav#block-radiolocalized-main-menu ul.menu ul.sub-nav {
   align-items: center;
   cursor: pointer;
 }
-.song-teaser button.button--info:hover {
+.song-teaser > .mini-block button.button--info:hover {
   opacity: 0.75;
 }
-.song-teaser button.button--info iconify-icon {
+.song-teaser > .mini-block button.button--info iconify-icon {
   transform: rotate(90deg);
   transition: transform 0.25s ease;
 }
-.song-teaser button.button--info.active iconify-icon {
+.song-teaser > .mini-block button.button--info.active iconify-icon {
   transform: rotate(-90deg);
 }
-.song-teaser.hovering {
+.song-teaser > .mini-block.hovering {
   background-color: #fff;
 }
-.song-teaser.hovering .button--info {
+.song-teaser > .mini-block.hovering .button--info {
   opacity: 1;
   cursor: pointer;
 }
-.song-teaser__text {
+.song-teaser > .mini-block__text {
   font-size: 0.9rem;
   flex: 1;
 }
-.song-teaser__title {
+.song-teaser > .mini-block__title {
   font-size: 1rem;
   margin-bottom: 0.125em;
 }
-.song-teaser__button {
+.song-teaser > .mini-block__button {
   font-size: 1rem;
 }
 .song-info {
-  display: none;
+  box-sizing: border-box;
+  transition: max-height 0.25s linear;
+  max-height: 0;
+  overflow: hidden;
 }
 .song-info.active {
-  display: block;
+  max-height: var(--song-info-max-height, 64rem);
 }
 div.all-inline-blocks:not(.layout-builder__layout) div {
   display: inline;

@@ -1,29 +1,33 @@
-<div class="mini-block song-teaser">
-  <div class="song-teaser__text">
-    {{ label }}
-    {{ content.field_year }}
-    <span class="data--song-artist">{{ content.field_artist }}</span>
-    {{ content.field_album }}
-    <div class="song-teaser__coords hidden">
-      {{ content.field_place }}
+<div class="song-teaser">
+  <div class="mini-block">
+    <div class="song-teaser__text">
+      {{ label }}
+      {{ content.field_year }}
+      <span class="data--song-artist">{{ content.field_artist }}</span>
+      {{ content.field_album }}
+      <div class="song-teaser__coords hidden">
+        {{ content.field_place }}
+      </div>
+      <span class="data--song-description hidden">{{ content.body[0]['#text']|default('') }}</span>
     </div>
-    <span class="data--song-description hidden">{{ content.body[0]['#text'] | raw }}</span>
-  </div>
-  <div class="song-teaser__button">
-    <button class="button--info">
-      {# <span class="qmark">?</span> #}
-      <iconify-icon icon="material-symbols:play-arrow-rounded" width="24" height="24"></iconify-icon>
-    </button>
+    <div class="song-teaser__button">
+      <button class="button--info" type="button" aria-expanded="false">
+        {# <span class="qmark">?</span> #}
+        <iconify-icon icon="material-symbols:play-arrow-rounded" width="24" height="24"></iconify-icon>
+      </button>
+    </div>
   </div>
 </div>
 
-<div class="mini-block song-info">
-  <div class="song-teaser__text">
-    <p>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-    </p>
-    <p>
-      Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
-    </p>
+<div class="song-info">
+  <div class="mini-block">
+    <div class="song-teaser__text">
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+      </p>
+      <p>
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
+      </p>
+    </div>
   </div>
 </div>
