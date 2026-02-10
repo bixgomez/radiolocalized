@@ -1,6 +1,6 @@
 _core:
   default_config_hash: 0cOpr1OyXWdffdvJFlXdoNQpPest7EYeepdwUe7U9pQ
-gmap_api_key: REDACTED_API_KEY
+gmap_api_key: OVERRIDE_IN_SETTINGS_LOCAL_PHP
 gmap_api_localization: default
 theming:
   markers_location:

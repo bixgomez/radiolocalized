@@ -55,8 +55,8 @@ Required fields:
    ```
 
 2. **Place credentials file:**
-   - Place your Google service account JSON file in `/test-sheets/`
-   - Update the credentials path in `SongSheetsImportForm.php` if different
+   - Place your Google service account JSON file in `/private/` (outside web root)
+   - Configure the path in `settings.local.php` (see Configuration section)
 
 3. **Enable the module:**
    ```bash
@@ -96,9 +96,15 @@ Required fields:
 
 ### Module Configuration
 
-Update these constants in `SongSheetsImportForm.php`:
-- `$credentialsPath` - Path to Google service account JSON file
-- `$spreadsheetId` - Your Google Sheets document ID
+Add these settings to your `settings.local.php` (which should be gitignored):
+
+```php
+// Google Sheets API configuration for song_sheets_import module.
+$settings['song_sheets_import']['credentials_path'] = dirname(DRUPAL_ROOT) . '/private/your-credentials-file.json';
+$settings['song_sheets_import']['spreadsheet_id'] = 'your-google-sheets-id';
+```
+
+**Important:** Never commit credentials or API keys to version control. The module reads these values from Drupal's Settings API at runtime.
 
 ## Usage
 
@@ -250,11 +256,18 @@ song_sheets_import/
 
 ## Architecture Highlights
 
-### Smart Configuration Management
+### Secure Configuration Management
 ```php
-// Centralized configuration constants
-private const CREDENTIALS_PATH = '/test-sheets/radio-localized-episodes-8243df309e4a.json';
-private const SPREADSHEET_ID = '1AjmCYXG636IaNc3fkdPhpf3JD0P6bnRrT-IKkRWO-JY';
+// Configuration read from settings.local.php (gitignored)
+private function getCredentialsPath() {
+  $settings = Settings::get('song_sheets_import', []);
+  return $settings['credentials_path'] ?? NULL;
+}
+
+private function getSpreadsheetId() {
+  $settings = Settings::get('song_sheets_import', []);
+  return $settings['spreadsheet_id'] ?? NULL;
+}
 
 // Reusable Google Sheets service creation
 private function createGoogleSheetsService() {
@@ -280,8 +293,8 @@ private function createGoogleSheetsService() {
 ## Future Enhancements
 
 **Planned Improvements:**
-- Configuration UI for credentials and spreadsheet ID
-- Caching layer for improved performance  
+- Configuration UI for spreadsheet ID (credentials path should remain in settings.local.php for security)
+- Caching layer for improved performance
 - Advanced field mapping configuration
 - Import scheduling and automation
 - Enhanced validation and data cleaning
@@ -310,10 +323,13 @@ GPL-2.0-or-later
 # Check detailed logs
 drush watchdog:show --type=song_sheets_import --tail
 
-# Verify permissions
-ls -la /test-sheets/radio-localized-episodes-8243df309e4a.json
+# Verify credentials file exists and has correct permissions
+ls -la /path/to/private/your-credentials-file.json
 
-# Test Google Sheets connectivity  
+# Verify settings.local.php has the configuration
+grep -A2 song_sheets_import web/sites/default/settings.local.php
+
+# Test Google Sheets connectivity
 # Visit /admin/config/content/song-sheets-import
 ```
 
