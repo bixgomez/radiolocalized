@@ -5,6 +5,7 @@
  * Implementing hooks.
  */
 
+
 /**
  * Implements hook_theme_suggestions_page_alter().
  * This hook allows for content-type-specific page templates.

@@ -39,18 +39,6 @@
   &--info {
     grid-area: info;
     background-color: mix($c--primary, $c--white, 10%);
-
-    :not(.user-logged-in) & {
-      // opacity: 0;
-      // height: 0;
-      // border: 0;
-      // margin: 0;
-      // padding: 0;
-
-      * {
-       // display: none;
-      }
-    }
   }
 
   &--content {
@@ -62,6 +50,18 @@
   &--footer {
     grid-area: footer;
     background-color: mix($c--primary, $c--white, 15%);
+  }
+
+  &.empty-region {
+    opacity: 0;
+    height: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    * {
+      display: none;
+    }
   }
 }
 

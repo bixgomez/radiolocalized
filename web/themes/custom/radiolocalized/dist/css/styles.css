@@ -813,6 +813,16 @@ body {
   grid-area: footer;
   background-color: rgb(230.4075, 232.276640625, 235.1925);
 }
+.region.empty-region {
+  opacity: 0;
+  height: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.region.empty-region * {
+  display: none;
+}
 .region-inner {
   padding: 0.5rem;
 }

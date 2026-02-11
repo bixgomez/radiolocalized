@@ -165,7 +165,8 @@
                 // Reset map to show all points
                 map.flyToBounds(bounds, {
                   animate: true,
-                  duration: 1.75
+                  duration: 1.75,
+                  padding: [50, 50]
                 })
               }
             })
@@ -182,7 +183,7 @@
 
         // Center the map at a zoom level that accommodates all of the points.
         bounds = new L.LatLngBounds(points)
-        map.fitBounds(bounds)
+        map.fitBounds(bounds, { padding: [50, 50] })
 
         // After 8 seconds, zoom out a bit, centering on the average lat & lon.
         // TODO: Make sure this does NOT happen if we have entered another song tile!

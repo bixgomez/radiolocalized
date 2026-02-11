@@ -12,16 +12,20 @@
  * @see template_preprocess_region()
  */
 #}
-{%
-  set classes = [
-    'region',
-    'region--' ~ region|clean_class,
-  ]
-%}
 {% if content %}
+  {# Render content first to check if it's effectively empty #}
+  {% set rendered_content %}{{ content }}{% endset %}
+  {% set text_only = rendered_content|striptags|trim %}
+  {%
+    set classes = [
+      'region',
+      'region--' ~ region|clean_class,
+      text_only is empty ? 'empty-region' : '',
+    ]
+  %}
   <div{{ attributes.addClass(classes) }}>
     <div class="region-inner">
-      {{ content }}
+      {{ rendered_content|raw }}
     </div>
   </div>
 {% endif %}
