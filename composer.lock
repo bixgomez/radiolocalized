@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a99813ff970f805c5dcd8803c9f690b3",
+    "content-hash": "4df627f89e6b3da13067e030ac452d44",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -190,28 +190,28 @@
         },
         {
             "name": "commerceguys/addressing",
-            "version": "v1.4.2",
+            "version": "v2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/commerceguys/addressing.git",
-                "reference": "406c7b5f0fbe4f6a64155c0fe03b1adb34d01308"
+                "reference": "15b789e5e6ededaf803d23c56cdc300a94522a7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/commerceguys/addressing/zipball/406c7b5f0fbe4f6a64155c0fe03b1adb34d01308",
-                "reference": "406c7b5f0fbe4f6a64155c0fe03b1adb34d01308",
+                "url": "https://api.github.com/repos/commerceguys/addressing/zipball/15b789e5e6ededaf803d23c56cdc300a94522a7c",
+                "reference": "15b789e5e6ededaf803d23c56cdc300a94522a7c",
                 "shasum": ""
             },
             "require": {
-                "doctrine/collections": "^1.2 || ^2.0",
-                "php": ">=7.3"
+                "doctrine/collections": "^1.6 || ^2.0",
+                "php": ">=8.0"
             },
             "require-dev": {
                 "ext-json": "*",
-                "mikey179/vfsstream": "^1.6.10",
-                "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "^3.6",
-                "symfony/validator": "^4.4 || ^5.4 || ^6.0"
+                "mikey179/vfsstream": "^1.6.11",
+                "phpunit/phpunit": "^9.6",
+                "squizlabs/php_codesniffer": "^3.7",
+                "symfony/validator": "^5.4 || ^6.3 || ^7.0 || ^8.0"
             },
             "suggest": {
                 "symfony/validator": "to validate addresses"
@@ -219,7 +219,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -248,9 +248,9 @@
             ],
             "support": {
                 "issues": "https://github.com/commerceguys/addressing/issues",
-                "source": "https://github.com/commerceguys/addressing/tree/v1.4.2"
+                "source": "https://github.com/commerceguys/addressing/tree/v2.2.5"
             },
-            "time": "2023-02-15T10:11:14+00:00"
+            "time": "2026-01-05T13:00:32+00:00"
         },
         {
             "name": "composer/installers",
@@ -1667,31 +1667,33 @@
         },
         {
             "name": "drupal/address",
-            "version": "1.11.0",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/address.git",
-                "reference": "8.x-1.11"
+                "reference": "2.0.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/address-8.x-1.11.zip",
-                "reference": "8.x-1.11",
-                "shasum": "1cb40fb1a43e88041b888ac8fb6aa77a45ac85fb"
+                "url": "https://ftp.drupal.org/files/projects/address-2.0.4.zip",
+                "reference": "2.0.4",
+                "shasum": "5a86f7abc028f3d9833784dbf0791a6e4463da8e"
             },
             "require": {
-                "commerceguys/addressing": "^1.4.0",
-                "drupal/core": "^9.2 || ^10",
-                "php": "^7.3 || ^8.0"
+                "commerceguys/addressing": "^2.1.1",
+                "drupal/core": "^9.5 || ^10 || ^11",
+                "php": "^8.0"
             },
             "require-dev": {
-                "drupal/token": "^1.0"
+                "drupal/diff": "^1",
+                "drupal/feeds": "^3",
+                "drupal/token": "^1"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.11",
-                    "datestamp": "1659989858",
+                    "version": "2.0.4",
+                    "datestamp": "1746462054",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1708,7 +1710,7 @@
                     "homepage": "https://www.drupal.org/user/86106"
                 },
                 {
-                    "name": "Centarro",
+                    "name": "centarro",
                     "homepage": "https://www.drupal.org/user/3661446"
                 },
                 {
@@ -1716,16 +1718,8 @@
                     "homepage": "https://www.drupal.org/user/46549"
                 },
                 {
-                    "name": "googletorp",
-                    "homepage": "https://www.drupal.org/user/386230"
-                },
-                {
                     "name": "jsacksick",
                     "homepage": "https://www.drupal.org/user/972218"
-                },
-                {
-                    "name": "mglaman",
-                    "homepage": "https://www.drupal.org/user/2416470"
                 },
                 {
                     "name": "rszrama",
@@ -2631,20 +2625,20 @@
         },
         {
             "name": "drupal/geofield",
-            "version": "1.67.0",
+            "version": "10.3.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/geofield.git",
-                "reference": "8.x-1.67"
+                "reference": "10.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/geofield-8.x-1.67.zip",
-                "reference": "8.x-1.67",
-                "shasum": "c73bf312f3244be23d05caa57086f44310b0b4df"
+                "url": "https://ftp.drupal.org/files/projects/geofield-10.3.3.zip",
+                "reference": "10.3.3",
+                "shasum": "3e2afc05f115f1dfa36b70d5afbc256ac7a99869"
             },
             "require": {
-                "drupal/core": "^9 || ^10 || ^11",
+                "drupal/core": "^10.3 || ^11",
                 "itamair/geophp": "^1.6"
             },
             "require-dev": {
@@ -2654,8 +2648,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.67",
-                    "datestamp": "1768051870",
+                    "version": "10.3.3",
+                    "datestamp": "1769627927",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2693,27 +2687,27 @@
         },
         {
             "name": "drupal/geofield_map",
-            "version": "3.0.24",
+            "version": "11.1.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/geofield_map.git",
-                "reference": "3.0.24"
+                "reference": "11.1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/geofield_map-3.0.24.zip",
-                "reference": "3.0.24",
-                "shasum": "51f719ade20fd96423c7b7bb89972057e5a7630c"
+                "url": "https://ftp.drupal.org/files/projects/geofield_map-11.1.4.zip",
+                "reference": "11.1.4",
+                "shasum": "ec87a29ffb7eabe1a447cb217f669a57d8bc3802"
             },
             "require": {
-                "drupal/core": "^9.3 || ^10",
-                "drupal/geofield": "^1.31"
+                "drupal/core": "^10.3 || ^11",
+                "drupal/geofield": "^1.31 || ^10.3"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.0.24",
-                    "datestamp": "1728383896",
+                    "version": "11.1.4",
+                    "datestamp": "1768084611",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2894,29 +2888,26 @@
         },
         {
             "name": "drupal/quickedit",
-            "version": "1.0.5",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/quickedit.git",
-                "reference": "1.0.5"
+                "reference": "2.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/quickedit-1.0.5.zip",
-                "reference": "1.0.5",
-                "shasum": "566a53f80f361237ca82633e6edfa69a978ad833"
+                "url": "https://ftp.drupal.org/files/projects/quickedit-2.0.1.zip",
+                "reference": "2.0.1",
+                "shasum": "a9d03552ebf0d0dc4af3b058df1ce3d9a2879005"
             },
             "require": {
-                "drupal/core": "^9.4 || ^10"
-            },
-            "require-dev": {
-                "drupal/ckeditor": "*"
+                "drupal/core": "^10.2 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.0.5",
-                    "datestamp": "1770828774",
+                    "version": "2.0.1",
+                    "datestamp": "1770828769",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2966,9 +2957,13 @@
                 }
             ],
             "description": "In-place content editing (contrib).",
-            "homepage": "https://www.drupal.org/project/quickedit",
+            "homepage": "https://drupal.org/project/quickedit",
+            "keywords": [
+                "Drupal"
+            ],
             "support": {
-                "source": "https://git.drupalcode.org/project/quickedit"
+                "source": "https://git.drupalcode.org/project/quickedit",
+                "issues": "https://drupal.org/project/issues/quickedit"
             }
         },
         {
@@ -3178,26 +3173,26 @@
         },
         {
             "name": "drupal/twigsuggest",
-            "version": "1.0.0-rc2",
+            "version": "2.0.0-rc4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/twigsuggest.git",
-                "reference": "8.x-1.0-rc2"
+                "reference": "2.0.0-rc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/twigsuggest-8.x-1.0-rc2.zip",
-                "reference": "8.x-1.0-rc2",
-                "shasum": "69d765e40b9eb2e423d63378c69acf8a0248bffb"
+                "url": "https://ftp.drupal.org/files/projects/twigsuggest-2.0.0-rc4.zip",
+                "reference": "2.0.0-rc4",
+                "shasum": "e629ff389a2d5380c9e43bd2fc770fe443d7711d"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10"
+                "drupal/core": "^8 || ^9 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0-rc2",
-                    "datestamp": "1682360823",
+                    "version": "2.0.0-rc4",
+                    "datestamp": "1734604997",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
