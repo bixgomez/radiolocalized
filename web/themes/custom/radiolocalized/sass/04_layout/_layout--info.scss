@@ -1,0 +1,44 @@
+.region--info .region-inner {
+  display: flex;
+  gap: .25rem;
+  flex-wrap: wrap;
+
+  ul.tabs {
+    display: flex;
+    margin: 0;
+    gap: .25rem;
+    flex-wrap: wrap;
+
+    > li {
+      margin: 0;
+    }
+  }
+
+  ul.tabs {
+    @include clearfix;
+
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    gap: .25rem;
+    display: flex;
+    flex-wrap: wrap;
+
+    > li {
+      @include menu-item;
+      @include menu-item--typography;
+
+      margin: 0;
+
+      &.menu-item--active-trail a {
+        background-color: mix($menu-item--color--hover, white, 90%);
+        color: mix($c--white, transparent, 75%);
+      }
+    }
+
+    > li {
+      @include menu-item--main;
+    }
+  }
+
+}
