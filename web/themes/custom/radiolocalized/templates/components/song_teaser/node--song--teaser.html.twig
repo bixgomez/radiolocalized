@@ -1,4 +1,8 @@
-<div class="song-teaser">
+<div class="song-teaser"
+  data-nid="{{ node.id }}"
+  data-start="{{ node.field_start_time.value }}"
+  data-end="{{ node.field_end_time.value }}"
+>
   <div class="mini-block">
     <div class="song-teaser__text">
       {{ label }}

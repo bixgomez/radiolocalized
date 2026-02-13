@@ -31,18 +31,15 @@ class MixcloudPlayerBlock extends BlockBase {
     ];
 
     if (!$node instanceof NodeInterface || $node->bundle() !== 'episode') {
-      \Drupal::logger('mixcloud')->debug('Not an episode node');
       return $empty;
     }
 
     if (!$node->hasField('field_mixcloud_url') || $node->get('field_mixcloud_url')->isEmpty()) {
-      \Drupal::logger('mixcloud')->debug('No mixcloud URL on node @id', ['@id' => $node->id()]);
       $empty['#cache']['tags'] = ['node:' . $node->id()];
       return $empty;
     }
 
     $url = $node->get('field_mixcloud_url')->uri;
-    \Drupal::logger('mixcloud')->debug('Mixcloud URL: @url', ['@url' => $url]);
 
     // Extract the feed path from the URL.
     // e.g., https://www.mixcloud.com/radiolocalized/radio-localized-032-chile/
@@ -119,27 +116,14 @@ class MixcloudPlayerBlock extends BlockBase {
         'delta' => $delta,
       ];
 
-      // Get start time if available.
+      // Get start time if available (stored as "MM:SS" string).
       if ($song_node->hasField('field_start_time') && !$song_node->get('field_start_time')->isEmpty()) {
-        $song_data['start'] = (float) $song_node->get('field_start_time')->value;
+        $song_data['start'] = $this->parseTimestamp($song_node->get('field_start_time')->value);
       }
 
-      // Get end time if available.
+      // Get end time if available (stored as "MM:SS" string).
       if ($song_node->hasField('field_end_time') && !$song_node->get('field_end_time')->isEmpty()) {
-        $song_data['end'] = (float) $song_node->get('field_end_time')->value;
-      }
-
-      // Get place data if available.
-      if ($song_node->hasField('field_place') && !$song_node->get('field_place')->isEmpty()) {
-        $place = $song_node->get('field_place')->entity;
-        if ($place && $place->hasField('field_location') && !$place->get('field_location')->isEmpty()) {
-          $location = $place->get('field_location')->first();
-          if ($location) {
-            $song_data['lat'] = $location->lat;
-            $song_data['lng'] = $location->lng;
-            $song_data['place'] = $place->label();
-          }
-        }
+        $song_data['end'] = $this->parseTimestamp($song_node->get('field_end_time')->value);
       }
 
       $songs[] = $song_data;
@@ -153,6 +137,32 @@ class MixcloudPlayerBlock extends BlockBase {
     });
 
     return $songs;
+  }
+
+  /**
+   * Parse a timestamp string (MM:SS or M:SS) into seconds.
+   *
+   * @param string $timestamp
+   *   Timestamp string like "1:30" or "12:45".
+   *
+   * @return int
+   *   Time in seconds.
+   */
+  protected function parseTimestamp($timestamp) {
+    if (empty($timestamp)) {
+      return 0;
+    }
+
+    // Handle MM:SS or M:SS format.
+    if (strpos($timestamp, ':') !== FALSE) {
+      $parts = explode(':', $timestamp);
+      $minutes = (int) $parts[0];
+      $seconds = isset($parts[1]) ? (int) $parts[1] : 0;
+      return ($minutes * 60) + $seconds;
+    }
+
+    // Fallback: assume it's already seconds.
+    return (int) $timestamp;
   }
 
   /**

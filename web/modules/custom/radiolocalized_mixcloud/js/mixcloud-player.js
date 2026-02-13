@@ -3,133 +3,161 @@
  * Mixcloud player integration for Radio Localized.
  *
  * Architecture: Mixcloud is the master clock. UI is a reflective layer.
- * We poll getCurrentTime() and update the display accordingly.
+ * We listen to the progress event and update the display accordingly.
  * No seeking. No forced jumps. Graceful handling of imperfect data.
+ *
+ * Timestamps are read directly from song-teaser DOM elements via data attributes.
  */
 
-(function (Drupal, drupalSettings, once) {
+(function (Drupal, once) {
   'use strict';
 
-  const POLL_INTERVAL = 300; // ms
-
   let widget = null;
-  let songs = [];
-  let lastActiveIndex = -1;
-  let pollTimer = null;
-  let isReady = false;
+  let songs = []; // Array of {element, start, end}
+  let lastActiveElement = null;
 
   /**
-   * Determine which song is active based on current playback time.
+   * Parse a timestamp string (MM:SS or M:SS) into seconds.
+   *
+   * @param {string} timestamp - Timestamp like "1:30" or "12:45".
+   * @returns {number|null} - Time in seconds, or null if empty/invalid.
+   */
+  function parseTimestamp(timestamp) {
+    if (!timestamp || timestamp === '') {
+      return null;
+    }
+
+    if (timestamp.indexOf(':') !== -1) {
+      const parts = timestamp.split(':');
+      const minutes = parseInt(parts[0], 10) || 0;
+      const seconds = parseInt(parts[1], 10) || 0;
+      return (minutes * 60) + seconds;
+    }
+
+    // Fallback: assume it's already seconds.
+    const parsed = parseInt(timestamp, 10);
+    return isNaN(parsed) ? null : parsed;
+  }
+
+  /**
+   * Load song data from DOM elements.
+   * Each .song-teaser has data-start and data-end attributes.
+   */
+  function loadSongsFromDOM() {
+    songs = [];
+    const songElements = document.querySelectorAll('.song-teaser');
+
+    songElements.forEach(function (el) {
+      const start = parseTimestamp(el.dataset.start);
+      const end = parseTimestamp(el.dataset.end);
+
+      songs.push({
+        element: el,
+        start: start,
+        end: end,
+      });
+    });
+
+    // DEBUG: Log loaded songs
+    console.log('=== Mixcloud Player Init ===');
+    console.log('Total songs loaded from DOM:', songs.length);
+    songs.forEach(function (song, i) {
+      const startMM = song.start !== null
+        ? Math.floor(song.start / 60) + ':' + String(Math.floor(song.start % 60)).padStart(2, '0')
+        : 'null';
+      const endMM = song.end !== null
+        ? Math.floor(song.end / 60) + ':' + String(Math.floor(song.end % 60)).padStart(2, '0')
+        : 'null';
+      console.log('Song ' + i + ': start=' + song.start + ' (' + startMM + '), end=' + song.end + ' (' + endMM + ')');
+    });
+  }
+
+  /**
+   * Find the active song based on current playback time.
    *
    * Primary logic: currentTime >= start && currentTime < end
    * Fallback: Most recent song whose start <= currentTime
    *
    * @param {number} currentTime - Current playback time in seconds.
-   * @returns {number} - Index of active song, or -1 if none.
+   * @returns {object|null} - Song object with element, or null if none.
    */
-  function getActiveSongIndex(currentTime) {
-    let fallbackIndex = -1;
+  function getActiveSong(currentTime) {
+    let fallbackSong = null;
     let fallbackStart = -1;
 
     for (let i = 0; i < songs.length; i++) {
       const song = songs[i];
-      const start = song.start ?? null;
-      const end = song.end ?? null;
 
       // Skip songs without start time.
-      if (start === null) {
+      if (song.start === null) {
         continue;
       }
 
       // Primary match: within range [start, end).
-      if (currentTime >= start && (end === null || currentTime < end)) {
-        return i;
+      if (currentTime >= song.start && (song.end === null || currentTime < song.end)) {
+        return song;
       }
 
       // Track fallback: most recent song where start <= currentTime.
-      if (start <= currentTime && start > fallbackStart) {
-        fallbackIndex = i;
-        fallbackStart = start;
+      if (song.start <= currentTime && song.start > fallbackStart) {
+        fallbackSong = song;
+        fallbackStart = song.start;
       }
     }
 
     // No exact match - use fallback (handles gaps gracefully).
-    return fallbackIndex;
+    return fallbackSong;
   }
 
   /**
    * Update the UI to reflect the active song.
    *
-   * @param {number} index - Index of active song.
+   * @param {object|null} song - Song object with element property.
    */
-  function setActiveSong(index) {
-    if (index === lastActiveIndex) {
+  function setActiveSong(song) {
+    const newElement = song ? song.element : null;
+
+    if (newElement === lastActiveElement) {
       return; // No change, avoid DOM thrash.
     }
 
-    lastActiveIndex = index;
+    // Remove active class from previous song.
+    if (lastActiveElement) {
+      lastActiveElement.classList.remove('song-teaser--active');
+    }
 
-    // Remove active class from all songs.
-    const songElements = document.querySelectorAll('.song-teaser');
-    songElements.forEach((el, i) => {
-      el.classList.remove('song-teaser--active');
-    });
+    lastActiveElement = newElement;
 
-    if (index < 0 || index >= songElements.length) {
+    if (!newElement) {
       return;
     }
 
     // Add active class to current song.
-    const activeElement = songElements[index];
-    activeElement.classList.add('song-teaser--active');
+    newElement.classList.add('song-teaser--active');
 
     // Scroll into view if needed.
-    activeElement.scrollIntoView({
+    newElement.scrollIntoView({
       behavior: 'smooth',
       block: 'nearest',
     });
-
-    // Update map if song has location data.
-    const song = songs[index];
-    if (song && song.lat && song.lng) {
-      updateMap(song.lat, song.lng, song.place);
-    }
   }
 
   /**
-   * Update the map to show the song's location.
+   * Handle progress event from Mixcloud widget.
    *
-   * @param {number} lat - Latitude.
-   * @param {number} lng - Longitude.
-   * @param {string} place - Place name.
+   * @param {number} position - Current playback position in seconds.
+   * @param {number} duration - Total duration in seconds.
    */
-  function updateMap(lat, lng, place) {
-    // Dispatch custom event for map integration.
-    const event = new CustomEvent('mixcloud:songLocation', {
-      detail: { lat, lng, place },
-    });
-    document.dispatchEvent(event);
+  function onProgress(position, duration) {
+    // DEBUG
+    console.log('Position:', position, '(' + Math.floor(position / 60) + ':' + String(Math.floor(position % 60)).padStart(2, '0') + ')');
+
+    const activeSong = getActiveSong(position);
+    setActiveSong(activeSong);
   }
 
   /**
-   * Poll the widget for current time and update UI.
-   */
-  function pollPlaybackTime() {
-    if (!widget || !isReady) {
-      return;
-    }
-
-    widget.getCurrentTime().then(function (seconds) {
-      const activeIndex = getActiveSongIndex(seconds);
-      setActiveSong(activeIndex);
-    }).catch(function (err) {
-      // Widget may not be ready or playback hasn't started.
-      // Fail silently.
-    });
-  }
-
-  /**
-   * Initialize the Mixcloud widget and start polling.
+   * Initialize the Mixcloud widget and set up event listeners.
    */
   function initWidget() {
     const iframe = document.getElementById('mixcloud-player');
@@ -140,16 +168,8 @@
     widget = Mixcloud.PlayerWidget(iframe);
 
     widget.ready.then(function () {
-      isReady = true;
-      console.log('Mixcloud player ready');
-
-      // Start polling for playback time.
-      pollTimer = setInterval(pollPlaybackTime, POLL_INTERVAL);
-
-      // Also poll on play event.
-      widget.events.play.on(function () {
-        pollPlaybackTime();
-      });
+      // Listen to progress event for playback time updates.
+      widget.events.progress.on(onProgress);
     }).catch(function (err) {
       console.error('Mixcloud widget failed to initialize:', err);
     });
@@ -161,10 +181,8 @@
   Drupal.behaviors.mixcloudPlayer = {
     attach: function (context, settings) {
       once('mixcloud-player', '.mixcloud-player-wrapper', context).forEach(function (element) {
-        // Load song data from drupalSettings.
-        if (settings.mixcloudPlayer && settings.mixcloudPlayer.songs) {
-          songs = settings.mixcloudPlayer.songs;
-        }
+        // Load song timestamps from DOM elements.
+        loadSongsFromDOM();
 
         // Wait for Mixcloud API to load, then initialize.
         if (typeof Mixcloud !== 'undefined') {
@@ -180,13 +198,6 @@
         }
       });
     },
-
-    detach: function (context, settings, trigger) {
-      if (trigger === 'unload' && pollTimer) {
-        clearInterval(pollTimer);
-        pollTimer = null;
-      }
-    },
   };
 
-})(Drupal, drupalSettings, once);
+})(Drupal, once);

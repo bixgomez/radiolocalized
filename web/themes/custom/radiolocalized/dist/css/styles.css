@@ -1169,6 +1169,9 @@ nav#block-radiolocalized-main-menu ul.menu ul.sub-nav {
   padding: 0.5em;
   margin-bottom: 0.5em;
 }
+.song-teaser--active {
+  background-color: pink;
+}
 .song-teaser > .mini-block {
   background-color: rgba(255, 255, 255, 0.75);
   line-height: 1.2;
