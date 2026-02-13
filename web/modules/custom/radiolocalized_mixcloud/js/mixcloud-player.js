@@ -135,6 +135,12 @@
     // Add active class to current song.
     newElement.classList.add('song-teaser--active');
 
+    // Trigger click on the song's button to expand info/update map.
+    const button = newElement.querySelector('.button--info');
+    if (button) {
+      button.click();
+    }
+
     // Scroll into view if needed.
     newElement.scrollIntoView({
       behavior: 'smooth',
