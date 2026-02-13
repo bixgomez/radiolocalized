@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.episode.body
     - field.field.node.episode.field_audio_file
+    - field.field.node.episode.field_mixcloud_url
     - field.field.node.episode.field_date
     - field.field.node.episode.field_episode_number
     - field.field.node.episode.field_song
@@ -12,6 +13,7 @@ dependencies:
     - node.type.episode
   module:
     - datetime
+    - link
     - path
     - text
 id: node.episode.default
@@ -48,6 +50,14 @@ content:
     settings:
       media_types:
         - audio
+    third_party_settings: {  }
+  field_mixcloud_url:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: 'https://www.mixcloud.com/radiolocalized/radio-localized-032-chile/'
+      placeholder_title: ''
     third_party_settings: {  }
   field_date:
     type: datetime_default
