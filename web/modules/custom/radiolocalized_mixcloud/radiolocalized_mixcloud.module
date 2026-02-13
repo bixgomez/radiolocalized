@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Mixcloud player integration for Radio Localized.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function radiolocalized_mixcloud_theme($existing, $type, $theme, $path) {
+  return [
+    'mixcloud_player' => [
+      'variables' => [
+        'feed' => NULL,
+        'episode_id' => NULL,
+      ],
+      'template' => 'mixcloud-player',
+    ],
+  ];
+}

@@ -1,0 +1,8 @@
+name: Radio Localized Mixcloud
+type: module
+description: 'Mixcloud player integration for Radio Localized episodes.'
+package: Custom
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:node
+  - drupal:link

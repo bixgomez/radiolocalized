@@ -1,23 +1,25 @@
 <div class="page-wrapper page-wrapper__episode">
 
-{% if page.header %}
-  {{ page.header }}
-{% endif %}
+  {% if page.header %}
+    {{ page.header }}
+  {% endif %}
 
-{{ page.navigation }}
+  {{ page.navigation }}
 
-{% if page.info %}
-  {{ page.info }}
-{% endif %}
+  {% if page.info %}
+    {{ page.info }}
+  {% endif %}
 
-{{ page.player }}
 
-{{ page.content }}
+    {{ page.player }}
 
-{{ page.map }}
 
-{% if page.footer %}
-  {{ page.footer }}
-{% endif %}
+  {{ page.content }}
+
+  {{ page.map }}
+
+  {% if page.footer %}
+    {{ page.footer }}
+  {% endif %}
 
 </div>

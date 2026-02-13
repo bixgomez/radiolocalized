@@ -842,8 +842,8 @@ body {
   padding: 0.5rem;
   margin: 0;
   display: grid;
-  grid-template-areas: "header" "nav" "info" "content" "footer";
-  grid-template-rows: max-content max-content max-content 1fr max-content;
+  grid-template-areas: "header" "nav" "info" "player" "content" "footer";
+  grid-template-rows: max-content max-content max-content max-content 1fr max-content;
   grid-template-columns: 1fr;
   grid-gap: 0.25rem;
   background-color: rgb(166.981588785, 175.9022225467, 189.818411215);
@@ -869,6 +869,10 @@ body {
 }
 .region--info {
   grid-area: info;
+  background-color: rgb(238.605, 239.85109375, 241.795);
+}
+.region--player {
+  grid-area: player;
   background-color: rgb(238.605, 239.85109375, 241.795);
 }
 .region--content {
@@ -1141,12 +1145,12 @@ nav#block-radiolocalized-main-menu ul.menu ul.sub-nav {
   list-style-type: none;
 }
 .page-node-type-episode .page-wrapper__episode {
-  grid-template-areas: "header header" "nav nav" "info info" "content map" "footer footer";
+  grid-template-areas: "header header" "nav nav" "info info" "player player" "content map" "footer footer";
   grid-template-columns: 1fr 2fr;
 }
 .page-node-type-episode .page-wrapper__episode--edit {
   height: auto;
-  grid-template-areas: "header" "nav" "info" "content" "footer";
+  grid-template-areas: "header" "nav" "info" "player" "content" "footer";
   grid-template-columns: 1fr;
 }
 .page-node-type-episode .region--content {

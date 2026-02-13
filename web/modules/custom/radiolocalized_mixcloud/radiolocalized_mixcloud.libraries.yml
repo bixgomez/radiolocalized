@@ -1,0 +1,8 @@
+player:
+  js:
+    https://widget.mixcloud.com/media/js/widgetApi.js: { type: external, attributes: { defer: true } }
+    js/mixcloud-player.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - core/drupalSettings

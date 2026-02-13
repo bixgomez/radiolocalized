@@ -19,6 +19,7 @@ regions:
   header: "Header"
   navigation: "Navigation"
   info: "Info"
+  player: "Player"
   content: "Content"
   map: "Map"
   footer: "Footer"

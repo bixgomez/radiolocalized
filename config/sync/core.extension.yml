@@ -45,6 +45,7 @@ module:
   path_alias: 0
   phpass: 0
   quickedit: 0
+  radiolocalized_mixcloud: 0
   rdf: 0
   search: 0
   shortcut: 0
