@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * Theme override for the player region.
+ *
+ * This region contains JS-injected content (Mixcloud player), so we skip
+ * the empty-region check that the base region template performs.
+ */
+#}
+{%
+  set classes = [
+    'region',
+    'region--' ~ region|clean_class,
+  ]
+%}
+{% if content %}
+  <div{{ attributes.addClass(classes) }}>
+    <div class="region-inner">
+      {{ content }}
+    </div>
+  </div>
+{% endif %}
