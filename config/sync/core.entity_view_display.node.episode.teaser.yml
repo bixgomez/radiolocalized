@@ -5,9 +5,11 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.episode.body
+    - field.field.node.episode.field_audio_file
     - field.field.node.episode.field_date
     - field.field.node.episode.field_episode_number
     - field.field.node.episode.field_song
+    - field.field.node.episode.field_mixcloud_url
     - field.field.node.episode.field_subtitle
     - node.type.episode
   module:
@@ -26,13 +28,20 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
+  episodes_eva_episode_songs:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
 hidden:
+  field_audio_file: true
   field_date: true
   field_episode_number: true
   field_song: true
+  field_mixcloud_url: true
   field_subtitle: true

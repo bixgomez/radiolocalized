@@ -5,15 +5,16 @@ dependencies:
   config:
     - field.field.node.episode.body
     - field.field.node.episode.field_audio_file
-    - field.field.node.episode.field_mixcloud_url
     - field.field.node.episode.field_date
     - field.field.node.episode.field_episode_number
     - field.field.node.episode.field_song
+    - field.field.node.episode.field_mixcloud_url
     - field.field.node.episode.field_subtitle
     - node.type.episode
   module:
     - datetime
     - link
+    - media_library
     - path
     - text
 id: node.episode.default
