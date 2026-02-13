@@ -1,4 +1,4 @@
-uuid: null
+uuid: 2ba80ff6-7322-458b-bdb3-1c7dcaacf754
 langcode: en
 status: true
 dependencies:
@@ -11,11 +11,11 @@ id: node.episode.field_mixcloud_url
 field_name: field_mixcloud_url
 entity_type: node
 bundle: episode
-label: Mixcloud URL
+label: 'Mixcloud URL'
 description: 'URL to the episode on Mixcloud (e.g., https://www.mixcloud.com/radiolocalized/radio-localized-032-chile/)'
 required: false
 translatable: false
-default_value: []
+default_value: {  }
 default_value_callback: ''
 settings:
   title: 0

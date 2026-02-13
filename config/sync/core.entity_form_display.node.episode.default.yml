@@ -51,14 +51,6 @@ content:
       media_types:
         - audio
     third_party_settings: {  }
-  field_mixcloud_url:
-    type: link_default
-    weight: 4
-    region: content
-    settings:
-      placeholder_url: 'https://www.mixcloud.com/radiolocalized/radio-localized-032-chile/'
-      placeholder_title: ''
-    third_party_settings: {  }
   field_date:
     type: datetime_default
     weight: 4
@@ -71,6 +63,14 @@ content:
     region: content
     settings:
       placeholder: ''
+    third_party_settings: {  }
+  field_mixcloud_url:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: 'https://www.mixcloud.com/radiolocalized/radio-localized-032-chile/'
+      placeholder_title: ''
     third_party_settings: {  }
   field_song:
     type: entity_reference_autocomplete
