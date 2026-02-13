@@ -1,4 +1,4 @@
 {% for item in items %}
   <span class="data--song-location">{{ item.content['#node'].title[0].value }}</span>
-  <ul class="coords">{{ item.content }}</ul>
+  <ul style="display:none;" class="coords">{{ item.content }}</ul>
 {% endfor %}

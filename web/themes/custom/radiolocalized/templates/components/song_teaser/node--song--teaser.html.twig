@@ -2,9 +2,7 @@
   <div class="mini-block">
     <div class="song-teaser__text">
       {{ label }}
-      {{ content.field_year }}
       <span class="data--song-artist">{{ content.field_artist }}</span>
-      {{ content.field_album }}
       <div class="song-teaser__coords hidden">
         {{ content.field_place }}
       </div>
@@ -12,7 +10,6 @@
     </div>
     <div class="song-teaser__button">
       <button class="button--info" type="button" aria-expanded="false">
-        {# <span class="qmark">?</span> #}
         <iconify-icon icon="material-symbols:play-arrow-rounded" width="24" height="24"></iconify-icon>
       </button>
     </div>
@@ -22,12 +19,17 @@
 <div class="song-info">
   <div class="mini-block">
     <div class="song-teaser__text">
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-      </p>
-      <p>
-        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
-      </p>
+      <div class="song-info__album">
+        <b>Album:</b> <em>{{ content.field_album }}</em>
+      </div>
+      <div class="song-info__release">
+        <b>Year:</b> {{ node.field_year_released.value }}
+      </div>
+      {% if node.field_place.0.entity %}
+      <div class="song-info__place">
+        <b>Place:</b> {{ node.field_place.0.entity.title.value }}
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
