@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.episode.field_audio_file
     - field.field.node.episode.field_date
     - field.field.node.episode.field_episode_number
-    - field.field.node.episode.field_song
     - field.field.node.episode.field_mixcloud_url
     - field.field.node.episode.field_subtitle
     - node.type.episode
@@ -42,6 +41,5 @@ hidden:
   field_audio_file: true
   field_date: true
   field_episode_number: true
-  field_song: true
   field_mixcloud_url: true
   field_subtitle: true
