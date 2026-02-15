@@ -11,10 +11,9 @@
       once('leaflet-map-init', '#map', context).forEach(function(mapContainer) {
 
         // Display default map.
-        const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=***REMOVED***', {
+        const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          accessToken: '***REMOVED***'
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         })
 
         // Initiate map with arbitrary default coordinates.
