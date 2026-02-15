@@ -42,7 +42,7 @@ h1, h2, h3, h4, h5 {
   font-family: $font-family--heading;
   font-weight: $font-weight--heading;
   line-height: $line-height--heading;
-  margin: 0 0 $gutter--narrowest;
+  margin: $gutter--narrower 0 .25em;
   padding: 0;
   color: $font-color--heading;
 }

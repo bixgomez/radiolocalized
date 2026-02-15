@@ -8,20 +8,47 @@
   }
 }
 
-.mini-block {
+.song-wrapper {
   border: 1px solid $c--gray--light;
-  background-color: rgba($c--white, 0.5);
-  padding: 0.5em;
   margin-bottom: 0.5em;
+  background-color: rgba($c--white, 0.5);
+  transition:
+    background-color linear .25s,
+    border-color linear .25s;
+
+  &.song--active {
+    background-color: $c--white;
+    border-color: $c--gray--dark;
+    transition:
+      background-color linear .25s,
+      border-color linear .25s;
+  }
 }
 
-.song-teaser--active {
-  background-color: pink;
+.mini-block {
+  // border: 1px solid $c--gray--light;
+  // background-color: rgba($c--white, 0.5);
+  padding: 0.5em;
+  // margin-bottom: 0.5em;
+}
+
+.song--active {
+  .song-teaser > .mini-block {
+    // background-color: $c--white;
+    margin-bottom: 0;
+    border-bottom: 0;
+    // transition: all linear .25s;
+  }
+
+  .song-info > .mini-block {
+    // background-color: $c--white;
+    // border-top: 0;
+    // transition: all linear .25s;
+  }
 }
 
 .song-teaser > .mini-block {
-
-  background-color: rgba($c--white, 0.75);
+  // background-color: rgba($c--white, 0.625);
   line-height: $line-height--small;
   position: relative;
   display: flex;

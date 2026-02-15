@@ -42,6 +42,7 @@
   /**
    * Load song data from DOM elements.
    * Each .song-teaser has data-start and data-end attributes.
+   * We store the parent .song-wrapper as the element to add the active class to.
    */
   function loadSongsFromDOM() {
     songs = [];
@@ -50,9 +51,11 @@
     songElements.forEach(function (el) {
       const start = parseTimestamp(el.dataset.start);
       const end = parseTimestamp(el.dataset.end);
+      const wrapper = el.closest('.song-wrapper');
 
       songs.push({
-        element: el,
+        element: wrapper || el,
+        teaser: el,
         start: start,
         end: end,
       });
@@ -123,7 +126,7 @@
 
     // Remove active class from previous song.
     if (lastActiveElement) {
-      lastActiveElement.classList.remove('song-teaser--active');
+      lastActiveElement.classList.remove('song--active');
     }
 
     lastActiveElement = newElement;
@@ -133,7 +136,7 @@
     }
 
     // Add active class to current song.
-    newElement.classList.add('song-teaser--active');
+    newElement.classList.add('song--active');
 
     // Trigger click on the song's button to expand info/update map.
     const button = newElement.querySelector('.button--info');

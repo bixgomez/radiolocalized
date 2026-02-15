@@ -1,18 +1,22 @@
 {
   "folders": [
-	{
-		"path": "."
-	},
-	{
-		"path": "web/test-sheets"
-	},
-	{
-		"path": "web/modules/custom/song_sheets_import"
-	},
-	{
-		"path": "web/themes/custom/radiolocalized"
-	}
-],
+    {
+      "name": "radiolocalized",
+      "path": "../../../../home/bixgomez/dev_assets/site_notes/radiolocalized"
+    },
+    {
+      "name": "radiolocalized",
+      "path": "."
+    },
+    {
+      "name": "radiolocalized",
+      "path": "web/themes/custom/radiolocalized"
+    },
+    {
+      "name": "song_sheets_import",
+      "path": "web/modules/custom/song_sheets_import"
+    }
+  ],
   "settings": {
     "intelephense.environment.phpVersion": "8.3",
     "php.version": "8.3"

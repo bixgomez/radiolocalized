@@ -988,6 +988,15 @@ h3.episode-date {
 .region--navigation .region-inner > * {
   margin: 0;
 }
+.region.region--player {
+  background-color: rgb(37, 41, 44);
+}
+.region.region--player .region-inner {
+  padding: 0;
+}
+.block-radiolocalized-mixcloud {
+  height: 120px;
+}
 html {
   font-size: 14px;
 }
@@ -1028,7 +1037,7 @@ h1, h2, h3, h4, h5 {
   font-family: "Barlow Condensed", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-weight: 500;
   line-height: 0.95;
-  margin: 0 0 0.125em;
+  margin: 0.25em 0 0.25em;
   padding: 0;
   color: rgba(25.9535046729, 29.5054541472, 35.0464953271, 0.9);
 }
@@ -1163,17 +1172,25 @@ nav#block-radiolocalized-main-menu ul.menu ul.sub-nav {
 .view-display-id-eva_episode_songs > .views-row:last-of-type {
   margin-bottom: -0.5em;
 }
-.mini-block {
+.song-wrapper {
   border: 1px solid rgb(165.75, 165.75, 165.75);
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 0.5em;
   margin-bottom: 0.5em;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: background-color linear 0.25s, border-color linear 0.25s;
 }
-.song-teaser--active {
-  background-color: pink;
+.song-wrapper.song--active {
+  background-color: #fff;
+  border-color: rgb(76.5, 76.5, 76.5);
+  transition: background-color linear 0.25s, border-color linear 0.25s;
+}
+.mini-block {
+  padding: 0.5em;
+}
+.song--active .song-teaser > .mini-block {
+  margin-bottom: 0;
+  border-bottom: 0;
 }
 .song-teaser > .mini-block {
-  background-color: rgba(255, 255, 255, 0.75);
   line-height: 1.2;
   position: relative;
   display: flex;

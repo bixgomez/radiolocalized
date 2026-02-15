@@ -85,6 +85,7 @@
         // Cache interactive elements and map points to avoid repeated DOM queries.
         const infoButtons = new Array()
         const songInfos = new Array()
+        const songWrappers = new Array()
         const points = new Array()
         let bounds = null
 
@@ -115,15 +116,19 @@
           // Fly to that point when clicking the info button.
           const infoButton = songTeaser.querySelector('.button--info')
           const songInfo = songTeaser.nextElementSibling
+          const songWrapper = songTeaser.closest('.song-wrapper')
 
           if (infoButton) {
             infoButtons.push(infoButton)
             if (songInfo && songInfo.classList.contains('song-info')) {
               songInfos.push(songInfo)
             }
+            if (songWrapper) {
+              songWrappers.push(songWrapper)
+            }
 
             infoButton.addEventListener('click', function() {
-              // Reset all other buttons and hide all other song-info panels.
+              // Reset all other buttons, song-info panels, and wrappers.
               infoButtons.forEach(function(btn) {
                 if (btn !== infoButton) {
                   btn.classList.remove('active')
@@ -133,6 +138,12 @@
               songInfos.forEach(function(info) {
                 if (info !== songInfo) {
                   info.classList.remove('active')
+                }
+              })
+
+              songWrappers.forEach(function(wrapper) {
+                if (wrapper !== songWrapper) {
+                  wrapper.classList.remove('song--active')
                 }
               })
 
@@ -153,6 +164,11 @@
                   })
                   keepPanelInView(songInfo)
                 }
+              }
+
+              // Toggle song--active class on wrapper
+              if (songWrapper) {
+                songWrapper.classList.toggle('song--active', isActive)
               }
 
               if (isActive && hasValidCoords) {
